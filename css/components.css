@@ -89,38 +89,85 @@
 
 }
 
-/* ==========================================
+/* ==========================
    HEADER
-========================================== */
+========================== */
 
-.header {
+.header{
 
-    position: fixed;
+    position: sticky;
 
-    top: 42px;
-    left: 0;
+    top: 0;
 
     width: 100%;
 
-    z-index: 999;
-
-    backdrop-filter: blur(14px);
-
-    background: rgba(255, 255, 255, .65);
-
-    border-bottom: 1px solid rgba(255, 255, 255, .4);
+    z-index: 1000;
 
 }
 
-.navbar {
 
-    display: flex;
 
-    justify-content: space-between;
 
-    align-items: center;
 
-    height: 85px;
+/* ==========================
+   NAVBAR
+========================== */
+
+.navbar{
+
+    height:80px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    backdrop-filter:blur(14px);
+
+    background:rgba(255,255,255,.65);
+
+    border-bottom:1px solid rgba(255,255,255,.4);
+
+    transition:all .35s ease;
+    /* background-color: red; */
+    
+    
+
+}
+
+/* ==========================
+   SCROLLED STATE
+========================== */
+
+
+.header.scrolled .announcement-bar{
+
+    transform: translateY(-100%);
+    opacity: 0;
+
+}
+.header.scrolled .navbar{
+    background: #fff;
+    box-shadow: 0 10px 25px rgba(0,0,0,.08);
+}
+/* ===================================
+   ANIMATION
+=================================== */
+
+@keyframes slideDown{
+
+    from{
+
+        transform:translateY(-100%);
+
+    }
+
+    to{
+
+        transform:translateY(0);
+
+    }
 
 }
 
@@ -268,40 +315,55 @@
         ANNOUNCEMENT BAR
 ========================================== */
 
-.announcement-bar {
+.announcement-bar{
 
-    background: var(--primary-light);
-    border-bottom: 1px solid var(--border);
+    height:36px;
 
+    background:var(--primary-light);
+    border-bottom:1px solid var(--border);
+
+    overflow:hidden;
+
+    display:flex;
+    align-items:center;
 }
 
-.announcement-track {
+.announcement-track{
 
-    height: 42px;
+    display:flex;
+    align-items:center;
 
-    display: flex;
+    gap:28px;
 
-    align-items: center;
+    white-space:nowrap;
 
-    gap: 28px;
+    width:max-content;
 
-    white-space: nowrap;
-
-    width: max-content;
-
-    animation: announcement 40s linear infinite;
-
+    animation:announcement 20s linear infinite;
 }
 
-.announcement-track span {
+.announcement-track span{
 
-    font-size: .9rem;
-    font-weight: 500;
+    flex-shrink:0;
 
+    font-size:.9rem;
+    font-weight:500;
 }
 
-.announcement-track:hover {
-    animation-play-state: paused;
+.announcement-track:hover{
+    animation-play-state:paused;
+}
+
+@keyframes announcement{
+
+    from{
+        transform:translateX(0);
+    }
+
+    to{
+        transform:translateX(-50%);
+    }
+
 }
 
 /* ==========================================
@@ -316,6 +378,7 @@
 
     align-items: center;
     background: var(--section-cream);
+    
 
 }
 
@@ -691,7 +754,7 @@
 }
 
 .floating-top:hover {
-    top:-10%;
+    top: -10%;
 
     transform:
         translateY(-8px) rotate(-16deg);
