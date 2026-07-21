@@ -1,0 +1,401 @@
+/* ===============================
+   TABLET
+   769px - 1024px
+================================ */
+
+@media(min-width:768px) and (max-width:1024px) {
+    .container {
+        width: 90%;
+        max-width: none;
+    }
+
+    /* ===============================
+       NAVBAR
+    ================================ */
+    .nav-links {
+        gap: 18px;
+        display: flex;
+    }
+
+    .nav-links a {
+        font-size: 14px;
+    }
+
+    .nav-icons {
+        gap: 8px;
+    }
+
+    /* ===============================
+       HERO
+    ================================ */
+    .hero-content {
+        display: grid;
+        grid-template-columns: 58% 42%;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .hero-left {
+        text-align: left;
+        width: 100%;
+    }
+
+    .hero-left h1 {
+        font-size: 2.3rem;
+        line-height: 1.15;
+        max-width: 520px;
+    }
+
+    .hero-left p {
+        font-size: 1rem;
+    }
+
+    .hero-product-wrapper {
+        width: 360px;
+        height: auto;
+    }
+
+    .hero-product-card {
+        width: 60%;
+    }
+
+    .hero-buttons {
+        flex-direction: row;
+    }
+
+    .hero-buttons .btn {
+        width: auto;
+    }
+
+    .hero-right {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+
+
+
+    /* ===============================
+       PRODUCTS
+    ================================ */
+
+
+    .products-grid {
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 25px;
+
+    }
+
+
+    .product-image {
+
+        height: auto;
+
+    }
+
+
+
+
+    /* ===============================
+       WHY CHOOSE US
+    ================================ */
+
+    .why-card {
+
+        height: auto;
+        min-height: 250px;
+
+    }
+
+    .why-grid {
+
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 25px;
+
+    }
+
+
+
+    /* ===============================
+       REVIEWS
+    ================================ */
+
+
+    .reviews-grid {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+    .review-card {
+
+        padding: 40px;
+
+    }
+
+
+
+
+
+    /* ===============================
+       CUSTOM ORDER
+    ================================ */
+
+
+    .custom-order-wrapper {
+
+        grid-template-columns: 1fr;
+
+        text-align: center;
+
+    }
+
+
+
+    .custom-order-content {
+
+        margin: auto;
+
+    }
+
+    .custom-floating {
+
+        transform: scale(.8);
+
+    }
+
+
+
+
+    /* ===============================
+       INSTAGRAM
+    ================================ */
+
+
+    .instagram-grid {
+
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+
+    }
+
+    .instagram-grid img {
+
+        height: 250px;
+        object-fit: cover;
+
+    }
+
+
+
+
+
+    /* ===============================
+       FOOTER
+    ================================ */
+
+
+    .footer-grid {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+
+}
+
+@media(max-width:767px) {
+
+    html,
+    body {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    section {
+        width: 100%;
+    }
+
+    .menu-btn {
+        display: flex;
+    }
+
+    .nav-links {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 65px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 65px);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        padding-top: 40px;
+        align-items: center;
+        gap: 30px;
+        transition: left 0.3s ease;
+        z-index: 998;
+    }
+
+    .nav-links.active {
+        left: 0;
+    }
+
+    .nav-links a {
+        font-size: 1.2rem;
+    }
+
+    .header {
+        height: 55px;
+        background-color: aqua; /* Keeping your background test color */
+    }
+
+    .navbar {
+        height: 100%; /* Important: prevents overflow from desktop 85px height */
+    }
+
+    .logo {
+        width: auto;
+        display: flex;
+        align-items: center;
+        gap: 6px; /* Reduced gap between logo circle and text */
+    }
+
+    .logo-icon {
+        width: 32px; /* Made the circle smaller */
+        height: 32px;
+        font-size: 0.9rem; /* Smaller emoji */
+    }
+
+    .logo-text h2 {
+        font-size: 1rem; /* Smaller main text */
+        line-height: 1;
+        white-space: nowrap;
+    }
+
+    .logo-text span {
+        font-size: 0.5rem; /* Smaller sub-text */
+        letter-spacing: 1px;
+        white-space: nowrap;
+    }
+
+    .nav-icons {
+        gap: 4px; /* Reduced gap between the icons on the right */
+    }
+
+    .nav-icons button {
+        width: 30px; /* Made the icon buttons smaller */
+        height: 30px;
+        font-size: 0.85rem;
+    }
+
+    .hero {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .hero-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .hero-left {
+        width: 100%;
+        text-align: center;
+    }
+
+    .hero-left h1 {
+        font-size: 2.2rem;
+        line-height: 1.15;
+        max-width: 100%;
+        margin: auto;
+    }
+
+    .hero-left p {
+        font-size: 1rem;
+        max-width: 330px;
+        margin: 20px auto;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 15px;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+    }
+
+    .hero-right {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .hero-product-wrapper {
+        width: 300px;
+        height: 360px;
+        margin: auto;
+    }
+
+    .hero-product-card {
+        width: 220px;
+        height: 300px;
+    }
+
+    /* ===============================
+       MOBILE GRIDS
+    ================================ */
+    .products-grid,
+    .why-grid,
+    .reviews-grid,
+    .instagram-grid,
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .custom-order-wrapper {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 40px;
+    }
+
+    .custom-order-content {
+        margin: auto;
+    }
+
+    .custom-order-visual {
+        height: 350px;
+        transform: scale(0.7);
+        margin-top: -30px;
+    }
+
+    .section-header h2 {
+        font-size: 2.2rem;
+    }
+
+    .hero-stats {
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .footer-grid {
+        gap: 40px;
+    }
+
+}

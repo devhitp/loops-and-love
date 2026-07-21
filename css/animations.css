@@ -1,0 +1,130 @@
+/* ==========================================
+   ANNOUNCEMENT BAR
+========================================== */
+
+@keyframes announcement {
+
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+
+}
+
+/* ==========================================
+   HERO FLOATING ANIMATIONS
+========================================== */
+
+@keyframes heroFloat {
+
+    0% {
+        transform: translate(20px, 35px) translateY(0px);
+    }
+
+    50% {
+        transform: translate(20px, 35px) translateY(-12px);
+    }
+
+    100% {
+        transform: translate(20px, 35px) translateY(0px);
+    }
+
+}
+
+/* ==========================================
+   ACCESSIBILITY
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .announcement-track,
+    .hero-product-wrapper,
+    .floating-top,
+    .floating-left,
+    .floating-right {
+
+        animation: none;
+
+    }
+
+}
+
+/* ==========================================
+   CUSTOM ORDER FLOAT
+========================================== */
+
+.product-1{
+
+    animation: productFloat1 6s ease-in-out infinite;
+
+}
+
+.product-2{
+
+    animation: productFloat2 7s ease-in-out infinite;
+
+}
+
+.product-3{
+
+    animation: productFloat3 6.5s ease-in-out infinite;
+
+}
+
+.product-4{
+
+    animation: productFloat4 7.5s ease-in-out infinite;
+
+}
+
+
+@keyframes productFloat1{
+
+    0%,100%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-14px);
+    }
+
+}
+
+@keyframes productFloat2{
+
+    0%,100%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(12px);
+    }
+
+}
+
+@keyframes productFloat3{
+
+    0%,100%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-10px);
+    }
+
+}
+
+@keyframes productFloat4{
+
+    0%,100%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(15px);
+    }
+
+}

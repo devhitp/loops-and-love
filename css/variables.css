@@ -1,0 +1,87 @@
+/* ==========================================
+   LOOPS & LOVE DESIGN TOKENS
+========================================== */
+
+:root {
+
+    /* ========= COLORS ========= */
+
+    --background: #FFF9F6;
+    --surface: #FFFFFF;
+
+    --primary: #F4A8B8;
+    --primary-light: #F9D7DF;
+
+    --secondary: #D8E8D2;
+
+    --accent: #D8C6F3;
+
+    --text: #453A35;
+    --text-light: #80756F;
+
+    --border: #EFE6DF;
+
+    --success: #74B87B;
+    --danger: #F06D6D;
+
+    /* ========= SHADOWS ========= */
+
+    --shadow-sm:
+        0 5px 20px rgba(0, 0, 0, .05);
+
+    --shadow:
+        0 15px 40px rgba(0, 0, 0, .08);
+
+    --shadow-lg:
+        0 25px 60px rgba(0, 0, 0, .12);
+
+    /* ========= BORDER ========= */
+
+    --radius-sm: 12px;
+    --radius: 20px;
+    --radius-lg: 28px;
+    --radius-full: 999px;
+
+    /* ========= SPACING ========= */
+
+    --space-xs: 8px;
+    --space-sm: 16px;
+    --space-md: 24px;
+    --space-lg: 40px;
+    --space-xl: 60px;
+    --space-2xl: 100px;
+
+    /* ========= FONT ========= */
+
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Poppins', sans-serif;
+
+    /* ========= TRANSITION ========= */
+
+    --transition: .35s ease;
+
+    /* Homepage Sections */
+
+    --section-cream: #FCF8F5;
+    --section-beige: #F8F4EF;
+    --section-white: #FFFFFF;
+    --footer-bg: #2F2927;
+
+    /* ========= COMMON TRANSITIONS ========= */
+
+    --transition-fast: .25s ease;
+    --transition: .35s ease;
+    --transition-slow: .5s ease;
+
+    /* ========= COMMON EFFECTS ========= */
+
+    --card-hover:
+        transform var(--transition),
+        box-shadow var(--transition);
+
+    --icon-hover:
+        transform var(--transition),
+        background var(--transition),
+        color var(--transition);
+
+}
