@@ -77,3 +77,412 @@ section {
 .menu-btn {
     display: none;
 }
+
+/* ===========================================
+                INSTAGRAM GALLERY
+=========================================== */
+
+.instagram-gallery {
+
+    padding: 100px 0;
+    background: #FAF7F5;
+    overflow: hidden;
+
+}
+
+/* ===========================================
+                GALLERY HEADER
+=========================================== */
+
+.gallery-header {
+
+    width: min(90%, 650px);
+    margin: auto;
+    text-align: center;
+
+}
+
+.gallery-tag {
+
+    display: inline-block;
+    padding: 12px 26px;
+    border-radius: 999px;
+
+    background: white;
+    color: #4B3F3A;
+    font-weight: 600;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.08);
+
+}
+
+.gallery-header h2 {
+
+    margin-top: 30px;
+
+    font-size: clamp(42px,5vw,64px);
+    line-height: 1.1;
+
+    color: #443835;
+
+}
+
+.gallery-header p {
+
+    margin-top: 25px;
+
+    font-size: 18px;
+    line-height: 1.8;
+
+    color: #7A706D;
+
+}
+
+/* ===========================================
+                GALLERY ROW
+=========================================== */
+
+.gallery-row{
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 20px 0;
+    margin: 15px 0;
+
+    opacity: 0;
+
+    transition:
+        opacity .8s ease,
+        transform 1s cubic-bezier(.22,.61,.36,1);
+
+}
+
+.gallery-row.row-right{
+
+    transform: translateX(-120px);
+
+}
+
+.gallery-row.row-left{
+
+    transform: translateX(120px);
+
+}
+
+.gallery-row.show{
+
+    opacity: 1;
+    transform: translateX(0);
+
+}
+
+/* ===========================================
+                FADE EDGES
+=========================================== */
+
+.gallery-row::before,
+.gallery-row::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    width:120px;
+    height:100%;
+
+    z-index:5;
+
+    pointer-events:none;
+
+}
+
+.gallery-row::before{
+
+    left:0;
+
+    background:
+    linear-gradient(
+        to right,
+        #FAF7F5,
+        transparent
+    );
+
+}
+
+.gallery-row::after{
+
+    right:0;
+
+    background:
+    linear-gradient(
+        to left,
+        #FAF7F5,
+        transparent
+    );
+
+}
+
+/* ===========================================
+                GALLERY SLIDER
+=========================================== */
+
+.gallery-slider{
+
+    display:flex;
+
+    width:max-content;
+
+}
+
+.gallery-track{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+    flex-shrink:0;
+
+    flex-wrap:nowrap;
+
+    padding-right:20px;
+
+}
+
+/* ===========================================
+                GALLERY CARDS
+=========================================== */
+
+.gallery-card{
+
+    --offsetY:0px;
+    --rotation:0deg;
+
+    width:220px;
+    height:300px;
+
+    flex-shrink:0;
+
+    overflow:hidden;
+
+    border-radius:28px;
+
+    background:#fff;
+
+    transform:
+        translateY(var(--offsetY))
+        rotate(var(--rotation));
+
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease;
+
+}
+
+.gallery-card img{
+
+    width:100%;
+    height:100%;
+
+    display:block;
+
+    object-fit:cover;
+
+    transition:.5s;
+
+}
+
+/* ===========================================
+            FLOATING PATTERN
+=========================================== */
+
+.gallery-track .gallery-card:nth-child(1){
+
+    --offsetY:0px;
+    --rotation:-2deg;
+
+}
+
+.gallery-track .gallery-card:nth-child(2){
+
+    --offsetY:18px;
+    --rotation:1.5deg;
+
+}
+
+.gallery-track .gallery-card:nth-child(3){
+
+    --offsetY:-12px;
+    --rotation:-1deg;
+
+}
+
+.gallery-track .gallery-card:nth-child(4){
+
+    --offsetY:10px;
+    --rotation:2deg;
+
+}
+
+.gallery-track .gallery-card:nth-child(5){
+
+    --offsetY:-18px;
+    --rotation:-1.5deg;
+
+}
+
+.gallery-track .gallery-card:nth-child(6){
+
+    --offsetY:6px;
+    --rotation:1deg;
+
+}
+
+/* ===========================================
+                CARD SHADOWS
+=========================================== */
+
+.gallery-track .gallery-card:nth-child(odd){
+
+    box-shadow:
+        0 12px 28px rgba(0,0,0,.08);
+
+}
+
+.gallery-track .gallery-card:nth-child(even){
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,.12);
+
+}
+
+/* ===========================================
+                CARD HOVER
+=========================================== */
+
+.gallery-card:hover{
+
+    transform:
+        translateY(calc(var(--offsetY) - 10px))
+        rotate(0deg)
+        scale(1.04);
+
+    z-index:10;
+
+}
+
+.gallery-card:hover img{
+
+    transform:scale(1.08);
+
+}
+
+/* ===========================================
+                GALLERY BUTTON
+=========================================== */
+
+.instagram-btn{
+
+    display:block;
+
+    width:max-content;
+
+    margin:80px auto 0;
+
+    padding:18px 40px;
+
+    border:2px solid #F59CB0;
+    border-radius:999px;
+
+    text-decoration:none;
+
+    color:#443835;
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.instagram-btn:hover{
+
+    background:#F59CB0;
+    color:white;
+
+}
+
+/* ===========================================
+            GALLERY SPEED MODIFIERS
+=========================================== */
+
+.gallery-row--fast .gallery-slider{
+
+    animation:
+        scrollRight 22s linear infinite;
+
+}
+
+.gallery-row--medium .gallery-slider{
+
+    animation:
+        scrollRight 24s linear infinite;
+
+}
+
+.gallery-row--slow .gallery-slider{
+
+    animation:
+        scrollLeft 27s linear infinite;
+
+}
+
+/* ===========================================
+                KEYFRAMES
+=========================================== */
+
+@keyframes scrollLeft{
+
+    from{
+
+        transform:translateX(0);
+
+    }
+
+    to{
+
+        transform:translateX(-50%);
+
+    }
+
+}
+
+@keyframes scrollRight{
+
+    from{
+
+        transform:translateX(-50%);
+
+    }
+
+    to{
+
+        transform:translateX(0);
+
+    }
+
+}
+
+/* ===========================================
+            PAUSE ON IMAGE HOVER
+=========================================== */
+
+.gallery-row:has(.gallery-card:hover) .gallery-slider{
+
+    animation-play-state: paused;
+
+}

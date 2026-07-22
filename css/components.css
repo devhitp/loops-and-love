@@ -131,8 +131,6 @@
 
     transition:all .35s ease;
     /* background-color: red; */
-    
-    
 
 }
 
@@ -378,7 +376,6 @@
 
     align-items: center;
     background: var(--section-cream);
-    
 
 }
 
@@ -1726,19 +1723,24 @@
 
 }
 
-.footer-social a:hover {
+.footer-social a:hover{
 
     background: var(--primary);
+
+    color:#FFFFFF;
 
     transform: translateY(-4px);
 
 }
 
-.footer-social svg {
+.footer-social svg,
+.footer-social i{
 
-    width: 20px;
+    width:20px;
 
-    height: 20px;
+    height:20px;
+
+    font-size:20px;
 
 }
 

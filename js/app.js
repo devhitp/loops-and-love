@@ -82,14 +82,129 @@ const header = document.querySelector(".header");
 
 window.addEventListener("scroll", () => {
 
-    if(window.scrollY > 20){
+    if (window.scrollY > 20) {
 
         header.classList.add("scrolled");
 
-    }else{
+    } else {
 
         header.classList.remove("scrolled");
 
     }
+
+});
+
+const cards = document.querySelectorAll(".product-card");
+
+const observer = new IntersectionObserver((entries) => {
+
+    entries.forEach(entry => {
+
+        if (entry.isIntersecting) {
+
+            entry.target.classList.add("active");
+
+        } else {
+
+            entry.target.classList.remove("active");
+
+        }
+
+    });
+
+}, {
+    threshold: 0.6
+});
+
+cards.forEach(card => observer.observe(card));
+
+function createCarousel(containerSelector, cardSelector) {
+
+    const container = document.querySelector(containerSelector);
+
+    if (!container) return;
+
+    const cards = [...container.querySelectorAll(cardSelector)];
+
+    let currentActive = null;
+
+    function updateActiveCard() {
+
+        const containerRect = container.getBoundingClientRect();
+
+        const center = containerRect.left + containerRect.width / 2;
+
+        let closestCard = null;
+        let closestDistance = Infinity;
+
+        cards.forEach(card => {
+
+            const rect = card.getBoundingClientRect();
+
+            const cardCenter = rect.left + rect.width / 2;
+
+            const distance = Math.abs(center - cardCenter);
+
+            if (distance < closestDistance) {
+
+                closestDistance = distance;
+
+                closestCard = card;
+
+            }
+
+        });
+
+        if (currentActive !== closestCard) {
+
+            if (currentActive) {
+                currentActive.classList.remove("active");
+            }
+
+            closestCard.classList.add("active");
+
+            currentActive = closestCard;
+
+        }
+
+    }
+
+    updateActiveCard();
+
+    container.addEventListener("scroll", updateActiveCard);
+
+    window.addEventListener("resize", updateActiveCard);
+
+}
+createCarousel(".products-grid", ".product-card");
+
+createCarousel(".why-grid", ".why-card");
+
+createCarousel(".reviews-grid", ".review-card");
+/* ===========================================
+        GALLERY SCROLL REVEAL
+=========================================== */
+
+const galleryRows = document.querySelectorAll(".gallery-row");
+
+const galleryObserver = new IntersectionObserver((entries) => {
+
+    entries.forEach(entry => {
+
+        if(entry.isIntersecting){
+
+            entry.target.classList.add("show");
+
+        }
+
+    });
+
+},{
+    threshold:0.2
+});
+
+galleryRows.forEach(row => {
+
+    galleryObserver.observe(row);
 
 });
