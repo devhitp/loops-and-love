@@ -224,6 +224,13 @@ function addToCart(productId) {
     );
 
     updateCartCount();
+    const product =
+        products.find(p => p.id == productId);
+
+    showToast(
+        "Added to Cart",
+        `${product.name} added successfully.`
+    );
 
 }
 // ===========================================

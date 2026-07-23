@@ -1,5 +1,9 @@
 
-
+// const categoryNames = {
+//     hair: "Hair Accessories",
+//     keychain: "Keychains",
+//     bouquet: "Bouquets"
+// };
 // ===========================================
 // PRODUCTS DATABASE
 // ===========================================
@@ -80,96 +84,7 @@ const products = [
 
         description: "Handmade crochet daisy hairpin crafted with love."
     },
-    {
-        id: 6,
-
-        name: "Blue Fllower Tiara",
-
-        category: "hair",
-
-        price: 75,
-
-        image: "images/products/hair/blue-flower-tiara.jpeg",
-
-        badge: "NEW",
-
-        description: "Handmade crochet blue flower tiara crafted with love."
-    },
-    {
-        id: 6,
-
-        name: "Blue Fllower Tiara",
-
-        category: "hair",
-
-        price: 75,
-
-        image: "images/products/hair/blue-flower-tiara.jpeg",
-
-        badge: "NEW",
-
-        description: "Handmade crochet blue flower tiara crafted with love."
-    },
-    {
-        id: 6,
-
-        name: "Blue Fllower Tiara",
-
-        category: "hair",
-
-        price: 75,
-
-        image: "images/products/hair/blue-flower-tiara.jpeg",
-
-        badge: "NEW",
-
-        description: "Handmade crochet blue flower tiara crafted with love."
-    },
-    {
-        id: 6,
-
-        name: "Blue Fllower Tiara",
-
-        category: "hair",
-
-        price: 75,
-
-        image: "images/products/hair/blue-flower-tiara.jpeg",
-
-        badge: "NEW",
-
-        description: "Handmade crochet blue flower tiara crafted with love."
-    },
-    {
-        id: 6,
-
-        name: "Blue Fllower Tiara",
-
-        category: "hair",
-
-        price: 75,
-
-        image: "images/products/hair/blue-flower-tiara.jpeg",
-
-        badge: "NEW",
-
-        description: "Handmade crochet blue flower tiara crafted with love."
-    },
-    {
-        id: 6,
-
-        name: "Blue Fllower Tiara",
-
-        category: "hair",
-
-        price: 75,
-
-        image: "images/products/hair/blue-flower-tiara.jpeg",
-
-        badge: "NEW",
-
-        description: "Handmade crochet blue flower tiara crafted with love."
-    },
+    
 
 
 ];

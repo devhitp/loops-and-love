@@ -151,3 +151,137 @@ productContainer.innerHTML = `
 `;
 
 lucide.createIcons();
+
+// ===========================================
+// QUANTITY SELECTOR
+// ===========================================
+
+let quantity = 1;
+
+const minusBtn = document.querySelector(".quantity-selector button:first-child");
+const plusBtn = document.querySelector(".quantity-selector button:last-child");
+const quantityText = document.querySelector(".quantity-selector span");
+
+minusBtn.addEventListener("click", () => {
+
+    if (quantity > 1) {
+
+        quantity--;
+
+        quantityText.textContent = quantity;
+
+    }
+
+});
+
+plusBtn.addEventListener("click", () => {
+
+    quantity++;
+
+    quantityText.textContent = quantity;
+
+});
+// ===========================================
+// ADD TO CART
+// ===========================================
+
+const addCartBtn = document.querySelector(".add-cart-btn");
+
+addCartBtn.addEventListener("click", () => {
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    const existingItem = cart.find(item => item.id === product.id);
+
+    if (existingItem) {
+
+        existingItem.quantity += quantity;
+
+    } else {
+
+        cart.push({
+
+            id: product.id,
+
+            quantity: quantity
+
+        });
+
+    }
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    updateCartCount();
+
+    showToast(
+        "Added to Cart",
+        `${product.name} added successfully.`
+    );
+
+});
+// ===========================================
+// WISHLIST
+// ===========================================
+
+const wishlistBtn =
+document.querySelector(".product-wishlist-btn");
+
+let wishlist =
+JSON.parse(localStorage.getItem("wishlist")) || [];
+
+updateWishlistButton();
+
+wishlistBtn.addEventListener("click", () => {
+
+    if (wishlist.includes(product.id)) {
+
+        wishlist =
+        wishlist.filter(id => id !== product.id);
+
+        showToast(
+            "Removed",
+            `${product.name} removed from wishlist.`
+        );
+
+    } else {
+
+        wishlist.push(product.id);
+
+        showToast(
+            "Added",
+            `${product.name} added to wishlist.`
+        );
+
+    }
+
+    localStorage.setItem(
+        "wishlist",
+        JSON.stringify(wishlist)
+    );
+
+    updateWishlistCount();
+
+    updateWishlistButton();
+
+});
+
+function updateWishlistButton(){
+
+    if(wishlist.includes(product.id)){
+
+        wishlistBtn.innerHTML = "💖 In Wishlist";
+
+        wishlistBtn.classList.add("active");
+
+    }else{
+
+        wishlistBtn.innerHTML = "❤️ Wishlist";
+
+        wishlistBtn.classList.remove("active");
+
+    }
+
+}

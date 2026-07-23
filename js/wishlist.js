@@ -41,7 +41,7 @@ function renderWishlist() {
     wishlist.forEach(id => {
 
         const product =
-        products.find(item => item.id === id);
+            products.find(item => item.id === id);
 
         if (!product) return;
 
@@ -196,7 +196,10 @@ wishlistContainer.addEventListener("click", (event) => {
 
         updateWishlistCount();
 
-        alert("Product added to cart!");
+        showToast(
+            "Added to Cart",
+            "Product added successfully."
+        );
 
     }
 

@@ -53,7 +53,29 @@ function updateCartCount() {
 
 }
 
+function showToast(title, message){
 
+    const toast = document.getElementById("toast");
+
+    const toastTitle =
+    document.getElementById("toast-title");
+
+    const toastMessage =
+    document.getElementById("toast-message");
+
+    toastTitle.textContent = title;
+
+    toastMessage.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(()=>{
+
+        toast.classList.remove("show");
+
+    },3000);
+
+}
 
 // ===========================================
 // INITIALIZE
