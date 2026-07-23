@@ -7,26 +7,23 @@ const wishlistContainer =
 if (wishlist.length === 0) {
 
     wishlistContainer.innerHTML = `
+<div class="empty-state">
 
-        <div class="empty-cart">
+    <div class="empty-icon">💖</div>
 
-            <h2>
+    <h2>Your Wishlist is Empty</h2>
 
-                Your wishlist is empty.
+    <p>
+        Save your favourite handmade creations here so
+        you can find them anytime.
+    </p>
 
-            </h2>
+    <a href="shop.html" class="btn btn-primary">
+        Explore Products
+    </a>
 
-            <a
-            href="shop.html"
-            class="btn btn-primary">
-
-                Continue Shopping
-
-            </a>
-
-        </div>
-
-    `;
+</div>
+`;
 
 } else {
 
@@ -198,7 +195,8 @@ wishlistContainer.addEventListener("click", (event) => {
 
         showToast(
             "Added to Cart",
-            "Product added successfully."
+            `${product.name} added successfully.`,
+            "success"
         );
 
     }

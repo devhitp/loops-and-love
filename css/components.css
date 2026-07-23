@@ -965,6 +965,9 @@
 }
 
 .product-image{
+    position: relative;
+
+    overflow: hidden;
 
     aspect-ratio:1/1;
 
@@ -2884,7 +2887,7 @@ WISHLIST PAGE
 }
 
 /*==================================
-TOAST
+PREMIUM TOAST
 ==================================*/
 
 .toast{
@@ -2895,29 +2898,38 @@ TOAST
 
     right:25px;
 
+    width:360px;
+
     background:#ffffff;
 
-    padding:18px 22px;
+    border-radius:20px;
 
-    border-radius:16px;
-
-    box-shadow:0 15px 40px rgba(0,0,0,.15);
+    padding:18px;
 
     display:flex;
 
     align-items:center;
 
-    gap:14px;
+    gap:16px;
 
-    min-width:300px;
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.15);
 
-    transform:translateX(420px);
+    transform:
+        translateX(420px);
 
     opacity:0;
 
-    transition:.4s ease;
+    visibility:hidden;
 
-    z-index:9999;
+    transition:
+        transform .45s cubic-bezier(.22,1,.36,1),
+        opacity .45s,
+        visibility .45s;
+
+    overflow:hidden;
+
+    z-index:99999;
 
 }
 
@@ -2927,19 +2939,59 @@ TOAST
 
     opacity:1;
 
+    visibility:visible;
+
+}
+
+.toast::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    top:0;
+
+    bottom:0;
+
+    width:6px;
+
+    background:#4CAF50;
+
+}
+
+.toast.success::before{
+
+    background:#4CAF50;
+
+}
+
+.toast.info::before{
+
+    background:#4A90E2;
+
+}
+
+.toast.warning::before{
+
+    background:#F5A623;
+
+}
+
+.toast.error::before{
+
+    background:#E74C3C;
+
 }
 
 .toast-icon{
 
-    width:42px;
+    width:52px;
 
-    height:42px;
+    height:52px;
 
     border-radius:50%;
-
-    background:#eafaf0;
-
-    color:#28a745;
 
     display:flex;
 
@@ -2947,13 +2999,55 @@ TOAST
 
     align-items:center;
 
-    font-size:1.3rem;
+    font-size:1.4rem;
 
     flex-shrink:0;
 
+    background:#eef9f1;
+
+    color:#4CAF50;
+
 }
 
-.toast h4{
+.toast.success .toast-icon{
+
+    background:#eef9f1;
+
+    color:#4CAF50;
+
+}
+
+.toast.info .toast-icon{
+
+    background:#eef5ff;
+
+    color:#4A90E2;
+
+}
+
+.toast.warning .toast-icon{
+
+    background:#fff8e8;
+
+    color:#F5A623;
+
+}
+
+.toast.error .toast-icon{
+
+    background:#fdecec;
+
+    color:#E74C3C;
+
+}
+
+.toast-content{
+
+    flex:1;
+
+}
+
+.toast-content h4{
 
     margin:0;
 
@@ -2961,16 +3055,69 @@ TOAST
 
 }
 
-.toast p{
+.toast-content p{
 
-    margin:3px 0 0;
-
-    font-size:.9rem;
+    margin:4px 0 0;
 
     color:#777;
 
+    line-height:1.5;
+
 }
 
+.toast-progress{
+
+    position:absolute;
+
+    left:0;
+
+    bottom:0;
+
+    height:4px;
+
+    width:100%;
+
+    background:#4CAF50;
+
+    transform-origin:left;
+
+}
+
+.toast.show .toast-progress{
+
+    animation:toastProgress 3s linear forwards;
+
+}
+
+@keyframes toastProgress{
+
+    from{
+
+        transform:scaleX(1);
+
+    }
+
+    to{
+
+        transform:scaleX(0);
+
+    }
+
+}
+
+@media(max-width:480px){
+
+    .toast{
+
+        width:calc(100% - 30px);
+
+        left:15px;
+
+        right:15px;
+
+    }
+
+}
 /*==================================
 ACTIVE WISHLIST BUTTON
 ==================================*/
@@ -2982,5 +3129,294 @@ ACTIVE WISHLIST BUTTON
     color:#fff;
 
     border-color:var(--primary);
+
+}
+/*==================================
+EMPTY STATE
+==================================*/
+
+.empty-state{
+
+    max-width:550px;
+
+    margin:100px auto;
+
+    padding:60px 40px;
+
+    text-align:center;
+
+    background:#fff;
+
+    border-radius:28px;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.08);
+
+}
+
+.empty-icon{
+
+    font-size:5rem;
+
+    margin-bottom:25px;
+
+}
+
+.empty-state h2{
+
+    margin-bottom:15px;
+
+    font-size:2rem;
+
+}
+
+.empty-state p{
+
+    color:var(--text-light);
+
+    line-height:1.8;
+
+    margin-bottom:35px;
+
+}
+/*==================================
+BUTTON LOADING
+==================================*/
+
+.btn-loading{
+
+    pointer-events:none;
+
+    opacity:.8;
+
+}
+
+.btn-loading::after{
+
+    content:"";
+
+    width:16px;
+
+    height:16px;
+
+    margin-left:10px;
+
+    border:2px solid rgba(255,255,255,.4);
+
+    border-top-color:#fff;
+
+    border-radius:50%;
+
+    display:inline-block;
+
+    animation:buttonSpin .8s linear infinite;
+
+    vertical-align:middle;
+
+}
+
+@keyframes buttonSpin{
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
+
+/*==================================
+HEART POP
+==================================*/
+
+@keyframes heartPop{
+
+    0%{
+
+        transform:scale(1);
+
+    }
+
+    40%{
+
+        transform:scale(1.35);
+
+    }
+
+    70%{
+
+        transform:scale(.9);
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+    }
+
+}
+
+.heart-pop{
+
+    animation:heartPop .35s ease;
+
+}
+/*==================================
+PRODUCT IMAGE HOVER
+==================================*/
+
+
+
+.product-image img{
+
+    transition:transform .35s ease;
+
+}
+
+.product-card:hover .product-image img{
+
+    transform:scale(1.08);
+
+}
+
+.product-details-image{
+
+    overflow:hidden;
+
+    border-radius:24px;
+
+}
+
+.product-details-image img{
+
+    transition:transform .45s ease;
+
+}
+
+.product-details-image:hover img{
+
+    transform:scale(1.08);
+
+}
+/*==================================
+PAGE TRANSITION
+==================================*/
+
+body{
+
+    opacity:0;
+
+    transform:translateY(15px);
+
+    transition:
+        opacity .45s ease,
+        transform .45s ease;
+
+}
+
+body.page-loaded{
+
+    opacity:1;
+
+    transform:translateY(0);
+
+}
+/*==================================
+BUTTON RIPPLE
+==================================*/
+
+.btn,
+.add-cart-btn,
+.wishlist-btn,
+.product-wishlist-btn{
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+.ripple{
+
+    position:absolute;
+
+    border-radius:50%;
+
+    transform:scale(0);
+
+    animation:ripple .6s linear;
+
+    background:rgba(255,255,255,.4);
+
+    pointer-events:none;
+
+}
+
+@keyframes ripple{
+
+    to{
+
+        transform:scale(4);
+
+        opacity:0;
+
+    }
+
+}
+/*==================================
+SCROLL TO TOP
+==================================*/
+
+.scroll-top-btn{
+
+    position:fixed;
+
+    bottom:30px;
+
+    right:30px;
+
+    width:55px;
+
+    height:55px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:var(--primary);
+
+    color:#fff;
+
+    cursor:pointer;
+
+    font-size:1.4rem;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transform:translateY(20px);
+
+    transition:.3s;
+
+    z-index:999;
+
+}
+
+.scroll-top-btn.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+    transform:translateY(0);
+
+}
+
+.scroll-top-btn:hover{
+
+    transform:translateY(-5px);
 
 }

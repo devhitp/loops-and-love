@@ -12,27 +12,28 @@ const totalElement = document.querySelector("#total");
 if (cart.length === 0) {
 
     cartContainer.innerHTML = `
+<div class="empty-state">
 
-        <div class="empty-cart">
+    <div class="empty-icon">🛒</div>
 
-            <h2>
+    <h2>Your Cart is Empty</h2>
 
-                Your cart is empty.
+    <p>
 
-            </h2>
+        Looks like you haven't added anything yet.
 
-            <a
-                href="shop.html"
-                class="btn btn-primary"
-            >
+        Explore our handmade collection.
 
-                Continue Shopping
+    </p>
 
-            </a>
+    <a href="shop.html" class="btn btn-primary">
 
-        </div>
+        Continue Shopping
 
-    `;
+    </a>
+
+</div>
+`;
 
 }
 if (cart.length > 0) {

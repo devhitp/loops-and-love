@@ -176,6 +176,23 @@ function toggleWishlist(productId) {
 
     }
 
+    const button =
+        document.querySelector(
+            `.wishlist-btn[data-id="${productId}"]`
+        );
+
+    if (button) {
+
+        button.classList.add("heart-pop");
+
+        setTimeout(() => {
+
+            button.classList.remove("heart-pop");
+
+        }, 350);
+
+    }
+
     localStorage.setItem("wishlist", JSON.stringify(wishlist));
     updateWishlistCount();
     renderProducts();
@@ -229,7 +246,8 @@ function addToCart(productId) {
 
     showToast(
         "Added to Cart",
-        `${product.name} added successfully.`
+        `${product.name} added successfully.`,
+        "success"
     );
 
 }
@@ -356,7 +374,22 @@ productGrid.addEventListener("click", (event) => {
 
     if (!cartButton) return;
 
-    addToCart(cartButton.dataset.id);
+    cartButton.classList.add("btn-loading");
+
+    const originalText =
+        cartButton.textContent;
+
+    cartButton.textContent = "Adding...";
+
+    setTimeout(() => {
+
+        addToCart(cartButton.dataset.id);
+
+        cartButton.classList.remove("btn-loading");
+
+        cartButton.textContent = originalText;
+
+    }, 500);
 
 });
 
