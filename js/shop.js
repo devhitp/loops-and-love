@@ -9,6 +9,7 @@ const sortSelect = document.querySelector(".sort-select");
 const productCount = document.querySelector(".product-count");
 const loadMoreBtn = document.querySelector(".load-more-btn");
 const wishlistCount = document.querySelector(".wishlist-count");
+const cartCount = document.querySelector(".cart-count");
 
 // ===========================================
 // APP STATE
@@ -28,6 +29,7 @@ let currentProducts = [];
 // ===========================================
 
 let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 // ===========================================
 // CREATE PRODUCT CARD
@@ -42,26 +44,36 @@ function createProductCard(product) {
             data-category="${product.category}"
         >
 
-            <div class="product-image">
+            <a
+                href="product.html?id=${product.id}"
+                class="product-link"
+            >
 
-                <img
-                    src="${product.image}"
-                    alt="${product.name}"
-                >
+                <div class="product-image">
 
-                <span class="product-tag">
-                    ${product.badge}
-                </span>
+                    <img
+                        src="${product.image}"
+                        alt="${product.name}"
+                    >
 
-                <button
-    class="wishlist-btn ${wishlist.includes(product.id) ? "active" : ""}"
-    data-id="${product.id}"
->
-                    
-                    <i data-lucide="heart"></i>
-                </button>
+                    <span class="product-tag">
 
-            </div>
+                        ${product.badge}
+
+                    </span>
+
+                </div>
+
+            </a>
+
+            <button
+                class="wishlist-btn ${wishlist.includes(product.id) ? "active" : ""}"
+                data-id="${product.id}"
+            >
+
+                <i data-lucide="heart"></i>
+
+            </button>
 
             <div class="product-content">
 
@@ -71,9 +83,24 @@ function createProductCard(product) {
 
                 </span>
 
-                <h3>${product.name}</h3>
+                <a
+                    href="product.html?id=${product.id}"
+                    class="product-title-link"
+                >
 
-                <p>${product.description}</p>
+                    <h3>
+
+                        ${product.name}
+
+                    </h3>
+
+                </a>
+
+                <p>
+
+                    ${product.description}
+
+                </p>
 
                 <div class="product-footer">
 
@@ -83,7 +110,10 @@ function createProductCard(product) {
 
                     </span>
 
-                    <button class="add-cart-btn">
+                    <button
+                        class="add-cart-btn"
+                        data-id="${product.id}"
+                    >
 
                         Add to Cart
 
@@ -164,6 +194,38 @@ function updateWishlistCount() {
         wishlist.length ? "flex" : "none";
 
 }
+
+function addToCart(productId) {
+
+    const existingItem = cart.find(item => item.id == productId);
+
+    if (existingItem) {
+
+        existingItem.quantity++;
+
+    } else {
+
+        cart.push({
+
+            id: Number(productId),
+
+            quantity: 1
+
+        });
+
+    }
+
+    localStorage.setItem(
+
+        "cart",
+
+        JSON.stringify(cart)
+
+    );
+
+    updateCartCount();
+
+}
 // ===========================================
 // UPDATE PRODUCTS
 // ===========================================
@@ -217,6 +279,20 @@ function updateProducts() {
 
 }
 
+function updateCartCount() {
+
+    const totalItems = cart.reduce(
+
+        (sum, item) => sum + item.quantity,
+
+        0
+
+    );
+
+    cartCount.textContent = totalItems;
+
+}
+
 // ===========================================
 // FILTER PRODUCTS
 // ===========================================
@@ -265,6 +341,18 @@ productGrid.addEventListener("click", (event) => {
     toggleWishlist(wishlistButton.dataset.id);
 
 });
+
+productGrid.addEventListener("click", (event) => {
+
+    const cartButton =
+        event.target.closest(".add-cart-btn");
+
+    if (!cartButton) return;
+
+    addToCart(cartButton.dataset.id);
+
+});
+
 // ===========================================
 // SEARCH
 // ===========================================
@@ -343,5 +431,5 @@ loadMoreBtn.addEventListener("click", () => {
 // ===========================================
 // INITIALIZE SHOP
 // ===========================================
-updateWishlistCount();
+
 updateProducts();

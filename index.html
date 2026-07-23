@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-
+    
     <link rel="stylesheet" href="css/variables.css" />
     <link rel="stylesheet" href="css/global.css" />
     <link rel="stylesheet" href="css/utilities.css" />
@@ -51,14 +51,7 @@
       </div>
 
       <nav class="navbar">
-        <div
-          class="container"
-          style="
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-          "
-        >
+        <div class="container">
           <a href="#" class="logo">
             <div class="logo-icon">🧶</div>
 
@@ -69,11 +62,11 @@
           </a>
 
           <ul class="desktop-nav">
-            <li><a href="#">Home</a></li>
+            <li><a href="index.html" class="active">Home</a></li>
             <li><a href="shop.html">Shop</a></li>
             <li><a href="#">Collections</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
           </ul>
 
           <div class="nav-icons">
@@ -81,13 +74,17 @@
               <i class="fa-solid fa-magnifying-glass"></i>
             </button>
 
-            <button class="icon-btn wishlist-btn">
+            <a href="wishlist.html" class="icon-btn navbar-wishlist">
               <i class="fa-regular fa-heart"></i>
-            </button>
 
-            <button class="icon-btn cart-btn">
+              <span class="wishlist-count"> 0 </span>
+            </a>
+
+            <a href="cart.html" class="icon-btn cart-btn">
               <i class="fa-solid fa-bag-shopping"></i>
-            </button>
+
+              <span class="cart-count"> 0 </span>
+            </a>
 
             <button class="icon-btn menu-btn">
               <i class="fa-solid fa-bars"></i>
@@ -102,15 +99,15 @@
       <nav class="mobile-menu">
         <h3 class="mobile-menu-title">Navigation</h3>
         <ul>
-          <li><a href="#" class="active">Home</a></li>
+          <li><a href="index.html" class="active">Home</a></li>
 
           <li><a href="shop.html">Shop</a></li>
 
           <li><a href="#">Collections</a></li>
 
-          <li><a href="#">About</a></li>
+          <li><a href="about.html">About</a></li>
 
-          <li><a href="#">Contact</a></li>
+          <li><a href="contact.html">Contact</a></li>
         </ul>
 
         <div class="mobile-menu-social">
@@ -771,7 +768,7 @@
         </div>
       </div>
     </footer>
-
+    <script src="js/main.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <script>

@@ -5,7 +5,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Product Details</title>
+    <title>Checkout | Loops & Love</title>
 
     <link rel="stylesheet" href="css/variables.css" />
     <link rel="stylesheet" href="css/global.css" />
@@ -113,26 +113,74 @@
       <div class="menu-overlay"></div>
     </header>
 
-    <main class="product-page">
+    <main class="checkout-page">
       <div class="container">
-        <div class="breadcrumb">
-          <a href="index.html"> Home </a>
+        <h1>Checkout</h1>
 
-          <span>/</span>
+        <div class="checkout-layout">
+          <!-- CUSTOMER DETAILS -->
 
-          <a href="shop.html"> Shop </a>
+          <section class="checkout-form">
+            <h2>Delivery Details</h2>
 
-          <span>/</span>
+            <form>
+              <label> Full Name </label>
 
-          <span id="breadcrumb-product"> </span>
+              <input type="text" placeholder="Enter your name" />
+
+              <label> Phone Number </label>
+
+              <input type="tel" placeholder="Enter phone number" />
+
+              <label> Address </label>
+
+              <textarea placeholder="House no, Street, Area"></textarea>
+
+              <label> City </label>
+
+              <input type="text" placeholder="City" />
+
+              <label> Pincode </label>
+
+              <input type="text" placeholder="Pincode" />
+            </form>
+          </section>
+
+          <!-- ORDER SUMMARY -->
+
+          <section class="checkout-summary">
+            <h2>Your Order</h2>
+
+            <div id="checkout-items"></div>
+
+            <div class="summary-row">
+              <span> Subtotal </span>
+
+              <span id="checkout-subtotal"> ₹0 </span>
+            </div>
+
+            <div class="summary-row">
+              <span> Shipping </span>
+
+              <span> FREE </span>
+            </div>
+
+            <hr />
+
+            <div class="summary-row total-row">
+              <span> Total </span>
+
+              <span id="checkout-total"> ₹0 </span>
+            </div>
+
+            <button class="btn btn-primary place-order-btn">Place Order</button>
+          </section>
         </div>
-
-        <div id="product-container"></div>
       </div>
     </main>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="js/main.js"></script>
     <script src="js/products.js"></script>
-    <script src="js/product.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/checkout.js"></script>
   </body>
 </html>

@@ -5,7 +5,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Product Details</title>
+    <title>Shopping Cart</title>
 
     <link rel="stylesheet" href="css/variables.css" />
     <link rel="stylesheet" href="css/global.css" />
@@ -113,26 +113,47 @@
       <div class="menu-overlay"></div>
     </header>
 
-    <main class="product-page">
+    <main class="cart-page">
       <div class="container">
-        <div class="breadcrumb">
-          <a href="index.html"> Home </a>
+        <h1 class="cart-title">Shopping Cart</h1>
+        <a href="shop.html" class="btn btn-secondary"> ← Continue Shopping </a>
 
-          <span>/</span>
+        <div class="cart-layout">
+          <div id="cart-items"></div>
 
-          <a href="shop.html"> Shop </a>
+          <aside class="cart-summary">
+            <h2>Order Summary</h2>
 
-          <span>/</span>
+            <div class="summary-row">
+              <span>Subtotal</span>
 
-          <span id="breadcrumb-product"> </span>
+              <span id="subtotal">₹0</span>
+            </div>
+
+            <div class="summary-row">
+              <span>Shipping</span>
+
+              <span>FREE</span>
+            </div>
+
+            <hr />
+
+            <div class="summary-row total-row">
+              <span>Total</span>
+
+              <span id="total">₹0</span>
+            </div>
+
+            <a href="checkout.html" class="btn btn-primary">
+              Proceed to Checkout
+            </a>
+          </aside>
         </div>
-
-        <div id="product-container"></div>
       </div>
     </main>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/main.js"></script>
     <script src="js/products.js"></script>
-    <script src="js/product.js"></script>
+    <script src="js/cart.js"></script>
   </body>
 </html>
