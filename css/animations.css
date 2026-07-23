@@ -128,3 +128,11 @@
     }
 
 }
+
+.filter-btn:active{
+
+    transform:
+        translateY(-1px)
+        scale(.96);
+
+}

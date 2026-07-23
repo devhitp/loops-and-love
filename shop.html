@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/utilities.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <!-- ==========================================
+        FONT AWESOME
+========================================== -->
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="header">
+      <div class="announcement-bar">
+        <div class="announcement-track">
+          <span>✨ Free Shipping on Orders Above ₹999</span>
+          <span>•</span>
+          <span>🎁 Handmade With Love</span>
+          <span>•</span>
+          <span>💬 Custom Orders Available on WhatsApp</span>
+
+          <!-- Duplicate for seamless loop -->
+
+          <span>✨ Free Shipping on Orders Above ₹999</span>
+          <span>•</span>
+          <span>🎁 Handmade With Love</span>
+          <span>•</span>
+          <span>💬 Custom Orders Available on WhatsApp</span>
+        </div>
+      </div>
+
+      <nav class="navbar">
+        <div
+          class="container">
+          <a href="#" class="logo">
+            <div class="logo-icon">🧶</div>
+
+            <div class="logo-text">
+              <h2>Loops & Love</h2>
+              <span>Handmade with Love</span>
+            </div>
+          </a>
+
+          <ul class="desktop-nav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html" class="active">Shop</a></li>
+            <li><a href="#">Collections</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+
+          <div class="nav-icons">
+            <button class="icon-btn search-btn">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+
+            <button class="icon-btn  navbar-wishlist">
+              <i class="fa-regular fa-heart"></i>
+
+              <span class="wishlist-count">0</span>
+            </button>
+
+            <button class="icon-btn cart-btn">
+              <i class="fa-solid fa-bag-shopping"></i>
+            </button>
+
+            <button class="icon-btn menu-btn">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+      <!-- ==========================================
+     MOBILE MENU
+========================================== -->
+
+      <nav class="mobile-menu">
+        <h3 class="mobile-menu-title">Navigation</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+
+          <li><a href="shop.html" class="active">Shop</a></li>
+
+          <li><a href="#">Collections</a></li>
+
+          <li><a href="about.html">About</a></li>
+
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="mobile-menu-social">
+          <a href="#">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+
+          <a href="#">
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
+
+          <a href="#">
+            <i data-lucide="mail"></i>
+          </a>
+        </div>
+      </nav>
+
+      <div class="menu-overlay"></div>
+    </header>
+
+    <main>
+      <!-- ==========================================
+     SHOP HERO
+========================================== -->
+
+      <section class="shop-hero">
+        <div class="container">
+          <div class="shop-hero-content">
+            <nav class="breadcrumb">
+              <a href="index.html">Home</a>
+
+              <span>/</span>
+
+              <span>Shop</span>
+            </nav>
+
+            <h1>
+              Discover Handmade
+              <span>Creations</span>
+            </h1>
+
+            <p>
+              From adorable keychains to elegant hair accessories, every
+              creation is handcrafted with love to make your everyday moments a
+              little more special.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+     CATEGORY FILTER
+========================================== -->
+
+      <section class="shop-filter">
+        <div class="container">
+          <div class="filter-bar">
+            <div class="filter-top">
+              <div class="search-box">
+                <i data-lucide="search"></i>
+
+                <input
+                  type="text"
+                  class="search-input"
+                  placeholder="Search handmade creations..."
+                />
+              </div>
+
+              <div class="sort-box">
+                <select class="sort-select">
+                  <option value="default">Sort By</option>
+
+                  <option value="price-low">Price: Low → High</option>
+
+                  <option value="price-high">Price: High → Low</option>
+
+                  <option value="name-asc">Name: A → Z</option>
+
+                  <option value="name-desc">Name: Z → A</option>
+                </select>
+              </div>
+            </div>
+            <div class="product-info">
+              <p class="product-count">Showing 0 Handmade Creations</p>
+            </div>
+            <div class="filter-wrapper">
+              <button class="filter-btn active" data-filter="all">All</button>
+
+              <button class="filter-btn" data-filter="keychains">
+                Keychains
+              </button>
+
+              <button class="filter-btn" data-filter="hair">
+                Hair Accessories
+              </button>
+
+              <button class="filter-btn" data-filter="phone-cover">
+                Phone Covers
+              </button>
+
+              <button class="filter-btn" data-filter="mirrors">Mirrors</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="shop-products">
+        <div class="container">
+          <div class="section-heading">
+            <h2>Our Collection</h2>
+
+            <p>Browse handcrafted creations made with care.</p>
+          </div>
+
+          <!-- Product Grid Starts Here -->
+          <!-- ==========================================
+     PRODUCT GRID
+========================================== -->
+
+          <div class="product-grid">
+            <!-- PRODUCT CARD -->
+          </div>
+          <div class="load-more-container">
+            <button class="load-more-btn">Load More Creations</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <h2>Loops & Love</h2>
+
+            <p>
+              Handmade with love, crafted just for you. Every creation is
+              designed to make your special moments even more memorable.
+            </p>
+
+            <div class="footer-social">
+              <!-- WhatsApp -->
+              <a
+                href="https://wa.me/919876543210?text=Hi!%20I%20came%20from%20your%20website%20and%20I'm%20interested%20in%20your%20handmade%20products."
+                target="_blank"
+                aria-label="WhatsApp"
+              >
+                <i class="fa-brands fa-whatsapp"></i>
+              </a>
+
+              <!-- Instagram -->
+              <a
+                href="https://instagram.com/https://instagram.com/loopsandlove.in"
+                target="_blank"
+                aria-label="Instagram"
+              >
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+
+              <!-- Email -->
+              <a href="mailto:hello@loopsandlove.com" aria-label="Email">
+                <i data-lucide="mail"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-links">
+            <h3>Quick Links</h3>
+
+            <ul>
+              <li><a href="#">Home</a></li>
+
+              <li><a href="#">Shop</a></li>
+
+              <li><a href="#">Collections</a></li>
+
+              <li><a href="#">About</a></li>
+
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-links">
+            <h3>Customer Care</h3>
+
+            <ul>
+              <li><a href="#">Custom Orders</a></li>
+
+              <li><a href="#">FAQ</a></li>
+
+              <li><a href="#">Shipping</a></li>
+
+              <li><a href="#">Privacy Policy</a></li>
+
+              <li><a href="#">Terms & Conditions</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>© 2026 Loops & Love. All Rights Reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="js/products.js"></script>
+    <script src="js/shop.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

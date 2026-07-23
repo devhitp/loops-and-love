@@ -1,0 +1,47 @@
+/* ===================================================
+   BREADCRUMB
+=================================================== */
+
+/* ===================================================
+   BREADCRUMB
+=================================================== */
+
+.breadcrumb{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:20px;
+
+    font-size:.95rem;
+
+    letter-spacing:.08em;
+
+}
+
+.breadcrumb a{
+
+    color:#8d8d8d;
+
+    text-decoration:none;
+
+    transition:color .3s ease;
+
+}
+
+.breadcrumb a:hover{
+
+    color:var(--primary);
+
+}
+
+.breadcrumb span{
+
+    color:#8d8d8d;
+
+}

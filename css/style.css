@@ -30,6 +30,7 @@ body {
 
 }
 
+
 img {
 
     display: block;
@@ -113,7 +114,7 @@ section {
     font-weight: 600;
 
     box-shadow:
-        0 10px 30px rgba(0,0,0,.08);
+        0 10px 30px rgba(0, 0, 0, .08);
 
 }
 
@@ -121,7 +122,7 @@ section {
 
     margin-top: 30px;
 
-    font-size: clamp(42px,5vw,64px);
+    font-size: clamp(42px, 5vw, 64px);
     line-height: 1.1;
 
     color: #443835;
@@ -143,7 +144,7 @@ section {
                 GALLERY ROW
 =========================================== */
 
-.gallery-row{
+.gallery-row {
 
     position: relative;
 
@@ -156,23 +157,23 @@ section {
 
     transition:
         opacity .8s ease,
-        transform 1s cubic-bezier(.22,.61,.36,1);
+        transform 1s cubic-bezier(.22, .61, .36, 1);
 
 }
 
-.gallery-row.row-right{
+.gallery-row.row-right {
 
     transform: translateX(-120px);
 
 }
 
-.gallery-row.row-left{
+.gallery-row.row-left {
 
     transform: translateX(120px);
 
 }
 
-.gallery-row.show{
+.gallery-row.show {
 
     opacity: 1;
     transform: translateX(0);
@@ -184,46 +185,42 @@ section {
 =========================================== */
 
 .gallery-row::before,
-.gallery-row::after{
+.gallery-row::after {
 
-    content:"";
+    content: "";
 
-    position:absolute;
+    position: absolute;
 
-    top:0;
+    top: 0;
 
-    width:120px;
-    height:100%;
+    width: 120px;
+    height: 100%;
 
-    z-index:5;
+    z-index: 5;
 
-    pointer-events:none;
-
-}
-
-.gallery-row::before{
-
-    left:0;
-
-    background:
-    linear-gradient(
-        to right,
-        #FAF7F5,
-        transparent
-    );
+    pointer-events: none;
 
 }
 
-.gallery-row::after{
+.gallery-row::before {
 
-    right:0;
+    left: 0;
 
     background:
-    linear-gradient(
-        to left,
-        #FAF7F5,
-        transparent
-    );
+        linear-gradient(to right,
+            #FAF7F5,
+            transparent);
+
+}
+
+.gallery-row::after {
+
+    right: 0;
+
+    background:
+        linear-gradient(to left,
+            #FAF7F5,
+            transparent);
 
 }
 
@@ -231,27 +228,27 @@ section {
                 GALLERY SLIDER
 =========================================== */
 
-.gallery-slider{
+.gallery-slider {
 
-    display:flex;
+    display: flex;
 
-    width:max-content;
+    width: max-content;
 
 }
 
-.gallery-track{
+.gallery-track {
 
-    display:flex;
+    display: flex;
 
-    align-items:center;
+    align-items: center;
 
-    gap:20px;
+    gap: 20px;
 
-    flex-shrink:0;
+    flex-shrink: 0;
 
-    flex-wrap:nowrap;
+    flex-wrap: nowrap;
 
-    padding-right:20px;
+    padding-right: 20px;
 
 }
 
@@ -259,25 +256,24 @@ section {
                 GALLERY CARDS
 =========================================== */
 
-.gallery-card{
+.gallery-card {
 
-    --offsetY:0px;
-    --rotation:0deg;
+    --offsetY: 0px;
+    --rotation: 0deg;
 
-    width:220px;
-    height:300px;
+    width: 220px;
+    height: 300px;
 
-    flex-shrink:0;
+    flex-shrink: 0;
 
-    overflow:hidden;
+    overflow: hidden;
 
-    border-radius:28px;
+    border-radius: 28px;
 
-    background:#fff;
+    background: #fff;
 
     transform:
-        translateY(var(--offsetY))
-        rotate(var(--rotation));
+        translateY(var(--offsetY)) rotate(var(--rotation));
 
     transition:
         transform .35s ease,
@@ -285,16 +281,16 @@ section {
 
 }
 
-.gallery-card img{
+.gallery-card img {
 
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
 
-    display:block;
+    display: block;
 
-    object-fit:cover;
+    object-fit: cover;
 
-    transition:.5s;
+    transition: .5s;
 
 }
 
@@ -302,45 +298,45 @@ section {
             FLOATING PATTERN
 =========================================== */
 
-.gallery-track .gallery-card:nth-child(1){
+.gallery-track .gallery-card:nth-child(1) {
 
-    --offsetY:0px;
-    --rotation:-2deg;
-
-}
-
-.gallery-track .gallery-card:nth-child(2){
-
-    --offsetY:18px;
-    --rotation:1.5deg;
+    --offsetY: 0px;
+    --rotation: -2deg;
 
 }
 
-.gallery-track .gallery-card:nth-child(3){
+.gallery-track .gallery-card:nth-child(2) {
 
-    --offsetY:-12px;
-    --rotation:-1deg;
-
-}
-
-.gallery-track .gallery-card:nth-child(4){
-
-    --offsetY:10px;
-    --rotation:2deg;
+    --offsetY: 18px;
+    --rotation: 1.5deg;
 
 }
 
-.gallery-track .gallery-card:nth-child(5){
+.gallery-track .gallery-card:nth-child(3) {
 
-    --offsetY:-18px;
-    --rotation:-1.5deg;
+    --offsetY: -12px;
+    --rotation: -1deg;
 
 }
 
-.gallery-track .gallery-card:nth-child(6){
+.gallery-track .gallery-card:nth-child(4) {
 
-    --offsetY:6px;
-    --rotation:1deg;
+    --offsetY: 10px;
+    --rotation: 2deg;
+
+}
+
+.gallery-track .gallery-card:nth-child(5) {
+
+    --offsetY: -18px;
+    --rotation: -1.5deg;
+
+}
+
+.gallery-track .gallery-card:nth-child(6) {
+
+    --offsetY: 6px;
+    --rotation: 1deg;
 
 }
 
@@ -348,17 +344,17 @@ section {
                 CARD SHADOWS
 =========================================== */
 
-.gallery-track .gallery-card:nth-child(odd){
+.gallery-track .gallery-card:nth-child(odd) {
 
     box-shadow:
-        0 12px 28px rgba(0,0,0,.08);
+        0 12px 28px rgba(0, 0, 0, .08);
 
 }
 
-.gallery-track .gallery-card:nth-child(even){
+.gallery-track .gallery-card:nth-child(even) {
 
     box-shadow:
-        0 20px 45px rgba(0,0,0,.12);
+        0 20px 45px rgba(0, 0, 0, .12);
 
 }
 
@@ -366,20 +362,18 @@ section {
                 CARD HOVER
 =========================================== */
 
-.gallery-card:hover{
+.gallery-card:hover {
 
     transform:
-        translateY(calc(var(--offsetY) - 10px))
-        rotate(0deg)
-        scale(1.04);
+        translateY(calc(var(--offsetY) - 10px)) rotate(0deg) scale(1.04);
 
-    z-index:10;
+    z-index: 10;
 
 }
 
-.gallery-card:hover img{
+.gallery-card:hover img {
 
-    transform:scale(1.08);
+    transform: scale(1.08);
 
 }
 
@@ -387,32 +381,32 @@ section {
                 GALLERY BUTTON
 =========================================== */
 
-.instagram-btn{
+.instagram-btn {
 
-    display:block;
+    display: block;
 
-    width:max-content;
+    width: max-content;
 
-    margin:80px auto 0;
+    margin: 80px auto 0;
 
-    padding:18px 40px;
+    padding: 18px 40px;
 
-    border:2px solid #F59CB0;
-    border-radius:999px;
+    border: 2px solid #F59CB0;
+    border-radius: 999px;
 
-    text-decoration:none;
+    text-decoration: none;
 
-    color:#443835;
-    font-weight:600;
+    color: #443835;
+    font-weight: 600;
 
-    transition:.3s;
+    transition: .3s;
 
 }
 
-.instagram-btn:hover{
+.instagram-btn:hover {
 
-    background:#F59CB0;
-    color:white;
+    background: #F59CB0;
+    color: white;
 
 }
 
@@ -420,21 +414,21 @@ section {
             GALLERY SPEED MODIFIERS
 =========================================== */
 
-.gallery-row--fast .gallery-slider{
+.gallery-row--fast .gallery-slider {
 
     animation:
         scrollRight 22s linear infinite;
 
 }
 
-.gallery-row--medium .gallery-slider{
+.gallery-row--medium .gallery-slider {
 
     animation:
         scrollRight 24s linear infinite;
 
 }
 
-.gallery-row--slow .gallery-slider{
+.gallery-row--slow .gallery-slider {
 
     animation:
         scrollLeft 27s linear infinite;
@@ -445,33 +439,33 @@ section {
                 KEYFRAMES
 =========================================== */
 
-@keyframes scrollLeft{
+@keyframes scrollLeft {
 
-    from{
+    from {
 
-        transform:translateX(0);
+        transform: translateX(0);
 
     }
 
-    to{
+    to {
 
-        transform:translateX(-50%);
+        transform: translateX(-50%);
 
     }
 
 }
 
-@keyframes scrollRight{
+@keyframes scrollRight {
 
-    from{
+    from {
 
-        transform:translateX(-50%);
+        transform: translateX(-50%);
 
     }
 
-    to{
+    to {
 
-        transform:translateX(0);
+        transform: translateX(0);
 
     }
 
@@ -481,8 +475,281 @@ section {
             PAUSE ON IMAGE HOVER
 =========================================== */
 
-.gallery-row:has(.gallery-card:hover) .gallery-slider{
+.gallery-row:has(.gallery-card:hover) .gallery-slider {
 
     animation-play-state: paused;
+
+}
+
+
+/* ===================================================
+   SHOP HERO
+=================================================== */
+
+.shop-hero {
+
+    padding: 160px 0 100px;
+
+    background: linear-gradient(180deg,
+            #fffaf8 0%,
+            #fff4f6 50%,
+            #fffaf8 100%);
+
+}
+
+.shop-hero-content {
+
+    max-width: 700px;
+
+    margin: 0 auto;
+
+    text-align: center;
+
+}
+
+.shop-hero h1 {
+
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+
+    font-weight: 700;
+
+    line-height: 1.1;
+
+    color: var(--dark);
+
+    margin-bottom: 25px;
+
+}
+
+.shop-hero h1 span {
+
+    color: var(--primary);
+
+}
+
+.shop-hero p {
+
+    max-width: 620px;
+
+    margin: 0 auto;
+
+    font-size: 1.1rem;
+
+    line-height: 1.9;
+
+    color: #666;
+
+}
+
+/* ===================================================
+   SHOP FILTER
+=================================================== */
+
+.shop-filter {
+
+    padding: 40px 0 35px;
+
+}
+
+.filter-wrapper {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 1rem;
+
+    flex-wrap: wrap;
+
+}
+
+/* ==========================================
+   SHOP FILTER
+========================================== */
+
+.filter-bar {
+
+    background: var(--color-white);
+
+    border-radius: var(--radius-xl);
+
+    padding: 2rem;
+
+    box-shadow: var(--shadow-md);
+
+}
+
+.filter-top {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    margin-bottom: 2rem;
+
+}
+
+/* ===================================================
+   PRODUCT GRID
+=================================================== */
+
+.product-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(320px, 360px));
+
+    justify-content: center;
+
+    align-items: start;
+
+    gap: 32px;
+
+}
+
+/* ===================================================
+   PRODUCT CARD
+=================================================== */
+
+.product-card {
+    max-width: 360px;
+
+    margin: 0 auto;
+
+    background: #fff;
+
+    border-radius: var(--card-radius);
+
+    overflow: hidden;
+
+    box-shadow: var(--card-shadow);
+    transition:
+
+        opacity .35s ease,
+
+        transform .35s ease;
+
+}
+
+/* ===================================================
+   PRODUCT IMAGE
+=================================================== */
+
+.product-image {
+
+    position: relative;
+
+    aspect-ratio: 4/5;
+
+    background: var(--product-image-bg);
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 0px;
+    overflow: hidden;
+
+}
+
+.product-image img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    border-radius: 20px;
+    display: block;
+
+    transition: transform .45s ease;
+    border-radius: 24px 24px 0 0;
+
+}
+
+/* ===================================================
+   PRODUCT CONTENT
+=================================================== */
+
+.product-content {
+
+    padding: 28px;
+
+}
+
+.product-content h3 {
+
+    margin: 16px 0 12px;
+
+    font-size: 1.35rem;
+
+    color: var(--dark);
+
+}
+
+.product-content p {
+
+    color: #666;
+
+    line-height: 1.7;
+
+    margin-bottom: 24px;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 2;
+
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+
+    min-height: 3.4em;
+
+}
+
+.product-footer {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+}
+
+.product-price {
+
+    font-size: 1.4rem;
+
+    font-weight: 700;
+
+    color: var(--dark);
+
+}
+
+.product-info {
+
+    margin-bottom: 1.5rem;
+
+}
+
+.product-count {
+
+    color: var(--color-text-light);
+
+    font-size: 0.95rem;
+
+    font-weight: 500;
+
+}
+
+.hidden {
+
+    display: none !important;
 
 }

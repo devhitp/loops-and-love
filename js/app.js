@@ -60,24 +60,81 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ==========================================
-   MOBILE MENU TOGGLE
+   MOBILE MENU
 ========================================== */
-const menuBtn = document.querySelector('.menu-btn');
-const navLinks = document.querySelector('.nav-links');
 
-if (menuBtn) {
-    menuBtn.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        const icon = menuBtn.querySelector('i');
-        if (navLinks.classList.contains('active')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-xmark');
-        } else {
-            icon.classList.remove('fa-xmark');
-            icon.classList.add('fa-bars');
-        }
-    });
+const menuBtn = document.querySelector(".menu-btn");
+const mobileMenu = document.querySelector(".mobile-menu");
+const menuOverlay = document.querySelector(".menu-overlay");
+
+function openMenu() {
+
+    mobileMenu.classList.add("active");
+
+    menuOverlay.classList.add("active");
+
+    document.body.classList.add("menu-open");
+
+    menuBtn.querySelector("i").classList.replace("fa-bars", "fa-xmark");
+
 }
+
+function closeMenu() {
+
+    mobileMenu.classList.remove("active");
+
+    menuOverlay.classList.remove("active");
+
+    document.body.classList.remove("menu-open");
+
+    menuBtn.querySelector("i").classList.replace("fa-xmark", "fa-bars");
+
+}
+
+menuBtn.addEventListener("click", () => {
+
+    if (mobileMenu.classList.contains("active")) {
+
+        closeMenu();
+
+    } else {
+
+        openMenu();
+
+    }
+
+});
+
+menuOverlay.addEventListener("click", closeMenu);
+
+document.querySelectorAll(".mobile-menu a").forEach(link => {
+
+    link.addEventListener("click", closeMenu);
+
+});
+
+window.addEventListener("resize", () => {
+
+    if (window.innerWidth > 767) {
+
+        closeMenu();
+
+    }
+
+});
+
+document.addEventListener("keydown", e => {
+
+    if (e.key === "Escape") {
+
+        closeMenu();
+
+    }
+
+});
+
+
+
 const header = document.querySelector(".header");
 
 window.addEventListener("scroll", () => {
@@ -191,7 +248,7 @@ const galleryObserver = new IntersectionObserver((entries) => {
 
     entries.forEach(entry => {
 
-        if(entry.isIntersecting){
+        if (entry.isIntersecting) {
 
             entry.target.classList.add("show");
 
@@ -199,8 +256,8 @@ const galleryObserver = new IntersectionObserver((entries) => {
 
     });
 
-},{
-    threshold:0.2
+}, {
+    threshold: 0.2
 });
 
 galleryRows.forEach(row => {
