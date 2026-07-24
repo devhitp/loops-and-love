@@ -11,7 +11,20 @@ const cart =
 const checkoutItems =
     document.querySelector("#checkout-items");
 
+const customerName =
+    document.querySelector("#customer-name");
 
+const customerPhone =
+    document.querySelector("#customer-phone");
+
+const customerAddress =
+    document.querySelector("#customer-address");
+
+const customerCity =
+    document.querySelector("#customer-city");
+
+const customerPincode =
+    document.querySelector("#customer-pincode");
 const subtotalElement =
     document.querySelector("#checkout-subtotal");
 
@@ -329,7 +342,63 @@ pincodeInput.addEventListener("input", () => {
         pincodeInput.value.replace(/\D/g, "");
 
 });
+function saveCustomerDetails(){
 
+    const customerDetails = {
+
+        name: customerName.value.trim(),
+
+        phone: customerPhone.value.trim(),
+
+        address: customerAddress.value.trim(),
+
+        city: customerCity.value.trim(),
+
+        pincode: customerPincode.value.trim()
+
+    };
+
+
+    localStorage.setItem(
+
+        "customerDetails",
+
+        JSON.stringify(customerDetails)
+
+    );
+
+}
+function loadCustomerDetails(){
+
+    const savedDetails =
+        JSON.parse(
+            localStorage.getItem("customerDetails")
+        );
+
+
+    if(!savedDetails) return;
+
+
+    customerName.value =
+        savedDetails.name || "";
+
+
+    customerPhone.value =
+        savedDetails.phone || "";
+
+
+    customerAddress.value =
+        savedDetails.address || "";
+
+
+    customerCity.value =
+        savedDetails.city || "";
+
+
+    customerPincode.value =
+        savedDetails.pincode || "";
+
+}
 
 
 placeOrderButton.addEventListener("click",function(e){
@@ -355,17 +424,22 @@ placeOrderButton.addEventListener("click",function(e){
     const orderId =
         "LL"+Date.now();
 
-    localStorage.setItem(
+    saveCustomerDetails();
 
-        "orderId",
 
-        orderId
+localStorage.setItem(
 
-    );
+    "orderId",
 
-    localStorage.removeItem("cart");
+    orderId
+
+);
+
+
+localStorage.removeItem("cart");
 
     window.location.href =
         "order-success.html";
 
 });
+loadCustomerDetails();
