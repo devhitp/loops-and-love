@@ -224,3 +224,39 @@ if(recentOrders){
 
 
 }
+// ==========================================
+// DASHBOARD ANALYTICS
+// ==========================================
+
+function loadDashboardStats() {
+
+    const products =
+        JSON.parse(localStorage.getItem("products")) || [];
+
+    const orders =
+        JSON.parse(localStorage.getItem("orders")) || [];
+
+    const customers =
+        JSON.parse(localStorage.getItem("customers")) || [];
+
+    const revenue =
+        orders.reduce(
+            (total, order) => total + order.total,
+            0
+        );
+
+    document.querySelector("#product-count").textContent =
+        products.length;
+
+    document.querySelector("#order-count").textContent =
+        orders.length;
+
+    document.querySelector("#customer-count").textContent =
+        customers.length;
+
+    document.querySelector("#revenue-count").textContent =
+        `₹${revenue}`;
+
+}
+
+loadDashboardStats();

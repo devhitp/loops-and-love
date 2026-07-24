@@ -455,6 +455,86 @@ placeOrderButton.addEventListener("click", function (e) {
 
         );
 
+        // ==========================================
+// SAVE CUSTOMER DATA
+// ==========================================
+
+
+let customers =
+JSON.parse(
+    localStorage.getItem("customers")
+) || [];
+
+
+
+const existingCustomer =
+customers.find(
+    customer =>
+    customer.phone === customerDetails.phone
+);
+
+
+
+
+
+if(existingCustomer){
+
+
+    existingCustomer.orders += 1;
+
+
+    existingCustomer.spent += subtotal;
+
+
+
+}
+else{
+
+
+    customers.push({
+
+        name:
+        customerDetails.name,
+
+
+        phone:
+        customerDetails.phone,
+
+
+        address:
+        customerDetails.address,
+
+
+        city:
+        customerDetails.city,
+
+
+        pincode:
+        customerDetails.pincode,
+
+
+        orders:1,
+
+
+        spent:subtotal
+
+
+    });
+
+
+}
+
+
+
+
+localStorage.setItem(
+
+    "customers",
+
+    JSON.stringify(customers)
+
+);
+
 
 
         localStorage.setItem(
