@@ -5,11 +5,13 @@
 const productGrid = document.querySelector(".product-grid");
 const filterButtons = document.querySelectorAll(".filter-btn");
 const searchInput = document.querySelector(".search-input");
+const suggestionsBox = document.getElementById("search-suggestions");
 const sortSelect = document.querySelector(".sort-select");
 const productCount = document.querySelector(".product-count");
 const loadMoreBtn = document.querySelector(".load-more-btn");
 const wishlistCount = document.querySelector(".wishlist-count");
 const cartCount = document.querySelector(".cart-count");
+
 
 // ===========================================
 // APP STATE
@@ -61,6 +63,7 @@ function createProductCard(product) {
                         ${product.badge}
 
                     </span>
+
 
                 </div>
 
@@ -405,7 +408,177 @@ searchInput.addEventListener("input", () => {
 
     updateProducts();
 
+    renderSuggestions();
+
 });
+// ===========================================
+// SEARCH SUGGESTIONS
+// ===========================================
+
+function renderSuggestions() {
+
+    const value =
+        searchInput.value.trim().toLowerCase();
+
+    suggestionsBox.innerHTML = "";
+
+    if (value === "") {
+
+        suggestionsBox.classList.remove("show");
+
+        return;
+
+    }
+
+    const matches =
+        products
+            .filter(product =>
+                product.name
+                    .toLowerCase()
+                    .includes(value)
+            )
+            .slice(0, 5);
+
+    if (matches.length === 0) {
+
+        suggestionsBox.innerHTML = `
+
+        <div class="search-empty">
+
+            <span>😔</span>
+
+            <p>No products found.</p>
+
+        </div>
+
+    `;
+
+        suggestionsBox.classList.add("show");
+
+        return;
+
+    }
+
+    matches.forEach(product => {
+
+        const highlightedName =
+            product.name.replace(
+                new RegExp(`(${value})`, "gi"),
+                "<strong>$1</strong>"
+            );
+
+        suggestionsBox.innerHTML += `
+
+    <div
+        class="search-item"
+        data-id="${product.id}"
+    >
+
+        <img
+            src="${product.image}"
+            alt="${product.name}"
+        >
+
+        <div class="search-info">
+
+            <h4>${highlightedName}</h4>
+
+            <small>${product.category}</small>
+
+            <span>₹${product.price}</span>
+
+        </div>
+
+    </div>
+
+    `;
+
+    });
+
+    suggestionsBox.classList.add("show");
+
+}
+
+suggestionsBox.addEventListener("click", (event) => {
+
+    const item =
+        event.target.closest(".search-item");
+
+    if (!item) return;
+
+    window.location.href =
+        `product.html?id=${item.dataset.id}`;
+
+});
+
+document.addEventListener("click", (event) => {
+
+    if (
+        !event.target.closest(".search-wrapper")
+    ) {
+
+        suggestionsBox.classList.remove("show");
+
+    }
+
+});
+
+
+document.addEventListener("click",(event)=>{
+
+    const cartButton =
+    event.target.closest(".quick-cart-btn");
+
+    if(!cartButton) return;
+
+    const id =
+    Number(cartButton.dataset.id);
+
+    let cart =
+    JSON.parse(localStorage.getItem("cart")) || [];
+
+    const existing =
+    cart.find(item => item.id === id);
+
+    if(existing){
+
+        existing.quantity++;
+
+    }else{
+
+        cart.push({
+
+            id:id,
+
+            quantity:1
+
+        });
+
+    }
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+    updateCartCount();
+
+    const product =
+    products.find(item => item.id === id);
+
+    showToast(
+        "Added to Cart",
+        `${product.name} added successfully.`,
+        "success"
+    );
+
+});
+
+
+
+
+
+
 // ===========================================
 // SORT
 // ===========================================

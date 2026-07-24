@@ -13,6 +13,18 @@
     <link rel="stylesheet" href="css/components.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/responsive.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <!-- ==========================================
+        FONT AWESOME
+========================================== -->
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
   </head>
 
   <body>
@@ -114,74 +126,144 @@
     </header>
 
     <main class="checkout-page">
-      <div class="container">
-        <h1>Checkout</h1>
+      <section class="page-hero">
+        <div class="container">
+          <div class="breadcrumb">
+            <a href="index.html">Home</a>
 
-        <div class="checkout-layout">
-          <!-- CUSTOMER DETAILS -->
+            <span>/</span>
 
-          <section class="checkout-form">
-            <h2>Delivery Details</h2>
+            <a href="cart.html">Cart</a>
 
-            <form>
-              <label> Full Name </label>
+            <span>/</span>
 
-              <input type="text" placeholder="Enter your name" />
+            <span>Checkout</span>
+          </div>
 
-              <label> Phone Number </label>
+          <h1>Checkout</h1>
 
-              <input type="tel" placeholder="Enter phone number" />
-
-              <label> Address </label>
-
-              <textarea placeholder="House no, Street, Area"></textarea>
-
-              <label> City </label>
-
-              <input type="text" placeholder="City" />
-
-              <label> Pincode </label>
-
-              <input type="text" placeholder="Pincode" />
-            </form>
-          </section>
-
-          <!-- ORDER SUMMARY -->
-
-          <section class="checkout-summary">
-            <h2>Your Order</h2>
-
-            <div id="checkout-items"></div>
-
-            <div class="summary-row">
-              <span> Subtotal </span>
-
-              <span id="checkout-subtotal"> ₹0 </span>
-            </div>
-
-            <div class="summary-row">
-              <span> Shipping </span>
-
-              <span> FREE </span>
-            </div>
-
-            <hr />
-
-            <div class="summary-row total-row">
-              <span> Total </span>
-
-              <span id="checkout-total"> ₹0 </span>
-            </div>
-
-            <button class="btn btn-primary place-order-btn">Place Order</button>
-          </section>
+          <p>Just one step away from bringing your handmade favorites home.</p>
         </div>
-      </div>
+      </section>
+
+      <section class="checkout-content">
+        <div class="container">
+          <div class="checkout-layout">
+            <!-- CUSTOMER DETAILS -->
+
+            <section class="checkout-form">
+              <h2>Delivery Details</h2>
+
+              <form id="checkout-form">
+                <div class="form-group">
+                  <label for="customer-name">Full Name</label>
+
+                  <input
+                    id="customer-name"
+                    type="text"
+                    autocomplete="name"
+                    placeholder="Enter your name"
+                  />
+                  
+
+                  <small class="error-message"></small>
+                </div>
+
+                <div class="form-group">
+                  <label for="customer-phone">Phone Number</label>
+
+                  <input
+                    id="customer-phone"
+                    type="tel"
+                    inputmode="numeric"
+                    maxlength="10"
+                    autocomplete="tel"
+                    placeholder="Enter phone number"
+                  />
+
+                  <small class="error-message"></small>
+                </div>
+
+                <div class="form-group">
+                  <label for="customer-address">Address</label>
+
+                  <textarea
+                    id="customer-address"
+                    placeholder="House no, Street, Area"
+                  ></textarea>
+
+                  <small class="error-message"></small>
+                </div>
+
+                <div class="form-group">
+                  <label for="customer-city">City</label>
+
+                  <input id="customer-city" type="text" placeholder="City" />
+
+                  <small class="error-message"></small>
+                </div>
+
+                <div class="form-group">
+                  <label for="customer-pincode">Pincode</label>
+
+                  <input
+                    id="customer-pincode"
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="6"
+                    autocomplete="postal-code"
+                    placeholder="Pincode"
+                  />
+                  
+
+                  <small class="error-message"></small>
+                </div>
+              </form>
+            </section>
+
+            <!-- ORDER SUMMARY -->
+
+            <section class="checkout-summary">
+              <h2>Your Order</h2>
+
+              <div id="checkout-items"></div>
+
+              <div class="summary-row">
+                <span> Subtotal </span>
+
+                <span id="checkout-subtotal"> ₹0 </span>
+              </div>
+
+              <div class="summary-row">
+                <span> Shipping </span>
+
+                <span> FREE </span>
+              </div>
+
+              <hr />
+
+              <div class="summary-row total-row">
+                <span> Total </span>
+
+                <span id="checkout-total"> ₹0 </span>
+              </div>
+
+              <button class="btn btn-primary place-order-btn">
+                Place Order
+              </button>
+            </section>
+          </div>
+        </div>
+      </section>
     </main>
     <button id="scroll-top-btn" class="scroll-top-btn">↑</button>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/products.js"></script>
+    <script src="js/app.js"></script>
     <script src="js/main.js"></script>
     <script src="js/checkout.js"></script>
+    <script>
+      lucide.createIcons();
+    </script>
   </body>
 </html>

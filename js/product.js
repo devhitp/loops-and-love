@@ -13,6 +13,31 @@ const productId = Number(urlParams.get("id"));
 const product = products.find(item => item.id === productId);
 
 // ===========================================
+// RECENTLY VIEWED PRODUCTS
+// ===========================================
+
+let recentlyViewed =
+    JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+
+// Remove the current product if it already exists
+recentlyViewed =
+    recentlyViewed.filter(id => id !== product.id);
+
+// Add the current product to the beginning
+recentlyViewed.unshift(product.id);
+
+// Keep only the latest 6 products
+recentlyViewed =
+    recentlyViewed.slice(0, 6);
+
+localStorage.setItem(
+    "recentlyViewed",
+    JSON.stringify(recentlyViewed)
+);
+
+
+
+// ===========================================
 // INVALID PRODUCT CHECK
 // ===========================================
 
@@ -43,11 +68,11 @@ if (!product) {
 // ===========================================
 
 const productContainer = document.querySelector("#product-container");
-console.log("Product JS Loaded");
+// console.log("Product JS Loaded");
 
-console.log(product);
+// console.log(product);
 
-console.log(productContainer);
+// console.log(productContainer);
 const breadcrumbProduct =
     document.querySelector("#breadcrumb-product");
 
@@ -72,30 +97,31 @@ productContainer.innerHTML = `
 
     <div class="product-details-content">
 
-        <span class="product-category">
+        <h1 class="product-title">
 
-            ${product.category}
+    ${product.name}
 
-        </span>
+</h1>
 
-        <h1>
+<div class="product-rating">
 
-            ${product.name}
+    ⭐⭐⭐⭐⭐
 
-        </h1>
+    <span>(24 Reviews)</span>
 
-        <div class="product-rating">
+</div>
 
-            ⭐⭐⭐⭐⭐
-            <span>(24 Reviews)</span>
+<div class="product-price">
 
-        </div>
+    ₹${product.price}
 
-        <span class="product-price">
+</div>
 
-            ₹${product.price}
+<span class="product-category">
 
-        </span>
+    ${product.category}
+
+</span>
 
         <p class="product-description">
 
@@ -105,45 +131,135 @@ productContainer.innerHTML = `
 
         <div class="product-highlights">
 
-            <div>✅ Handmade with Love</div>
+    <div class="highlight-card">
 
-            <div>🌿 Eco-Friendly Materials</div>
+        <span class="highlight-icon">🧶</span>
 
-            <div>📦 Ready to Ship</div>
+        <div>
+
+            <h4>Handmade</h4>
+
+            <p>Crafted with love</p>
+
+        </div>
+
+    </div>
+
+    <div class="highlight-card">
+
+        <span class="highlight-icon">🌿</span>
+
+        <div>
+
+            <h4>Eco Friendly</h4>
+
+            <p>Premium yarn materials</p>
 
         </div>
 
-        <div class="quantity-selector">
+    </div>
 
-            <button>-</button>
+    <div class="highlight-card">
 
-            <span>1</span>
+        <span class="highlight-icon">📦</span>
 
-            <button>+</button>
+        <div>
+
+            <h4>Ready to Ship</h4>
+
+            <p>Quick dispatch</p>
 
         </div>
+
+    </div>
+
+</div>
+
+        <div class="quantity-wrapper">
+
+    <label class="quantity-label">
+
+        Quantity
+
+    </label>
+
+    <div class="quantity-selector">
+
+        <button
+            class="quantity-btn quantity-minus"
+        >
+
+            <i class="fa-solid fa-minus"></i>
+
+        </button>
+
+        <span class="quantity-value">
+
+            1
+
+        </span>
+
+        <button
+            class="quantity-btn quantity-plus"
+        >
+
+            <i class="fa-solid fa-plus"></i>
+
+        </button>
+
+    </div>
+
+</div>
 
         <div class="product-actions">
 
             <button
-                class="add-cart-btn"
-                data-id="${product.id}"
-            >
+    class="add-cart-btn"
+    data-id="${product.id}"
+>
 
-                Add to Cart
+    <i class="fa-solid fa-bag-shopping"></i>
 
-            </button>
+    <span>Add to Cart</span>
 
-            <button
-                class="product-wishlist-btn"
-                data-id="${product.id}"
-            >
+</button>
 
-                ❤️ Wishlist
+<button
+    class="product-wishlist-btn"
+    data-id="${product.id}"
+>
 
-            </button>
+    <i class="fa-regular fa-heart"></i>
+
+    <span>Wishlist</span>
+
+</button>
 
         </div>
+
+    </div>
+
+</section>
+<section class="recently-viewed">
+
+    <h2>Recently Viewed</h2>
+
+    <div
+        class="recent-grid"
+        id="recent-grid"
+    >
+
+    </div>
+
+</section>
+<section class="related-products">
+
+    <h2>You May Also Like</h2>
+
+    <div
+        class="related-grid"
+        id="related-grid"
+    >
 
     </div>
 
@@ -153,14 +269,118 @@ productContainer.innerHTML = `
 lucide.createIcons();
 
 // ===========================================
+// RENDER RECENTLY VIEWED
+// ===========================================
+
+const recentGrid =
+    document.getElementById("recent-grid");
+
+const recentSection =
+    document.querySelector(".recently-viewed");
+
+const recentProducts =
+    recentlyViewed
+        .filter(id => id !== product.id)
+        .map(id => products.find(p => p.id === id))
+        .filter(Boolean);
+
+if (recentProducts.length === 0) {
+
+    recentSection.style.display = "none";
+
+} else {
+
+    recentProducts.forEach(item => {
+
+        recentGrid.innerHTML += `
+
+        <a
+            href="product.html?id=${item.id}"
+            class="recent-card"
+        >
+
+            <img
+                src="${item.image}"
+                alt="${item.name}"
+            >
+
+            <h4>${item.name}</h4>
+
+            <span>₹${item.price}</span>
+
+        </a>
+
+        `;
+
+    });
+
+}
+
+// ===========================================
+// RELATED PRODUCTS
+// ===========================================
+
+const relatedGrid =
+    document.getElementById("related-grid");
+
+const relatedSection =
+    document.querySelector(".related-products");
+
+const relatedProducts =
+    products
+        .filter(item =>
+            item.category === product.category &&
+            item.id !== product.id
+        )
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 4);
+
+if (relatedProducts.length === 0) {
+
+    relatedSection.style.display = "none";
+
+} else {
+
+    relatedProducts.forEach(item => {
+
+        relatedGrid.innerHTML += `
+
+        <a
+            href="product.html?id=${item.id}"
+            class="recent-card"
+        >
+
+            <img
+                src="${item.image}"
+                alt="${item.name}"
+            >
+
+            <h4>${item.name}</h4>
+
+            <span>₹${item.price}</span>
+
+        </a>
+
+        `;
+
+    });
+
+}
+
+// ===========================================
 // QUANTITY SELECTOR
 // ===========================================
 
 let quantity = 1;
 
-const minusBtn = document.querySelector(".quantity-selector button:first-child");
-const plusBtn = document.querySelector(".quantity-selector button:last-child");
-const quantityText = document.querySelector(".quantity-selector span");
+const minusBtn =
+    document.querySelector(".quantity-minus");
+
+const plusBtn =
+    document.querySelector(".quantity-plus");
+
+const quantityText =
+    document.querySelector(".quantity-value");
 
 minusBtn.addEventListener("click", () => {
 
@@ -190,28 +410,27 @@ const addCartBtn = document.querySelector(".add-cart-btn");
 addCartBtn.addEventListener("click", () => {
 
     addCartBtn.classList.add("btn-loading");
-
-    addCartBtn.textContent = "Adding...";
+addCartBtn.disabled = true;
 
     setTimeout(() => {
 
         let cart =
-        JSON.parse(localStorage.getItem("cart")) || [];
+            JSON.parse(localStorage.getItem("cart")) || [];
 
         const existingItem =
-        cart.find(item => item.id === product.id);
+            cart.find(item => item.id === product.id);
 
-        if(existingItem){
+        if (existingItem) {
 
             existingItem.quantity += quantity;
 
-        }else{
+        } else {
 
             cart.push({
 
-                id:product.id,
+                id: product.id,
 
-                quantity:quantity
+                quantity: quantity
 
             });
 
@@ -232,9 +451,8 @@ addCartBtn.addEventListener("click", () => {
 
         addCartBtn.classList.remove("btn-loading");
 
-        addCartBtn.textContent = "Add to Cart";
-
-    },500);
+addCartBtn.disabled = false;
+    }, 500);
 
 });
 
@@ -243,11 +461,9 @@ addCartBtn.addEventListener("click", () => {
 // WISHLIST
 // ===========================================
 
-const wishlistBtn =
-    document.querySelector(".product-wishlist-btn");
+const wishlistBtn = document.querySelector(".product-wishlist-btn");
 
-let wishlist =
-    JSON.parse(localStorage.getItem("wishlist")) || [];
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 
 updateWishlistButton();
 

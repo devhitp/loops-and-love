@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="css/components.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/responsive.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
   </head>
 
   <body>
@@ -114,42 +118,59 @@
     </header>
 
     <main class="cart-page">
-      <div class="container">
-        <h1 class="cart-title">Shopping Cart</h1>
-        <a href="shop.html" class="btn btn-secondary"> ← Continue Shopping </a>
+      <section class="page-hero">
+        <div class="container">
+          <div class="breadcrumb">
+            <a href="index.html">Home</a>
 
-        <div class="cart-layout">
-          <div id="cart-items"></div>
+            <span>/</span>
 
-          <aside class="cart-summary">
-            <h2>Order Summary</h2>
+            <span>Cart</span>
+          </div>
 
-            <div class="summary-row">
-              <span>Subtotal</span>
+          <h1>Shopping Cart</h1>
 
-              <span id="subtotal">₹0</span>
-            </div>
-
-            <div class="summary-row">
-              <span>Shipping</span>
-
-              <span>FREE</span>
-            </div>
-
-            <hr />
-
-            <div class="summary-row total-row">
-              <span>Total</span>
-
-              <span id="total">₹0</span>
-            </div>
-
-            <a href="checkout.html" class="btn btn-primary">
-              Proceed to Checkout
-            </a>
-          </aside>
+          <p>Review your handmade favorites before completing your purchase.</p>
         </div>
-      </div>
+      </section>
+
+      <section class="cart-content">
+        <div class="container">
+          <div class="cart-layout">
+            <div class="cart-main">
+              <div id="cart-items"></div>
+            </div>
+
+            <aside class="cart-summary">
+              <h2>Order Summary</h2>
+
+              <div class="summary-row">
+                <span>Subtotal</span>
+
+                <span id="subtotal">₹0</span>
+              </div>
+
+              <div class="summary-row">
+                <span>Shipping</span>
+
+                <span>FREE</span>
+              </div>
+
+              <hr />
+
+              <div class="summary-row total-row">
+                <span>Total</span>
+
+                <span id="total">₹0</span>
+              </div>
+
+              <a href="checkout.html" id="checkout-btn" class="btn btn-primary">
+                Proceed to Checkout
+              </a>
+            </aside>
+          </div>
+        </div>
+      </section>
     </main>
     <button id="scroll-top-btn" class="scroll-top-btn">↑</button>
     <div id="toast" class="toast success">
@@ -166,6 +187,10 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/main.js"></script>
     <script src="js/products.js"></script>
+    <script src="js/app.js"></script>
     <script src="js/cart.js"></script>
+    <script>
+      lucide.createIcons();
+    </script>
   </body>
 </html>

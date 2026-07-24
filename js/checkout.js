@@ -85,13 +85,275 @@ subtotalElement.textContent =
 totalElement.textContent =
     `₹${subtotal}`;
 
-const placeOrderButton =
-document.querySelector(".place-order-btn");
 
-placeOrderButton.addEventListener("click", () => {
+    
+const placeOrderButton =
+    document.querySelector(".place-order-btn");
+
+const checkoutForm =
+    document.querySelector("#checkout-form");
+
+const form =
+    document.querySelector("#checkout-form");
+
+const nameInput =
+    document.querySelector("#customer-name");
+
+const phoneInput =
+    document.querySelector("#customer-phone");
+
+const addressInput =
+    document.querySelector("#customer-address");
+
+const cityInput =
+    document.querySelector("#customer-city");
+
+const pincodeInput =
+    document.querySelector("#customer-pincode");
+
+function showError(input, message){
+
+    const group =
+        input.parentElement;
+
+    group.classList.remove("success");
+
+    group.classList.add("error");
+
+    group.querySelector(".error-message").textContent =
+        message;
+
+}
+
+function showSuccess(input){
+
+    const group =
+        input.parentElement;
+
+    group.classList.remove("error");
+
+    group.classList.add("success");
+
+    group.querySelector(".error-message").textContent =
+        "";
+
+}
+
+function validateForm(){
+
+    let valid = true;
+
+    if(!/^[A-Za-z ]+$/.test(nameInput.value.trim())){
+
+        showError(nameInput,"Enter a valid name.");
+
+        valid = false;
+
+    }else{
+
+        showSuccess(nameInput);
+
+    }
+
+    if(!/^[6-9]\d{9}$/.test(phoneInput.value.trim())){
+
+        showError(phoneInput,"Enter a valid 10-digit phone number.");
+
+        valid = false;
+
+    }else{
+
+        showSuccess(phoneInput);
+
+    }
+
+    if(addressInput.value.trim().length < 10){
+
+        showError(addressInput,"Address should be at least 10 characters.");
+
+        valid = false;
+
+    }else{
+
+        showSuccess(addressInput);
+
+    }
+
+    if(!/^[A-Za-z ]+$/.test(cityInput.value.trim())){
+
+        showError(cityInput,"Enter a valid city.");
+
+        valid = false;
+
+    }else{
+
+        showSuccess(cityInput);
+
+    }
+
+    if(!/^\d{6}$/.test(pincodeInput.value.trim())){
+
+        showError(pincodeInput,"Enter a valid 6-digit pincode.");
+
+        valid = false;
+
+    }else{
+
+        showSuccess(pincodeInput);
+
+    }
+
+    return valid;
+
+}
+
+
+function validateField(input) {
+
+    switch (input.id) {
+
+        case "customer-name":
+
+            if (!/^[A-Za-z ]+$/.test(input.value.trim())) {
+
+                showError(
+                    input,
+                    "Enter a valid name."
+                );
+
+            } else {
+
+                showSuccess(input);
+
+            }
+
+            break;
+
+        case "customer-phone":
+
+            if (!/^[6-9]\d{9}$/.test(input.value.trim())) {
+
+                showError(
+                    input,
+                    "Enter a valid 10-digit phone number."
+                );
+
+            } else {
+
+                showSuccess(input);
+
+            }
+
+            break;
+
+        case "customer-address":
+
+            if (input.value.trim().length < 10) {
+
+                showError(
+                    input,
+                    "Address should be at least 10 characters."
+                );
+
+            } else {
+
+                showSuccess(input);
+
+            }
+
+            break;
+
+        case "customer-city":
+
+            if (!/^[A-Za-z ]+$/.test(input.value.trim())) {
+
+                showError(
+                    input,
+                    "Enter a valid city."
+                );
+
+            } else {
+
+                showSuccess(input);
+
+            }
+
+            break;
+
+        case "customer-pincode":
+
+            if (!/^\d{6}$/.test(input.value.trim())) {
+
+                showError(
+                    input,
+                    "Enter a valid 6-digit pincode."
+                );
+
+            } else {
+
+                showSuccess(input);
+
+            }
+
+            break;
+
+    }
+
+}
+[
+    nameInput,
+    phoneInput,
+    addressInput,
+    cityInput,
+    pincodeInput
+].forEach(input => {
+
+    input.addEventListener("input", () => {
+
+        validateField(input);
+
+    });
+
+});
+
+phoneInput.addEventListener("input", () => {
+
+    phoneInput.value =
+        phoneInput.value.replace(/\D/g, "");
+
+});
+
+pincodeInput.addEventListener("input", () => {
+
+    pincodeInput.value =
+        pincodeInput.value.replace(/\D/g, "");
+
+});
+
+
+
+placeOrderButton.addEventListener("click",function(e){
+
+    e.preventDefault();
+
+    if(!validateForm()){
+
+        showToast(
+
+            "Invalid Details",
+
+            "Please correct the highlighted fields.",
+
+            "error"
+
+        );
+
+        return;
+
+    }
 
     const orderId =
-    "LL" + Date.now();
+        "LL"+Date.now();
 
     localStorage.setItem(
 
@@ -104,6 +366,6 @@ placeOrderButton.addEventListener("click", () => {
     localStorage.removeItem("cart");
 
     window.location.href =
-    "order-success.html";
+        "order-success.html";
 
 });

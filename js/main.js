@@ -20,7 +20,6 @@ function updateWishlistCount() {
 }
 
 
-
 // ===========================================
 // CART COUNT
 // ===========================================
@@ -184,6 +183,22 @@ if(scrollTopBtn){
 
 }
 
+// ===========================================
+// NAVBAR SEARCH
+// ===========================================
+
+const searchBtn =
+document.querySelector(".search-btn");
+
+if(searchBtn){
+
+    searchBtn.addEventListener("click",()=>{
+
+        window.location.href="shop.html";
+
+    });
+
+}
 // ===========================================
 // INITIALIZE
 // ===========================================

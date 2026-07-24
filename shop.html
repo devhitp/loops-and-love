@@ -164,11 +164,15 @@
               <div class="search-box">
                 <i data-lucide="search"></i>
 
-                <input
-                  type="text"
-                  class="search-input"
-                  placeholder="Search handmade creations..."
-                />
+                <div class="search-wrapper">
+                  <input
+                    class="search-input"
+                    type="text"
+                    placeholder="Search handmade creations..."
+                  />
+
+                  <div class="search-suggestions" id="search-suggestions"></div>
+                </div>
               </div>
 
               <div class="sort-box">
@@ -306,7 +310,9 @@
         </div>
       </div>
     </footer>
+    
     <button id="scroll-top-btn" class="scroll-top-btn">↑</button>
+    
     <div id="toast" class="toast success">
       <div class="toast-icon">✓</div>
 
@@ -317,7 +323,7 @@
       </div>
 
       <div class="toast-progress"></div>
-    </div>
+    </div>    
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/products.js"></script>
