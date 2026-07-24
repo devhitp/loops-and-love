@@ -401,45 +401,65 @@ function loadCustomerDetails(){
 }
 
 
-placeOrderButton.addEventListener("click",function(e){
+placeOrderButton.addEventListener("click", function(e){
 
     e.preventDefault();
+
 
     if(!validateForm()){
 
         showToast(
-
             "Invalid Details",
-
             "Please correct the highlighted fields.",
-
             "error"
-
         );
 
         return;
 
     }
 
-    const orderId =
-        "LL"+Date.now();
+
+    // Loading state
+
+    placeOrderButton.disabled = true;
+
+    placeOrderButton.innerHTML = `
+
+        <i class="fa-solid fa-spinner fa-spin"></i>
+
+        Processing Order...
+
+    `;
+
 
     saveCustomerDetails();
 
 
-localStorage.setItem(
-
-    "orderId",
-
-    orderId
-
-);
+    setTimeout(()=>{
 
 
-localStorage.removeItem("cart");
+        const orderId =
+            "LL" + Date.now();
 
-    window.location.href =
-        "order-success.html";
+
+        localStorage.setItem(
+
+            "orderId",
+
+            orderId
+
+        );
+
+
+        localStorage.removeItem("cart");
+
+
+        window.location.href =
+            "order-success.html";
+
+
+    },1500);
+
 
 });
 loadCustomerDetails();

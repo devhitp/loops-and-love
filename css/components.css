@@ -4042,3 +4042,10 @@ RECENTLY VIEWED
     min-height:18px;
 
 }
+.place-order-btn:disabled{
+
+    opacity:.7;
+
+    cursor:not-allowed;
+
+}
