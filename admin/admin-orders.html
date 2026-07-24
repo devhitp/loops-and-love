@@ -1,0 +1,95 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Orders | Loops & Love Admin</title>
+
+    <link rel="stylesheet" href="css/admin.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="admin-layout">
+      <!-- SIDEBAR -->
+
+      <aside class="admin-sidebar">
+        <h2>🧶 Loops & Love</h2>
+
+        <nav>
+          <a href="admin-dashboard.html"> 📊 Dashboard </a>
+
+          <a href="admin-products.html"> 🧶 Products </a>
+
+          <a href="admin-orders.html" class="active"> 📦 Orders </a>
+
+          <a href="#"> 👥 Customers </a>
+
+          <a href="#"> ⚙ Settings </a>
+        </nav>
+
+        <button id="logout-btn">Logout</button>
+      </aside>
+
+      <!-- MAIN -->
+
+      <main class="admin-main">
+        <header class="admin-topbar">
+          <h1>Orders</h1>
+
+          <p>Manage customer orders</p>
+        </header>
+
+        <section class="product-management">
+          <div class="product-header">
+            <h2>All Orders</h2>
+          </div>
+
+          <div class="orders-table">
+            <div class="table-header">
+              <span> Order ID </span>
+
+              <span> Customer </span>
+
+              <span> Amount </span>
+
+              <span> Status </span>
+
+              <span> Action </span>
+            </div>
+
+            <div class="empty-orders">No orders yet</div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <!-- ==========================================
+ORDER DETAILS MODAL
+========================================== -->
+
+    <div class="order-modal" id="order-modal">
+      <div class="order-modal-content">
+        <button id="close-order-modal" class="close-order-modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <h2>Order Details</h2>
+
+        <div id="order-details">
+          <!-- Order details will be inserted here -->
+        </div>
+      </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+
+    <script src="js/admin-orders.js"></script>
+  </body>
+</html>

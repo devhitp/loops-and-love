@@ -8,7 +8,7 @@
 // PRODUCTS DATABASE
 // ===========================================
 
-const products = [
+const defaultProducts = [
     {
         id: 1,
 
@@ -86,5 +86,24 @@ const products = [
     },
     
 
+
+];
+// ===========================================
+// PRODUCT SOURCE SWITCH
+// ===========================================
+
+
+const adminProducts =
+JSON.parse(
+    localStorage.getItem("products")
+) || [];
+
+
+
+const products = [
+
+    ...defaultProducts,
+
+    ...adminProducts
 
 ];

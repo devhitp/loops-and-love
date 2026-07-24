@@ -1,71 +1,28 @@
 // ===========================================
 // GET CART
 // ===========================================
-
-
-const cart =
-    JSON.parse(localStorage.getItem("cart")) || [];
-
-
-
-const checkoutItems =
-    document.querySelector("#checkout-items");
-
-const customerName =
-    document.querySelector("#customer-name");
-
-const customerPhone =
-    document.querySelector("#customer-phone");
-
-const customerAddress =
-    document.querySelector("#customer-address");
-
-const customerCity =
-    document.querySelector("#customer-city");
-
-const customerPincode =
-    document.querySelector("#customer-pincode");
-const subtotalElement =
-    document.querySelector("#checkout-subtotal");
-
-
-const totalElement =
-    document.querySelector("#checkout-total");
-
-
-
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
+const checkoutItems = document.querySelector("#checkout-items");
+const customerName = document.querySelector("#customer-name");
+const customerPhone = document.querySelector("#customer-phone");
+const customerAddress = document.querySelector("#customer-address");
+const customerCity = document.querySelector("#customer-city");
+const customerPincode = document.querySelector("#customer-pincode");
+const subtotalElement = document.querySelector("#checkout-subtotal");
+const totalElement = document.querySelector("#checkout-total");
 let subtotal = 0;
 
-
-
 cart.forEach(item => {
-
-
     const product =
         products.find(
             p => p.id === item.id
         );
-
-
-
     if (!product) return;
-
-
-
-    subtotal +=
-        product.price * item.quantity;
-
-
-
+    subtotal += product.price * item.quantity;
     checkoutItems.innerHTML += `
-
-
-<div class="checkout-product">
-
-
-<span>
-
-${product.name}
+        <div class="checkout-product">
+            <span>
+                ${product.name}
 
 x${item.quantity}
 
@@ -99,7 +56,7 @@ totalElement.textContent =
     `₹${subtotal}`;
 
 
-    
+
 const placeOrderButton =
     document.querySelector(".place-order-btn");
 
@@ -124,7 +81,7 @@ const cityInput =
 const pincodeInput =
     document.querySelector("#customer-pincode");
 
-function showError(input, message){
+function showError(input, message) {
 
     const group =
         input.parentElement;
@@ -138,7 +95,7 @@ function showError(input, message){
 
 }
 
-function showSuccess(input){
+function showSuccess(input) {
 
     const group =
         input.parentElement;
@@ -152,65 +109,65 @@ function showSuccess(input){
 
 }
 
-function validateForm(){
+function validateForm() {
 
     let valid = true;
 
-    if(!/^[A-Za-z ]+$/.test(nameInput.value.trim())){
+    if (!/^[A-Za-z ]+$/.test(nameInput.value.trim())) {
 
-        showError(nameInput,"Enter a valid name.");
+        showError(nameInput, "Enter a valid name.");
 
         valid = false;
 
-    }else{
+    } else {
 
         showSuccess(nameInput);
 
     }
 
-    if(!/^[6-9]\d{9}$/.test(phoneInput.value.trim())){
+    if (!/^[6-9]\d{9}$/.test(phoneInput.value.trim())) {
 
-        showError(phoneInput,"Enter a valid 10-digit phone number.");
+        showError(phoneInput, "Enter a valid 10-digit phone number.");
 
         valid = false;
 
-    }else{
+    } else {
 
         showSuccess(phoneInput);
 
     }
 
-    if(addressInput.value.trim().length < 10){
+    if (addressInput.value.trim().length < 10) {
 
-        showError(addressInput,"Address should be at least 10 characters.");
+        showError(addressInput, "Address should be at least 10 characters.");
 
         valid = false;
 
-    }else{
+    } else {
 
         showSuccess(addressInput);
 
     }
 
-    if(!/^[A-Za-z ]+$/.test(cityInput.value.trim())){
+    if (!/^[A-Za-z ]+$/.test(cityInput.value.trim())) {
 
-        showError(cityInput,"Enter a valid city.");
+        showError(cityInput, "Enter a valid city.");
 
         valid = false;
 
-    }else{
+    } else {
 
         showSuccess(cityInput);
 
     }
 
-    if(!/^\d{6}$/.test(pincodeInput.value.trim())){
+    if (!/^\d{6}$/.test(pincodeInput.value.trim())) {
 
-        showError(pincodeInput,"Enter a valid 6-digit pincode.");
+        showError(pincodeInput, "Enter a valid 6-digit pincode.");
 
         valid = false;
 
-    }else{
+    } else {
 
         showSuccess(pincodeInput);
 
@@ -342,7 +299,7 @@ pincodeInput.addEventListener("input", () => {
         pincodeInput.value.replace(/\D/g, "");
 
 });
-function saveCustomerDetails(){
+function saveCustomerDetails() {
 
     const customerDetails = {
 
@@ -368,7 +325,7 @@ function saveCustomerDetails(){
     );
 
 }
-function loadCustomerDetails(){
+function loadCustomerDetails() {
 
     const savedDetails =
         JSON.parse(
@@ -376,7 +333,7 @@ function loadCustomerDetails(){
         );
 
 
-    if(!savedDetails) return;
+    if (!savedDetails) return;
 
 
     customerName.value =
@@ -401,12 +358,12 @@ function loadCustomerDetails(){
 }
 
 
-placeOrderButton.addEventListener("click", function(e){
+placeOrderButton.addEventListener("click", function (e) {
 
     e.preventDefault();
 
 
-    if(!validateForm()){
+    if (!validateForm()) {
 
         showToast(
             "Invalid Details",
@@ -435,11 +392,69 @@ placeOrderButton.addEventListener("click", function(e){
     saveCustomerDetails();
 
 
-    setTimeout(()=>{
+    setTimeout(() => {
 
 
         const orderId =
             "LL" + Date.now();
+
+
+
+        const customerDetails =
+            JSON.parse(
+                localStorage.getItem("customerDetails")
+            );
+
+
+
+        const latestOrder = {
+
+            id: orderId,
+
+            items: cart,
+
+            total: subtotal,
+
+            customer: customerDetails,
+
+            status: "Pending",
+
+            date: new Date().toLocaleDateString()
+
+        };
+
+
+
+        localStorage.setItem(
+
+            "latestOrder",
+
+            JSON.stringify(latestOrder)
+
+        );
+
+        // SAVE ORDER HISTORY FOR ADMIN
+
+
+        let orders =
+            JSON.parse(
+                localStorage.getItem("orders")
+            ) || [];
+
+
+
+        orders.push(latestOrder);
+
+
+
+        localStorage.setItem(
+
+            "orders",
+
+            JSON.stringify(orders)
+
+        );
+
 
 
         localStorage.setItem(
@@ -451,14 +466,16 @@ placeOrderButton.addEventListener("click", function(e){
         );
 
 
+
         localStorage.removeItem("cart");
+
 
 
         window.location.href =
             "order-success.html";
 
 
-    },1500);
+    }, 1500);
 
 
 });

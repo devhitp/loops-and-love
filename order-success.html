@@ -1,70 +1,102 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Order Confirmed | Loops & Love</title>
 
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/utilities.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/global.css" />
+    <link rel="stylesheet" href="css/utilities.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+  </head>
 
-</head>
+  <body>
+    <main class="success-page">
+      <section class="page-hero">
+        <div class="container">
+          <div class="breadcrumb">
+            <a href="index.html"> Home </a>
 
-<body>
+            <span>/</span>
 
-<main class="success-page">
+            <span> Order Confirmed </span>
+          </div>
 
-    <div class="success-card">
+          <h1>Order Confirmed</h1>
 
-        <div class="success-icon">
-
-            <i class="fa-solid fa-circle-check"></i>
-
+          <p>Thank you for shopping with Loops & Love.</p>
         </div>
+      </section>
 
-        <h1>
+      <section class="success-content">
+        <div class="container">
+          <div class="success-card">
+            <div class="success-icon">✓</div>
 
-            Thank You!
+            <h1>
+              Thank You
+              <span id="customer-name"></span>!
+            </h1>
 
-        </h1>
+            <p class="success-message">
+              Your order has been placed successfully.
+            </p>
 
-        <p>
+            <div class="order-status">
+              <span> Order Status </span>
 
-            Your order has been placed successfully.
+              <strong> ✓ Confirmed </strong>
+            </div>
+            <div class="order-info">
+              <div class="info-box">
+                <span> Order ID </span>
 
-        </p>
+                <strong id="order-id"> </strong>
+              </div>
 
-        <p>
+              <div class="info-box">
+                <span> Order Date </span>
 
-            Order ID:
-            <strong id="order-id"></strong>
+                <strong id="order-date"> </strong>
+              </div>
+            </div>
 
-        </p>
+            <h2>Your Items</h2>
 
-        <a
-        href="shop.html"
-        class="btn btn-primary">
+            <div id="order-items" class="order-items"></div>
 
-            Continue Shopping
+            <div class="order-total">
+              <span> Total </span>
 
-        </a>
+              <strong id="order-total"> </strong>
+            </div>
 
-    </div>
+            <div class="delivery-box">
+              <i class="fa-solid fa-truck"></i>
 
-</main>
+              <div>
+                <h3>Estimated Delivery</h3>
 
-<script src="https://kit.fontawesome.com/your-kit.js"></script>
-<script src="js/order-success.js"></script>
+                <p>3-5 Business Days</p>
+              </div>
+            </div>
 
-</body>
+            <a href="shop.html" class="btn btn-primary"> Continue Shopping </a>
+          </div>
+        </div>
+      </section>
+    </main>
 
+    <script src="https://kit.fontawesome.com/your-kit.js"></script>
+
+    <script src="js/main.js"></script>
+    <script src="js/products.js"></script>
+
+    <script src="js/order-success.js"></script>
+  </body>
 </html>
