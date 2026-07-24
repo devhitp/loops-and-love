@@ -53,12 +53,12 @@ document.querySelector("#order-date")
 
 
 const customerName =
-latestOrder.customer?.name || "";
+    latestOrder.customer?.name || "";
 
 
 document.querySelector("#customer-name")
-.textContent =
-customerName;
+    .textContent =
+    customerName;
 
 // ==========================================
 // ORDER ITEMS
@@ -67,10 +67,6 @@ customerName;
 
 const orderItemsContainer =
     document.querySelector("#order-items");
-
-
-
-let total = 0;
 
 
 
@@ -83,17 +79,11 @@ latestOrder.items.forEach(item => {
         );
 
 
-
     if (!product) return;
-
 
 
     const itemTotal =
         product.price * item.quantity;
-
-
-
-    total += itemTotal;
 
 
 
@@ -145,7 +135,20 @@ ${item.quantity}
 
 });
 
+const subtotal =
+latestOrder.subtotal || 0;
 
+
+const shipping =
+latestOrder.shipping || 0;
+
+
+const tax =
+latestOrder.tax || 0;
+
+
+const total =
+latestOrder.total || subtotal;
 
 
 
@@ -157,3 +160,19 @@ ${item.quantity}
 document.querySelector("#order-total")
     .textContent =
     `₹${total}`;
+
+    document.querySelector("#order-subtotal")
+.textContent =
+`₹${subtotal}`;
+
+
+document.querySelector("#order-shipping")
+.textContent =
+shipping === 0
+? "FREE"
+: `₹${shipping}`;
+
+
+document.querySelector("#order-tax")
+.textContent =
+`₹${tax}`;

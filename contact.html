@@ -137,15 +137,15 @@
         </ul>
 
         <div class="mobile-menu-social">
-          <a href="#">
+          <a class="instagram-link" href="#" target="_blank">
             <i class="fa-brands fa-instagram"></i>
           </a>
 
-          <a href="#">
+          <a class="whatsapp-link" href="#">
             <i class="fa-brands fa-whatsapp"></i>
           </a>
 
-          <a href="#">
+          <a class="store-email" href="#">
             <i data-lucide="mail"></i>
           </a>
         </div>
@@ -192,9 +192,9 @@
               <p>Connect with us for custom orders and new creations.</p>
 
               <a
-                href="https://www.instagram.com/loops.and._love"
+                href="#"
                 target="_blank"
-                class="btn btn-primary"
+                class="btn btn-primary instagram-link"
               >
                 Message Us
               </a>
@@ -282,11 +282,7 @@
 
           <p>Let's create something beautiful together ❤️</p>
 
-          <a
-            href="https://www.instagram.com/loops.and._love"
-            target="_blank"
-            class="btn btn-primary"
-          >
+          <a href="#" target="_blank" class="instagram-link btn btn-primary">
             Visit Instagram
           </a>
         </div>
@@ -296,26 +292,22 @@
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand">
-            <h2>Loops & Love</h2>
-
+            <h2 class="store-name">Loops & Love</h2>
             <p>
               Handmade with love, crafted just for you. Every creation is
               designed to make your special moments even more memorable.
             </p>
 
             <div class="footer-social">
-              <a href="#">
+              <a class="whatsapp-link" href="#">
                 <i class="fa-brands fa-whatsapp"></i>
               </a>
 
-              <a
-                href="https://www.instagram.com/loops.and._love"
-                target="_blank"
-              >
+              <a class="instagram-link" href="#" target="_blank">
                 <i class="fa-brands fa-instagram"></i>
               </a>
 
-              <a href="mailto:hello@loopsandlove.com">
+              <a class="store-email" href="#">
                 <i data-lucide="mail"></i>
               </a>
             </div>
@@ -399,10 +391,13 @@
     </div>
 
     <script src="https://unpkg.com/lucide@latest"></script>
-
+    <script src="js/settings-loader.js"></script>
     <script src="js/main.js"></script>
 
     <script src="js/app.js"></script>
+<script>
+      lucide.createIcons();
+    </script>
 
     <script src="js/contact.js"></script>
   </body>

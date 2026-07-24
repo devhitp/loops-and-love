@@ -4,6 +4,11 @@
 const cart =
     JSON.parse(localStorage.getItem("cart")) || [];
 
+
+let subtotal = 0;
+
+let shipping = 0;
+
 // console.log(cart);
 const cartContainer = document.querySelector("#cart-items");
 const subtotalElement = document.querySelector("#subtotal");
@@ -45,9 +50,12 @@ if (cart.length > 0) {
 updateCheckoutButton();
 function renderCart() {
 
+    
+
+    shipping = 0;
     cartContainer.innerHTML = "";
 
-    let subtotal = 0;
+
 
     cart.forEach(cartItem => {
 
@@ -135,13 +143,44 @@ Remove
 
     });
 
+    if(
+    subtotal <
+    (settings.freeShippingLimit || 999)
+){
+
+    shipping =
+    settings.shippingCharge || 0;
+
+}
+
     subtotalElement.textContent =
         `₹${subtotal}`;
 
+
+
+    const shippingElement =
+        document.querySelector("#cart-shipping");
+
+
+    if (shippingElement) {
+
+        shippingElement.textContent =
+            shipping === 0
+                ? "FREE"
+                : `₹${shipping}`;
+
+    }
+
+
+
     totalElement.textContent =
-        `₹${subtotal}`;
+        `₹${subtotal + shipping}`;
 
 }
+
+
+
+
 cartContainer.addEventListener("click", (event) => {
 
     const increase =
@@ -197,25 +236,25 @@ cartContainer.addEventListener("click", (event) => {
 
     localStorage.setItem(
 
-    "cart",
+        "cart",
 
-    JSON.stringify(cart)
+        JSON.stringify(cart)
 
-);
+    );
 
-if (cart.length === 0) {
+    if (cart.length === 0) {
 
-    location.reload();
+        location.reload();
 
-    return;
+        return;
 
-}
+    }
 
-renderCart();
+    renderCart();
 
-updateCheckoutButton();
+    updateCheckoutButton();
 
-updateCartCount();
+    updateCartCount();
 
 });
 function updateCheckoutButton() {

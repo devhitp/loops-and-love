@@ -2,6 +2,11 @@
 // GET CART
 // ===========================================
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
+console.log("CHECKOUT CART:", cart);
+const storeSettings =
+JSON.parse(
+    localStorage.getItem("settings")
+) || {};
 const checkoutItems = document.querySelector("#checkout-items");
 const customerName = document.querySelector("#customer-name");
 const customerPhone = document.querySelector("#customer-phone");
@@ -44,6 +49,51 @@ x${item.quantity}
 
 
 });
+// ==========================================
+// SHIPPING + TAX CALCULATION
+// ==========================================
+
+
+let shipping = 0;
+
+let tax = 0;
+
+let total = 0;
+
+
+
+// Free shipping check
+
+if(
+    subtotal <
+    (storeSettings.freeShippingLimit || 999)
+){
+
+    shipping =
+    storeSettings.shippingCharge || 0;
+
+}
+
+
+
+// Tax calculation
+
+tax =
+Math.round(
+    subtotal *
+    ((storeSettings.taxRate || 0) / 100)
+);
+
+
+
+// Final total
+
+total =
+subtotal +
+shipping +
+tax;
+
+
 
 
 
@@ -51,9 +101,20 @@ subtotalElement.textContent =
     `₹${subtotal}`;
 
 
+document.querySelector("#checkout-shipping")
+.textContent =
+    `₹${shipping}`;
+
+
+
+document.querySelector("#checkout-tax")
+.textContent =
+    `₹${tax}`;
+
+
 
 totalElement.textContent =
-    `₹${subtotal}`;
+    `₹${total}`;
 
 
 
@@ -413,7 +474,13 @@ placeOrderButton.addEventListener("click", function (e) {
 
             items: cart,
 
-            total: subtotal,
+            subtotal: subtotal,
+
+            shipping: shipping,
+
+            tax: tax,
+
+            total: total,
 
             customer: customerDetails,
 
@@ -456,84 +523,84 @@ placeOrderButton.addEventListener("click", function (e) {
         );
 
         // ==========================================
-// SAVE CUSTOMER DATA
-// ==========================================
+        // SAVE CUSTOMER DATA
+        // ==========================================
 
 
-let customers =
-JSON.parse(
-    localStorage.getItem("customers")
-) || [];
-
-
-
-const existingCustomer =
-customers.find(
-    customer =>
-    customer.phone === customerDetails.phone
-);
+        let customers =
+            JSON.parse(
+                localStorage.getItem("customers")
+            ) || [];
 
 
 
-
-
-if(existingCustomer){
-
-
-    existingCustomer.orders += 1;
-
-
-    existingCustomer.spent += subtotal;
-
-
-
-}
-else{
-
-
-    customers.push({
-
-        name:
-        customerDetails.name,
-
-
-        phone:
-        customerDetails.phone,
-
-
-        address:
-        customerDetails.address,
-
-
-        city:
-        customerDetails.city,
-
-
-        pincode:
-        customerDetails.pincode,
-
-
-        orders:1,
-
-
-        spent:subtotal
-
-
-    });
-
-
-}
+        const existingCustomer =
+            customers.find(
+                customer =>
+                    customer.phone === customerDetails.phone
+            );
 
 
 
 
-localStorage.setItem(
 
-    "customers",
+        if (existingCustomer) {
 
-    JSON.stringify(customers)
 
-);
+            existingCustomer.orders += 1;
+
+
+            existingCustomer.spent += subtotal;
+
+
+
+        }
+        else {
+
+
+            customers.push({
+
+                name:
+                    customerDetails.name,
+
+
+                phone:
+                    customerDetails.phone,
+
+
+                address:
+                    customerDetails.address,
+
+
+                city:
+                    customerDetails.city,
+
+
+                pincode:
+                    customerDetails.pincode,
+
+
+                orders: 1,
+
+
+                spent: subtotal
+
+
+            });
+
+
+        }
+
+
+
+
+        localStorage.setItem(
+
+            "customers",
+
+            JSON.stringify(customers)
+
+        );
 
 
 

@@ -321,7 +321,7 @@ body {
 .admin-sidebar nav a:hover,
 .admin-sidebar nav a.active {
 
-    background: #fff0f3;
+    background:var(--secondary-color);
 
     color: #e98ca8;
 
@@ -758,7 +758,7 @@ body {
 
 .edit-btn {
 
-    background: #fff0f3;
+    background:var(--secondary-color);
 
     color: #e98ca8;
 
@@ -919,7 +919,7 @@ body {
 .edit-btn {
 
 
-    background: #fff0f3;
+    background:var(--secondary-color);
 
     color: #ed91ab;
 
@@ -1294,7 +1294,7 @@ PRODUCT SEARCH
 
     border:none;
 
-    background:#fff0f3;
+    background:var(--secondary-color);
 
     color:#e98ca8;
 
@@ -1582,7 +1582,7 @@ CUSTOMERS TABLE
 
     border:none;
 
-    background:#fff0f3;
+    background:var(--secondary-color);
 
     color:#e98ca8;
 
@@ -1679,5 +1679,143 @@ CUSTOMER DETAILS MODAL
     cursor:pointer;
 
     background:#f3f3f3;
+
+}
+/* ==========================================
+SETTINGS
+========================================== */
+
+.settings-container{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:25px;
+
+    margin-top:30px;
+
+}
+
+.settings-card{
+
+    background:#fff;
+
+    padding:30px;
+
+    border-radius:15px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.settings-card:hover{
+
+    transform:translateY(-4px);
+
+}
+
+.settings-card h2{
+
+    margin-bottom:10px;
+
+    color:#e98ca8;
+
+}
+
+.settings-card p{
+
+    color:#777;
+
+}
+
+@media(max-width:768px){
+
+.settings-container{
+
+    grid-template-columns:1fr;
+
+}
+
+}
+/* ==========================================
+SETTINGS FORM
+========================================== */
+
+.settings-form{
+
+    margin-top:20px;
+
+}
+
+.settings-form .form-group{
+
+    margin-bottom:18px;
+
+}
+
+.settings-form label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:600;
+
+}
+
+.settings-form input,
+.settings-form textarea{
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:.3s;
+
+    box-sizing:border-box;
+
+}
+
+.settings-form input:focus,
+.settings-form textarea:focus{
+
+    border-color:#e98ca8;
+
+}
+
+.save-settings-btn{
+
+    border:none;
+
+    background:#e98ca8;
+
+    color:white;
+
+    padding:12px 24px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.save-settings-btn:hover{
+
+    opacity:.9;
 
 }
