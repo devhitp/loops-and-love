@@ -1,16 +1,18 @@
 // ===========================================
 // URL PARAMETERS
 // ===========================================
+import { getProducts } from "../firebase/firestore.js";
 
 const urlParams = new URLSearchParams(window.location.search);
 
-const productId = Number(urlParams.get("id"));
+const productId = urlParams.get("id");
 
 // ===========================================
 // FIND PRODUCT
 // ===========================================
 
-const product = products.find(item => item.id === productId);
+let product;
+let products = [];
 
 // ===========================================
 // RECENTLY VIEWED PRODUCTS

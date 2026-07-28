@@ -67,45 +67,73 @@ const menuBtn = document.querySelector(".menu-btn");
 const mobileMenu = document.querySelector(".mobile-menu");
 const menuOverlay = document.querySelector(".menu-overlay");
 
-function openMenu() {
+function openMenu(){
 
-    mobileMenu.classList.add("active");
+    if(mobileMenu)
+        mobileMenu.classList.add("active");
 
-    menuOverlay.classList.add("active");
+    if(menuOverlay)
+        menuOverlay.classList.add("active");
 
     document.body.classList.add("menu-open");
 
-    menuBtn.querySelector("i").classList.replace("fa-bars", "fa-xmark");
+    if(menuBtn){
 
-}
+        const icon = menuBtn.querySelector("i");
 
-function closeMenu() {
-
-    mobileMenu.classList.remove("active");
-
-    menuOverlay.classList.remove("active");
-
-    document.body.classList.remove("menu-open");
-
-    menuBtn.querySelector("i").classList.replace("fa-xmark", "fa-bars");
-
-}
-
-menuBtn.addEventListener("click", () => {
-
-    if (mobileMenu.classList.contains("active")) {
-
-        closeMenu();
-
-    } else {
-
-        openMenu();
+        if(icon)
+            icon.classList.replace("fa-bars","fa-xmark");
 
     }
 
-});
+}
 
-menuOverlay.addEventListener("click", closeMenu);
+function closeMenu(){
+
+    if(mobileMenu)
+        mobileMenu.classList.remove("active");
+
+    if(menuOverlay)
+        menuOverlay.classList.remove("active");
+
+    document.body.classList.remove("menu-open");
+
+    if(menuBtn){
+
+        const icon = menuBtn.querySelector("i");
+
+        if(icon)
+            icon.classList.replace("fa-xmark","fa-bars");
+
+    }
+
+}
+
+if(menuBtn && mobileMenu){
+
+    menuBtn.addEventListener("click", () => {
+
+        if (mobileMenu.classList.contains("active")) {
+
+            closeMenu();
+
+        } else {
+
+            openMenu();
+
+        }
+
+    });
+
+}
+
+
+if(menuOverlay){
+
+    menuOverlay.addEventListener("click", closeMenu);
+
+}
+
 
 document.querySelectorAll(".mobile-menu a").forEach(link => {
 
