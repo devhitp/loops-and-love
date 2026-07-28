@@ -1,12 +1,18 @@
 // ===========================================
 // GET CART
 // ===========================================
+import { getProducts } from "../firebase/firestore.js";
+import { addDoc, collection, serverTimestamp } from
+    "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+import { db } from "../firebase/firebase-config.js";
+
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
 console.log("CHECKOUT CART:", cart);
 const storeSettings =
-JSON.parse(
-    localStorage.getItem("settings")
-) || {};
+    JSON.parse(
+        localStorage.getItem("settings")
+    ) || {};
 const checkoutItems = document.querySelector("#checkout-items");
 const customerName = document.querySelector("#customer-name");
 const customerPhone = document.querySelector("#customer-phone");
@@ -17,14 +23,25 @@ const subtotalElement = document.querySelector("#checkout-subtotal");
 const totalElement = document.querySelector("#checkout-total");
 let subtotal = 0;
 
-cart.forEach(item => {
-    const product =
-        products.find(
-            p => p.id === item.id
-        );
-    if (!product) return;
-    subtotal += product.price * item.quantity;
-    checkoutItems.innerHTML += `
+let products = [];
+
+async function loadCheckout() {
+
+    products = await getProducts();
+
+    renderCheckout();
+
+}
+
+function renderCheckout() {
+    cart.forEach(item => {
+        const product =
+            products.find(
+                p => p.id === item.id
+            );
+        if (!product) return;
+        subtotal += product.price * item.quantity;
+        checkoutItems.innerHTML += `
         <div class="checkout-product">
             <span>
                 ${product.name}
@@ -48,73 +65,66 @@ x${item.quantity}
 `;
 
 
-});
-// ==========================================
-// SHIPPING + TAX CALCULATION
-// ==========================================
+    });
+    updateCheckoutTotals();
+}
+
+function updateCheckoutTotals(){
 
 
-let shipping = 0;
+    let shipping = 0;
 
-let tax = 0;
-
-let total = 0;
+    let tax = 0;
 
 
+    if(
+        subtotal <
+        (storeSettings.freeShippingLimit || 999)
+    ){
 
-// Free shipping check
+        shipping =
+        storeSettings.shippingCharge || 0;
 
-if(
-    subtotal <
-    (storeSettings.freeShippingLimit || 999)
-){
+    }
 
-    shipping =
-    storeSettings.shippingCharge || 0;
+
+    tax =
+    Math.round(
+        subtotal *
+        ((storeSettings.taxRate || 0) / 100)
+    );
+
+
+    const total =
+    subtotal +
+    shipping +
+    tax;
+
+
+
+    document.querySelector("#checkout-subtotal")
+        .textContent =
+        `₹${subtotal}`;
+
+
+    document.querySelector("#checkout-shipping")
+        .textContent =
+        `₹${shipping}`;
+
+
+    document.querySelector("#checkout-tax")
+        .textContent =
+        `₹${tax}`;
+
+
+    document.querySelector("#checkout-total")
+        .textContent =
+        `₹${total}`;
 
 }
 
+loadCheckout();
 
-
-// Tax calculation
-
-tax =
-Math.round(
-    subtotal *
-    ((storeSettings.taxRate || 0) / 100)
-);
-
-
-
-// Final total
-
-total =
-subtotal +
-shipping +
-tax;
-
-
-
-
-
-subtotalElement.textContent =
-    `₹${subtotal}`;
-
-
-document.querySelector("#checkout-shipping")
-.textContent =
-    `₹${shipping}`;
-
-
-
-document.querySelector("#checkout-tax")
-.textContent =
-    `₹${tax}`;
-
-
-
-totalElement.textContent =
-    `₹${total}`;
 
 
 
@@ -453,7 +463,7 @@ placeOrderButton.addEventListener("click", function (e) {
     saveCustomerDetails();
 
 
-    setTimeout(() => {
+    setTimeout(async () => {
 
 
         const orderId =
@@ -468,38 +478,35 @@ placeOrderButton.addEventListener("click", function (e) {
 
 
 
-        const latestOrder = {
+        const orderRef = await addDoc(
+            collection(db, "orders"),
+            {
 
-            id: orderId,
+                items: cart,
 
-            items: cart,
+                subtotal,
 
-            subtotal: subtotal,
+                shipping,
 
-            shipping: shipping,
+                tax,
 
-            tax: tax,
+                total,
 
-            total: total,
+                customer: customerDetails,
 
-            customer: customerDetails,
+                status: "Pending",
 
-            status: "Pending",
+                createdAt: serverTimestamp()
 
-            date: new Date().toLocaleDateString()
-
-        };
+            }
+        );
 
 
 
         localStorage.setItem(
-
-            "latestOrder",
-
-            JSON.stringify(latestOrder)
-
+            "latestOrderId",
+            orderRef.id
         );
-
         // SAVE ORDER HISTORY FOR ADMIN
 
 
@@ -509,17 +516,30 @@ placeOrderButton.addEventListener("click", function (e) {
             ) || [];
 
 
+        orders.push({
 
-        orders.push(latestOrder);
+            id: orderRef.id,
 
+            items: cart,
+
+            subtotal,
+
+            shipping,
+
+            tax,
+
+            total,
+
+            customer: customerDetails,
+
+            status: "Pending"
+
+        });
 
 
         localStorage.setItem(
-
             "orders",
-
             JSON.stringify(orders)
-
         );
 
         // ==========================================
@@ -605,11 +625,8 @@ placeOrderButton.addEventListener("click", function (e) {
 
 
         localStorage.setItem(
-
             "orderId",
-
-            orderId
-
+            orderRef.id
         );
 
 
