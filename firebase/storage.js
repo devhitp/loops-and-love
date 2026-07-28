@@ -1,0 +1,19 @@
+import { storage } from "./firebase-config.js";
+
+import {
+    ref,
+    uploadBytes,
+    getDownloadURL
+} from "firebase/storage";
+
+export async function uploadProductImage(file) {
+
+    const fileName = `products/${Date.now()}-${file.name}`;
+
+    const storageRef = ref(storage, fileName);
+
+    await uploadBytes(storageRef, file);
+
+    return await getDownloadURL(storageRef);
+
+}

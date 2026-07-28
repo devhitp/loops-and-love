@@ -9,7 +9,7 @@
     <title>Manage Products | Loops & Love Admin</title>
 
     <link rel="stylesheet" href="css/admin.css" />
-    
+
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -127,14 +127,18 @@
                 </div>
 
                 <div class="input-group">
-                  <label> Image URL </label>
+                  <label>Product Image</label>
 
-                  <input
-                    type="text"
-                    id="product-image"
-                    placeholder="Image link"
-                    required
-                  />
+                  <div class="image-upload-container">
+                    <input type="file" id="product-image" accept="image/*" />
+
+                    <img
+                      id="image-preview"
+                      src=""
+                      alt="Preview"
+                      style="display: none"
+                    />
+                  </div>
                 </div>
 
                 <div class="input-group">
@@ -193,8 +197,8 @@ DELETE MODAL
       <span id="toast-message"></span>
     </div>
 
-    <script src="js/admin.js"></script>
+    <script type="module" src="js/admin.js"></script>
 
-    <script src="js/admin-products.js"></script>
+    <script type="module" src="js/admin-products.js"></script>
   </body>
 </html>

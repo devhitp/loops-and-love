@@ -1,7 +1,7 @@
 // ===========================================
 // DOM ELEMENTS
 // ===========================================
-
+import { listenToProducts } from "../firebase/firestore.js";
 const productGrid = document.querySelector(".product-grid");
 const filterButtons = document.querySelectorAll(".filter-btn");
 const searchInput = document.querySelector(".search-input");
@@ -25,6 +25,7 @@ let currentSort = "default";
 
 let visibleProducts = PRODUCTS_PER_PAGE;
 let currentProducts = [];
+let allProducts = [];
 
 // ===========================================
 // WISHLIST
@@ -245,7 +246,7 @@ function addToCart(productId) {
 
     updateCartCount();
     const product =
-        products.find(p => p.id == productId);
+        allproducts.find(p => p.id == productId);
 
     showToast(
         "Added to Cart",
@@ -260,7 +261,7 @@ function addToCart(productId) {
 
 function updateProducts() {
 
-    currentProducts = [...products];
+    currentProducts = [...allProducts];
 
     // Category Filter
     if (currentCategory !== "all") {
@@ -431,7 +432,7 @@ function renderSuggestions() {
     }
 
     const matches =
-        products
+        allProducts
             .filter(product =>
                 product.name
                     .toLowerCase()
@@ -564,7 +565,7 @@ document.addEventListener("click",(event)=>{
     updateCartCount();
 
     const product =
-    products.find(item => item.id === id);
+    allproducts.find(item => item.id === id);
 
     showToast(
         "Added to Cart",
@@ -645,4 +646,10 @@ loadMoreBtn.addEventListener("click", () => {
 // INITIALIZE SHOP
 // ===========================================
 
-updateProducts();
+listenToProducts((products) => {
+
+    allProducts = products;
+
+    updateProducts();
+
+});

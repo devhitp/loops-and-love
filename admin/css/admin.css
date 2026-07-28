@@ -1819,3 +1819,16 @@ SETTINGS FORM
     opacity:.9;
 
 }
+.image-upload-container{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+#image-preview{
+    width:120px;
+    height:120px;
+    object-fit:cover;
+    border-radius:10px;
+    border:1px solid #ddd;
+}

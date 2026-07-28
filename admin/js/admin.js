@@ -2,17 +2,32 @@
 // ADMIN DASHBOARD AUTH CHECK
 // ==========================================
 
-const isAdminLoggedIn =
-localStorage.getItem("adminLoggedIn");
 
 
 
-if(isAdminLoggedIn !== "true"){
 
-    window.location.href =
-    "admin-login.html";
+import {
+    checkAuth
+} from "../../firebase/auth.js";
 
-}
+import {
+    logoutUser
+} from "../../firebase/auth.js";
+
+
+checkAuth((user) => {
+
+
+
+    if (!user) {
+
+
+
+        window.location.replace("admin-login.html");
+
+    }
+
+});
 
 
 
@@ -22,55 +37,63 @@ if(isAdminLoggedIn !== "true"){
 // ==========================================
 
 
+
+
 const logoutBtn =
-document.querySelector("#logout-btn");
+    document.querySelector("#logout-btn");
 
 
 
-if(logoutBtn){
+if (logoutBtn) {
 
 
-logoutBtn.addEventListener(
-"click",
-()=>{
+    logoutBtn.addEventListener(
+        "click",
+        async () => {
 
+            try {
 
-    localStorage.removeItem(
-        "adminLoggedIn"
+                await logoutUser();
+
+                window.location.replace("admin-login.html");
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+
+        }
     );
 
 
-    window.location.href =
-    "admin-login.html";
-
-
-});
-
-
 }
+
+
+
 // ==========================================
 // DASHBOARD DATA
 // ==========================================
 
 
 const products =
-JSON.parse(
-    localStorage.getItem("products")
-) || [];
+    JSON.parse(
+        localStorage.getItem("products")
+    ) || [];
 
 
 
 const orders =
-JSON.parse(
-    localStorage.getItem("orders")
-) || [];
+    JSON.parse(
+        localStorage.getItem("orders")
+    ) || [];
 
 
 
 const customers =
-JSON.parse(
-    localStorage.getItem("customers")
-) || [];
+    JSON.parse(
+        localStorage.getItem("customers")
+    ) || [];
 
 
 
@@ -78,15 +101,15 @@ JSON.parse(
 // PRODUCTS
 
 const productCount =
-document.querySelector(
-".stat-card:nth-child(1) strong"
-);
+    document.querySelector(
+        ".stat-card:nth-child(1) strong"
+    );
 
 
-if(productCount){
+if (productCount) {
 
     productCount.textContent =
-    products.length;
+        products.length;
 
 }
 
@@ -95,15 +118,15 @@ if(productCount){
 // ORDERS
 
 const orderCount =
-document.querySelector(
-".stat-card:nth-child(2) strong"
-);
+    document.querySelector(
+        ".stat-card:nth-child(2) strong"
+    );
 
 
-if(orderCount){
+if (orderCount) {
 
     orderCount.textContent =
-    orders.length;
+        orders.length;
 
 }
 
@@ -112,15 +135,15 @@ if(orderCount){
 // CUSTOMERS
 
 const customerCount =
-document.querySelector(
-".stat-card:nth-child(3) strong"
-);
+    document.querySelector(
+        ".stat-card:nth-child(3) strong"
+    );
 
 
-if(customerCount){
+if (customerCount) {
 
     customerCount.textContent =
-    customers.length;
+        customers.length;
 
 }
 
@@ -131,7 +154,7 @@ if(customerCount){
 let revenue = 0;
 
 
-orders.forEach(order=>{
+orders.forEach(order => {
 
     revenue += Number(order.total);
 
@@ -140,16 +163,16 @@ orders.forEach(order=>{
 
 
 const revenueElement =
-document.querySelector(
-".stat-card:nth-child(4) strong"
-);
+    document.querySelector(
+        ".stat-card:nth-child(4) strong"
+    );
 
 
 
-if(revenueElement){
+if (revenueElement) {
 
     revenueElement.textContent =
-    "₹" + revenue;
+        "₹" + revenue;
 
 }
 // ==========================================
@@ -158,32 +181,32 @@ if(revenueElement){
 
 
 const recentOrders =
-document.querySelector("#recent-orders");
+    document.querySelector("#recent-orders");
 
 
 
-if(recentOrders){
+if (recentOrders) {
 
 
     const latestOrders =
-    orders.slice(-5).reverse();
+        orders.slice(-5).reverse();
 
 
 
-    if(latestOrders.length === 0){
+    if (latestOrders.length === 0) {
 
         recentOrders.innerHTML =
-        `
+            `
         <p class="empty-orders">
         No orders yet
         </p>
         `;
 
     }
-    else{
+    else {
 
 
-        latestOrders.forEach(order=>{
+        latestOrders.forEach(order => {
 
 
             recentOrders.innerHTML += `
@@ -259,4 +282,4 @@ function loadDashboardStats() {
 
 }
 
-loadDashboardStats();
+// loadDashboardStats();

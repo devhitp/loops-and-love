@@ -1,6 +1,15 @@
 // ==========================================
 // PRODUCT MODAL
 // ==========================================
+import {
+    addProduct,
+    updateProduct,
+    deleteProduct,
+    listenToProducts
+} from "../../firebase/firestore.js";
+import {
+    uploadProductImage
+} from "../../firebase/cloudinary.js";
 
 
 const addProductBtn =
@@ -30,6 +39,11 @@ let deleteProductId = null;
 
 const toast = document.querySelector("#toast");
 const toastMessage = document.querySelector("#toast-message");
+const imageInput =
+    document.querySelector("#product-image");
+
+const imagePreview =
+    document.querySelector("#image-preview");
 
 function showToast(message) {
 
@@ -86,21 +100,24 @@ if (closeModal) {
 // CLOSE WHEN CLICKING OUTSIDE
 
 
-productModal.addEventListener(
-    "click",
-    (e) => {
+if (productModal) {
 
+    productModal.addEventListener(
+        "click",
+        (e) => {
 
-        if (e.target === productModal) {
+            if (e.target === productModal) {
 
-            productModal.classList.remove(
-                "active"
-            );
+                productModal.classList.remove(
+                    "active"
+                );
+
+            }
 
         }
+    );
 
-
-    });
+}
 // ==========================================
 // ADD PRODUCT
 // ==========================================
@@ -108,13 +125,33 @@ productModal.addEventListener(
 
 const productForm =
     document.querySelector("#product-form");
+if (imageInput) {
 
+    imageInput.addEventListener("change", () => {
+
+        const file = imageInput.files[0];
+
+        if (!file) return;
+
+        imagePreview.src = URL.createObjectURL(file);
+
+        imagePreview.style.display = "block";
+
+        imagePreview.style.width = "150px";
+        imagePreview.style.height = "150px";
+        imagePreview.style.border = "2px solid red";
+
+        console.log(imagePreview.src);
+
+    });
+
+}
 
 if (productForm) {
 
     productForm.addEventListener(
         "submit",
-        function (e) {
+        async function (e) {
 
 
 
@@ -126,25 +163,42 @@ if (productForm) {
                 document.querySelector("#edit-product-id").value;
 
 
+            const selectedFile = imageInput.files[0];
+
+            let imageURL = "";
+
+            try {
+
+                if (selectedFile) {
+
+                    imageURL = await uploadProductImage(selectedFile);
+
+                    console.log("Uploaded Image:", imageURL);
+
+                }
+
+            }
+            catch (error) {
+
+                console.error(error);
+
+                alert("Image upload failed.");
+
+                return;
+
+            }
 
             const product = {
-
-                id: editId || Date.now(),
-
 
                 name:
                     document.querySelector("#product-name")
                         .value
                         .trim(),
 
-
-
                 category:
                     document.querySelector("#product-category")
                         .value
                         .trim(),
-
-
 
                 price:
                     Number(
@@ -152,12 +206,7 @@ if (productForm) {
                             .value
                     ),
 
-
-
-                image:
-                    document.querySelector("#product-image")
-                        .value
-                        .trim(),
+                image: imageURL,
 
                 badge: "NEW",
 
@@ -166,14 +215,11 @@ if (productForm) {
                         .value
                         .trim(),
 
-
-
                 stock:
                     Number(
                         document.querySelector("#product-stock")
                             .value
                     )
-
 
             };
 
@@ -183,10 +229,6 @@ if (productForm) {
 
             // Get existing products
 
-            let products =
-                JSON.parse(
-                    localStorage.getItem("products")
-                ) || [];
 
 
 
@@ -200,38 +242,20 @@ if (productForm) {
 
             if (editId) {
 
-
-                const index =
-                    products.findIndex(
-                        p => p.id == editId
-                    );
-
-
-                products[index] = product;
-
+                await updateProduct(
+                    editId,
+                    product
+                );
 
             }
             else {
 
-
-                products.push(product);
-
+                await addProduct(
+                    product
+                );
 
             }
 
-
-
-
-            // Save
-
-            localStorage.setItem(
-
-                "products",
-
-                JSON.stringify(products)
-
-            );
-            renderProducts();
 
 
 
@@ -273,15 +297,19 @@ if (productForm) {
 const productsTable =
     document.querySelector(".products-table");
 
+let allProducts = [];
 
 
-function renderProducts() {
+
+function renderProducts(products) {
 
 
-    const products =
-        JSON.parse(
-            localStorage.getItem("products")
-        ) || [];
+
+    // remove old rows
+
+    document
+        .querySelectorAll(".product-row")
+        .forEach(row => row.remove());
 
 
 
@@ -303,19 +331,6 @@ function renderProducts() {
 
     emptyMessage.style.display =
         "none";
-
-
-
-
-    // remove old rows
-
-    document
-        .querySelectorAll(".product-row")
-        .forEach(row => row.remove());
-
-
-
-
 
     const keyword =
         searchInput
@@ -339,7 +354,7 @@ function renderProducts() {
         row.className =
             "product-row";
 
-
+        row.dataset.id = product.id;
 
         row.innerHTML = `
 
@@ -417,78 +432,61 @@ function renderProducts() {
 
 document.addEventListener(
     "click",
-    function (e) {
+    async function (e) {
 
         if (!e.target.closest(".delete-btn")) return;
 
         const row =
             e.target.closest(".product-row");
 
-        const name =
+        deleteProductId =
+            row.dataset.id;
+
+        const productName =
             row.children[1].textContent.trim();
 
-        const products =
-            JSON.parse(
-                localStorage.getItem("products")
-            ) || [];
-
-        const product =
-            products.find(
-                p => p.name === name
-            );
-
-        if (!product) return;
-
-        deleteProductId = product.id;
-
         deleteMessage.textContent =
-            `Are you sure you want to delete "${product.name}"?`;
+            `Are you sure you want to delete "${productName}"?`;
 
         deleteModal.classList.add("active");
 
     }
 );
-cancelDelete.addEventListener(
-    "click",
-    () => {
+if (cancelDelete) {
 
-        deleteModal.classList.remove("active");
+    cancelDelete.addEventListener(
+        "click",
+        () => {
 
-        deleteProductId = null;
+            deleteModal.classList.remove("active");
 
-    }
-);
+            deleteProductId = null;
+
+        }
+    );
+
+}
 
 
-confirmDelete.addEventListener(
-    "click",
-    () => {
+if (confirmDelete) {
 
-        let products =
-            JSON.parse(
-                localStorage.getItem("products")
-            ) || [];
+    confirmDelete.addEventListener(
+        "click",
+        async () => {
 
-        products =
-            products.filter(
-                product => product.id != deleteProductId
-            );
+            await deleteProduct(deleteProductId);
 
-        localStorage.setItem(
-            "products",
-            JSON.stringify(products)
-        );
 
-        renderProducts();
 
-        showToast("Product deleted successfully!");
+            showToast("Product deleted successfully!");
 
-        deleteModal.classList.remove("active");
+            deleteModal.classList.remove("active");
 
-        deleteProductId = null;
+            deleteProductId = null;
 
-    }
-);
+        }
+    );
+}
 // ==========================================
 // EDIT PRODUCT
 // ==========================================
@@ -496,41 +494,25 @@ confirmDelete.addEventListener(
 
 document.addEventListener(
     "click",
-    function (e) {
+    async function (e) {
 
 
-        if (
-            e.target.classList.contains(
-                "edit-btn"
-            )
-        ) {
+        const editButton =
+            e.target.closest(".edit-btn");
+
+        if (!editButton) return; {
 
 
             const row =
                 e.target.closest(".product-row");
 
-
-
-            const name =
-                row.children[1]
-                    .textContent
-                    .trim();
-
-
-
-            const products =
-                JSON.parse(
-                    localStorage.getItem("products")
-                ) || [];
-
-
+            const productId =
+                row.dataset.id;
 
             const product =
-                products.find(
-                    p => p.name === name
+                allProducts.find(
+                    p => p.id === productId
                 );
-
-
 
             if (!product) return;
 
@@ -600,14 +582,23 @@ document.addEventListener(
 
 
     });
-if(searchInput){
+if (searchInput) {
 
     searchInput.addEventListener(
         "input",
-        renderProducts
-    );
+        () => {
 
+            renderProducts(allProducts);
+
+        }
+    );
 }
 
 
-renderProducts();
+listenToProducts((products) => {
+
+    allProducts = products;
+
+    renderProducts(allProducts);
+
+});

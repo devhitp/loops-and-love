@@ -1,34 +1,30 @@
 // ==========================================
-// ADMIN LOGIN SYSTEM
+// FIREBASE ADMIN LOGIN
 // ==========================================
 
-
-// Default admin credentials (temporary)
-
-const ADMIN_EMAIL = "admin@loopsandlove.com";
-
-const ADMIN_PASSWORD = "admin123";
-
+console.log("Admin login JS loaded");
+import {
+    loginUser
+} from "../../firebase/auth.js";
 
 
 
 // Get elements
 
 const loginForm =
-document.querySelector("#admin-login-form");
+    document.querySelector("#admin-login-form");
 
 
 const emailInput =
-document.querySelector("#admin-email");
+    document.querySelector("#admin-email");
 
 
 const passwordInput =
-document.querySelector("#admin-password");
+    document.querySelector("#admin-password");
 
 
 const errorMessage =
-document.querySelector("#login-error");
-
+    document.querySelector("#login-error");
 
 
 
@@ -37,59 +33,58 @@ document.querySelector("#login-error");
 // LOGIN FUNCTION
 // ==========================================
 
-
-loginForm.addEventListener(
-"submit",
-function(e){
-
-
-    e.preventDefault();
+document.querySelector("#login-btn")
+    .addEventListener(
+        "click",
+        async function (e) {
 
 
-
-    const email =
-    emailInput.value.trim();
+            // e.preventDefault();
 
 
+            console.log("Trying Firebase login");
 
-    const password =
-    passwordInput.value.trim();
+            const email =
+                emailInput.value.trim();
 
 
 
-
-    if(
-        email === ADMIN_EMAIL &&
-        password === ADMIN_PASSWORD
-    ){
-
-
-        // Save login state
-
-        localStorage.setItem(
-            "adminLoggedIn",
-            "true"
-        );
+            const password =
+                passwordInput.value.trim();
 
 
 
-        // Redirect
+            try {
 
-        window.location.href =
-        "admin-dashboard.html";
+                console.log("Before Firebase");
+                await loginUser(
+                    email,
+                    password
 
-
-
-    }
-    else{
-
-
-        errorMessage.textContent =
-        "Invalid email or password.";
+                );
+                console.log("After Firebase");
 
 
-    }
+                // Redirect after successful login
+                console.log("Login successful");
+                window.location.href =
+                    "/admin/admin-dashboard.html";
 
 
 
-});
+            }
+            catch (error) {
+
+
+                errorMessage.textContent =
+                    "Invalid email or password.";
+
+
+                console.log(error.message);
+
+
+            }
+
+
+
+        });
