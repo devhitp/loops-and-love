@@ -1,10 +1,11 @@
 // ===========================================
 // CART DATA
 // ===========================================
+import { getProducts } from "../firebase/firestore.js";
 const cart =
     JSON.parse(localStorage.getItem("cart")) || [];
 
-
+let products = [];
 let subtotal = 0;
 
 let shipping = 0;
@@ -44,13 +45,22 @@ if (cart.length === 0) {
 }
 if (cart.length > 0) {
 
+    loadCartProducts();
+
+}
+
+
+async function loadCartProducts() {
+
+    products = await getProducts();
+
     renderCart();
 
 }
 updateCheckoutButton();
 function renderCart() {
 
-    
+
 
     shipping = 0;
     cartContainer.innerHTML = "";
@@ -143,15 +153,15 @@ Remove
 
     });
 
-    if(
-    subtotal <
-    (settings.freeShippingLimit || 999)
-){
+    if (
+        subtotal <
+        (settings.freeShippingLimit || 999)
+    ) {
 
-    shipping =
-    settings.shippingCharge || 0;
+        shipping =
+            settings.shippingCharge || 0;
 
-}
+    }
 
     subtotalElement.textContent =
         `₹${subtotal}`;
@@ -241,6 +251,7 @@ cartContainer.addEventListener("click", (event) => {
         JSON.stringify(cart)
 
     );
+    updateCartCount();
 
     if (cart.length === 0) {
 

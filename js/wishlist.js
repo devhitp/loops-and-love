@@ -1,6 +1,7 @@
+import { getProducts } from "../firebase/firestore.js";
 const wishlist =
     JSON.parse(localStorage.getItem("wishlist")) || [];
-
+let products = [];
 const wishlistContainer =
     document.querySelector("#wishlist-items");
 
@@ -26,6 +27,13 @@ if (wishlist.length === 0) {
 `;
 
 } else {
+
+    loadWishlistProducts();
+
+}
+async function loadWishlistProducts() {
+
+    products = await getProducts();
 
     renderWishlist();
 
@@ -128,7 +136,7 @@ wishlistContainer.addEventListener("click", (event) => {
     if (removeButton) {
 
         const productId =
-            Number(removeButton.dataset.id);
+            removeButton.dataset.id
 
         const index =
             wishlist.indexOf(productId);
@@ -162,13 +170,27 @@ wishlistContainer.addEventListener("click", (event) => {
     if (cartButton) {
 
         const productId =
-            Number(cartButton.dataset.id);
+            cartButton.dataset.id;
+
+
+        const product =
+            products.find(
+                item => item.id === productId
+            );
+
+
+        if (!product) return;
+
 
         let cart =
             JSON.parse(localStorage.getItem("cart")) || [];
 
+
         const existing =
-            cart.find(item => item.id === productId);
+            cart.find(
+                item => item.id === productId
+            );
+
 
         if (existing) {
 
@@ -179,19 +201,21 @@ wishlistContainer.addEventListener("click", (event) => {
             cart.push({
 
                 id: productId,
-
                 quantity: 1
 
             });
 
         }
 
+
         localStorage.setItem(
             "cart",
             JSON.stringify(cart)
         );
 
-        updateWishlistCount();
+
+        updateCartCount();
+
 
         showToast(
             "Added to Cart",

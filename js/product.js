@@ -14,38 +14,80 @@ const productId = urlParams.get("id");
 let product;
 let products = [];
 
-// ===========================================
-// RECENTLY VIEWED PRODUCTS
-// ===========================================
 
-let recentlyViewed =
-    JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+async function loadProduct() {
 
-// Remove the current product if it already exists
-recentlyViewed =
-    recentlyViewed.filter(id => id !== product.id);
-
-// Add the current product to the beginning
-recentlyViewed.unshift(product.id);
-
-// Keep only the latest 6 products
-recentlyViewed =
-    recentlyViewed.slice(0, 6);
-
-localStorage.setItem(
-    "recentlyViewed",
-    JSON.stringify(recentlyViewed)
-);
+    products = await getProducts();
 
 
+    product = products.find(
+        item => item.id === productId
+    );
 
-// ===========================================
-// INVALID PRODUCT CHECK
-// ===========================================
 
-if (!product) {
+    if (!product) {
 
-    document.body.innerHTML = `
+        document.body.innerHTML = `
+
+            <main class="container">
+
+                <h1>Product Not Found</h1>
+
+                <a href="shop.html">
+                    Back to Shop
+                </a>
+
+            </main>
+
+        `;
+
+        return;
+
+    }
+
+
+    initializeProductPage();
+
+}
+
+
+loadProduct();
+
+function initializeProductPage() {
+
+
+    // ===========================================
+    // RECENTLY VIEWED PRODUCTS
+    // ===========================================
+
+    let recentlyViewed =
+        JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+
+    // Remove the current product if it already exists
+    recentlyViewed =
+        recentlyViewed.filter(id => id !== product.id);
+
+    // Add the current product to the beginning
+    recentlyViewed.unshift(product.id);
+
+    // Keep only the latest 6 products
+    recentlyViewed =
+        recentlyViewed.slice(0, 6);
+
+    localStorage.setItem(
+        "recentlyViewed",
+        JSON.stringify(recentlyViewed)
+    );
+
+
+
+    // ===========================================
+    // INVALID PRODUCT CHECK
+    // ===========================================
+
+    if (!product) {
+
+        document.body.innerHTML = `
 
         <main class="container">
 
@@ -61,31 +103,31 @@ if (!product) {
 
     `;
 
-    throw new Error("Product not found");
+        throw new Error("Product not found");
 
-}
+    }
 
-// ===========================================
-// GET CONTAINER
-// ===========================================
+    // ===========================================
+    // GET CONTAINER
+    // ===========================================
 
-const productContainer = document.querySelector("#product-container");
-// console.log("Product JS Loaded");
+    const productContainer = document.querySelector("#product-container");
+    // console.log("Product JS Loaded");
 
-// console.log(product);
+    // console.log(product);
 
-// console.log(productContainer);
-const breadcrumbProduct =
-    document.querySelector("#breadcrumb-product");
+    // console.log(productContainer);
+    const breadcrumbProduct =
+        document.querySelector("#breadcrumb-product");
 
-breadcrumbProduct.textContent =
-    product.name;
+    breadcrumbProduct.textContent =
+        product.name;
 
-// ===========================================
-// RENDER PRODUCT
-// ===========================================
+    // ===========================================
+    // RENDER PRODUCT
+    // ===========================================
 
-productContainer.innerHTML = `
+    productContainer.innerHTML = `
 <section class="product-details">
 
     <div class="product-details-image">
@@ -268,84 +310,33 @@ productContainer.innerHTML = `
 </section>
 `;
 
-lucide.createIcons();
+    lucide.createIcons();
 
-// ===========================================
-// RENDER RECENTLY VIEWED
-// ===========================================
+    // ===========================================
+    // RENDER RECENTLY VIEWED
+    // ===========================================
 
-const recentGrid =
-    document.getElementById("recent-grid");
+    const recentGrid =
+        document.getElementById("recent-grid");
 
-const recentSection =
-    document.querySelector(".recently-viewed");
+    const recentSection =
+        document.querySelector(".recently-viewed");
 
-const recentProducts =
-    recentlyViewed
-        .filter(id => id !== product.id)
-        .map(id => products.find(p => p.id === id))
-        .filter(Boolean);
+    const recentProducts =
+        recentlyViewed
+            .filter(id => id !== product.id)
+            .map(id => products.find(p => p.id === id))
+            .filter(Boolean);
 
-if (recentProducts.length === 0) {
+    if (recentProducts.length === 0) {
 
-    recentSection.style.display = "none";
+        recentSection.style.display = "none";
 
-} else {
+    } else {
 
-    recentProducts.forEach(item => {
+        recentProducts.forEach(item => {
 
-        recentGrid.innerHTML += `
-
-        <a
-            href="product.html?id=${item.id}"
-            class="recent-card"
-        >
-
-            <img
-                src="${item.image}"
-                alt="${item.name}"
-            >
-
-            <h4>${item.name}</h4>
-
-            <span>₹${item.price}</span>
-
-        </a>
-
-        `;
-
-    });
-
-}
-
-// ===========================================
-// RELATED PRODUCTS
-// ===========================================
-
-const relatedGrid =
-    document.getElementById("related-grid");
-
-const relatedSection =
-    document.querySelector(".related-products");
-
-const relatedProducts =
-    products
-        .filter(item =>
-            item.category === product.category &&
-            item.id !== product.id
-        )
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 4);
-
-if (relatedProducts.length === 0) {
-
-    relatedSection.style.display = "none";
-
-} else {
-
-    relatedProducts.forEach(item => {
-
-        relatedGrid.innerHTML += `
+            recentGrid.innerHTML += `
 
         <a
             href="product.html?id=${item.id}"
@@ -365,160 +356,212 @@ if (relatedProducts.length === 0) {
 
         `;
 
-    });
-
-}
-
-// ===========================================
-// QUANTITY SELECTOR
-// ===========================================
-
-let quantity = 1;
-
-const minusBtn =
-    document.querySelector(".quantity-minus");
-
-const plusBtn =
-    document.querySelector(".quantity-plus");
-
-const quantityText =
-    document.querySelector(".quantity-value");
-
-minusBtn.addEventListener("click", () => {
-
-    if (quantity > 1) {
-
-        quantity--;
-
-        quantityText.textContent = quantity;
+        });
 
     }
 
-});
+    // ===========================================
+    // RELATED PRODUCTS
+    // ===========================================
 
-plusBtn.addEventListener("click", () => {
+    const relatedGrid =
+        document.getElementById("related-grid");
 
-    quantity++;
+    const relatedSection =
+        document.querySelector(".related-products");
 
-    quantityText.textContent = quantity;
+    const relatedProducts =
+        products
+            .filter(item =>
+                item.category === product.category &&
+                item.id !== product.id
+            )
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 4);
 
-});
-// ===========================================
-// ADD TO CART
-// ===========================================
+    if (relatedProducts.length === 0) {
 
-const addCartBtn = document.querySelector(".add-cart-btn");
+        relatedSection.style.display = "none";
 
-addCartBtn.addEventListener("click", () => {
+    } else {
 
-    addCartBtn.classList.add("btn-loading");
-addCartBtn.disabled = true;
+        relatedProducts.forEach(item => {
 
-    setTimeout(() => {
+            relatedGrid.innerHTML += `
 
-        let cart =
-            JSON.parse(localStorage.getItem("cart")) || [];
+        <a
+            href="product.html?id=${item.id}"
+            class="recent-card"
+        >
 
-        const existingItem =
-            cart.find(item => item.id === product.id);
+            <img
+                src="${item.image}"
+                alt="${item.name}"
+            >
 
-        if (existingItem) {
+            <h4>${item.name}</h4>
 
-            existingItem.quantity += quantity;
+            <span>₹${item.price}</span>
+
+        </a>
+
+        `;
+
+        });
+
+    }
+
+    // ===========================================
+    // QUANTITY SELECTOR
+    // ===========================================
+
+    let quantity = 1;
+
+    const minusBtn =
+        document.querySelector(".quantity-minus");
+
+    const plusBtn =
+        document.querySelector(".quantity-plus");
+
+    const quantityText =
+        document.querySelector(".quantity-value");
+
+    minusBtn.addEventListener("click", () => {
+
+        if (quantity > 1) {
+
+            quantity--;
+
+            quantityText.textContent = quantity;
+
+        }
+
+    });
+
+    plusBtn.addEventListener("click", () => {
+
+        quantity++;
+
+        quantityText.textContent = quantity;
+
+    });
+    // ===========================================
+    // ADD TO CART
+    // ===========================================
+
+    const addCartBtn = document.querySelector(".add-cart-btn");
+
+    addCartBtn.addEventListener("click", () => {
+
+        addCartBtn.classList.add("btn-loading");
+        addCartBtn.disabled = true;
+
+        setTimeout(() => {
+
+            let cart =
+                JSON.parse(localStorage.getItem("cart")) || [];
+
+            const existingItem =
+                cart.find(item => item.id === product.id);
+
+            if (existingItem) {
+
+                existingItem.quantity += quantity;
+
+            } else {
+
+                cart.push({
+
+                    id: product.id,
+
+                    quantity: quantity
+
+                });
+
+            }
+
+            localStorage.setItem(
+                "cart",
+                JSON.stringify(cart)
+            );
+
+            updateCartCount();
+
+            showToast(
+                "Added to Cart",
+                `${product.name} added successfully.`,
+                "success"
+            );
+
+            addCartBtn.classList.remove("btn-loading");
+
+            addCartBtn.disabled = false;
+        }, 500);
+
+    });
+
+
+    // ===========================================
+    // WISHLIST
+    // ===========================================
+
+    const wishlistBtn = document.querySelector(".product-wishlist-btn");
+
+    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+    updateWishlistButton();
+
+    wishlistBtn.addEventListener("click", () => {
+
+        if (wishlist.includes(product.id)) {
+
+            wishlist =
+                wishlist.filter(id => id !== product.id);
+
+            showToast(
+                "Removed",
+                `${product.name} removed from wishlist.`,
+                "warning"
+            );
 
         } else {
 
-            cart.push({
+            wishlist.push(product.id);
 
-                id: product.id,
-
-                quantity: quantity
-
-            });
+            showToast(
+                "Wishlist Updated",
+                `${product.name} added to wishlist.`,
+                "info"
+            );
 
         }
 
         localStorage.setItem(
-            "cart",
-            JSON.stringify(cart)
+            "wishlist",
+            JSON.stringify(wishlist)
         );
 
-        updateCartCount();
+        updateWishlistCount();
 
-        showToast(
-            "Added to Cart",
-            `${product.name} added successfully.`,
-            "success"
-        );
+        updateWishlistButton();
 
-        addCartBtn.classList.remove("btn-loading");
+    });
 
-addCartBtn.disabled = false;
-    }, 500);
+    function updateWishlistButton() {
 
-});
+        if (wishlist.includes(product.id)) {
 
+            wishlistBtn.innerHTML = "💖 In Wishlist";
 
-// ===========================================
-// WISHLIST
-// ===========================================
+            wishlistBtn.classList.add("active");
 
-const wishlistBtn = document.querySelector(".product-wishlist-btn");
+        } else {
 
-let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+            wishlistBtn.innerHTML = "❤️ Wishlist";
 
-updateWishlistButton();
+            wishlistBtn.classList.remove("active");
 
-wishlistBtn.addEventListener("click", () => {
-
-    if (wishlist.includes(product.id)) {
-
-        wishlist =
-            wishlist.filter(id => id !== product.id);
-
-        showToast(
-            "Removed",
-            `${product.name} removed from wishlist.`,
-            "warning"
-        );
-
-    } else {
-
-        wishlist.push(product.id);
-
-        showToast(
-            "Wishlist Updated",
-            `${product.name} added to wishlist.`,
-            "info"
-        );
+        }
 
     }
-
-    localStorage.setItem(
-        "wishlist",
-        JSON.stringify(wishlist)
-    );
-
-    updateWishlistCount();
-
-    updateWishlistButton();
-
-});
-
-function updateWishlistButton() {
-
-    if (wishlist.includes(product.id)) {
-
-        wishlistBtn.innerHTML = "💖 In Wishlist";
-
-        wishlistBtn.classList.add("active");
-
-    } else {
-
-        wishlistBtn.innerHTML = "❤️ Wishlist";
-
-        wishlistBtn.classList.remove("active");
-
-    }
-
 }

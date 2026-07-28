@@ -228,7 +228,7 @@ function addToCart(productId) {
 
         cart.push({
 
-            id: Number(productId),
+            id: productId,
 
             quantity: 1
 
@@ -246,7 +246,7 @@ function addToCart(productId) {
 
     updateCartCount();
     const product =
-        allproducts.find(p => p.id == productId);
+        allProducts.find(p => p.id == productId);
 
     showToast(
         "Added to Cart",
@@ -525,33 +525,33 @@ document.addEventListener("click", (event) => {
 });
 
 
-document.addEventListener("click",(event)=>{
+document.addEventListener("click", (event) => {
 
     const cartButton =
-    event.target.closest(".quick-cart-btn");
+        event.target.closest(".quick-cart-btn");
 
-    if(!cartButton) return;
+    if (!cartButton) return;
 
     const id =
-    Number(cartButton.dataset.id);
+        cartButton.dataset.id;
 
     let cart =
-    JSON.parse(localStorage.getItem("cart")) || [];
+        JSON.parse(localStorage.getItem("cart")) || [];
 
     const existing =
-    cart.find(item => item.id === id);
+        cart.find(item => item.id === id);
 
-    if(existing){
+    if (existing) {
 
         existing.quantity++;
 
-    }else{
+    } else {
 
         cart.push({
 
-            id:id,
+            id: id,
 
-            quantity:1
+            quantity: 1
 
         });
 
@@ -565,7 +565,7 @@ document.addEventListener("click",(event)=>{
     updateCartCount();
 
     const product =
-    allproducts.find(item => item.id === id);
+        allProducts.find(item => item.id === id);
 
     showToast(
         "Added to Cart",
