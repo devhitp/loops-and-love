@@ -2,6 +2,17 @@
 // DISPLAY ORDERS
 // ==========================================
 
+import {
+    db
+} from "../firebase/firebase-config.js";
+
+
+import {
+    collection,
+    getDocs,
+    doc,
+    updateDoc
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const ordersTable =
     document.querySelector(".orders-table");
@@ -19,10 +30,33 @@ const orderDetails =
 function renderOrders() {
 
 
-    const orders =
-        JSON.parse(
-            localStorage.getItem("orders")
-        ) || [];
+    let orders = [];
+
+
+    async function loadOrders() {
+
+        const snapshot =
+            await getDocs(
+                collection(db, "orders")
+            );
+
+
+        orders =
+            snapshot.docs.map(doc => ({
+
+                id: doc.id,
+
+                ...doc.data()
+
+            }));
+
+
+        renderOrders();
+
+    }
+
+
+    loadOrders();
 
 
 
@@ -358,9 +392,11 @@ document.addEventListener(
 
         order.status = newStatus;
 
-        localStorage.setItem(
-            "orders",
-            JSON.stringify(orders)
+        await updateDoc(
+            doc(db, "orders", orderId),
+            {
+                status: newStatus
+            }
         );
 
         renderOrders();

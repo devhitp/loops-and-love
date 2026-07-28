@@ -2,10 +2,14 @@
 // GET CART
 // ===========================================
 import { getProducts } from "../firebase/firestore.js";
-import { addDoc, collection, serverTimestamp } from
-    "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import {
+    addDoc,
+    collection,
+    serverTimestamp
+} from "firebase/firestore";
 
 import { db } from "../firebase/firebase-config.js";
+console.log("FIREBASE DB:", db);
 
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
 console.log("CHECKOUT CART:", cart);
@@ -22,6 +26,12 @@ const customerPincode = document.querySelector("#customer-pincode");
 const subtotalElement = document.querySelector("#checkout-subtotal");
 const totalElement = document.querySelector("#checkout-total");
 let subtotal = 0;
+
+let shipping = 0;
+
+let tax = 0;
+
+let total = 0;
 
 let products = [];
 
@@ -69,36 +79,36 @@ x${item.quantity}
     updateCheckoutTotals();
 }
 
-function updateCheckoutTotals(){
+function updateCheckoutTotals() {
 
 
-    let shipping = 0;
+    shipping = 0;
 
-    let tax = 0;
+    tax = 0;
 
 
-    if(
+    if (
         subtotal <
         (storeSettings.freeShippingLimit || 999)
-    ){
+    ) {
 
         shipping =
-        storeSettings.shippingCharge || 0;
+            storeSettings.shippingCharge || 0;
 
     }
 
 
     tax =
-    Math.round(
-        subtotal *
-        ((storeSettings.taxRate || 0) / 100)
-    );
+        Math.round(
+            subtotal *
+            ((storeSettings.taxRate || 0) / 100)
+        );
 
 
     const total =
-    subtotal +
-    shipping +
-    tax;
+        subtotal +
+        shipping +
+        tax;
 
 
 
@@ -500,6 +510,10 @@ placeOrderButton.addEventListener("click", function (e) {
 
             }
         );
+        console.log(
+            "ORDER CREATED SUCCESSFULLY:",
+            orderRef.id
+        );
 
 
 
@@ -633,7 +647,10 @@ placeOrderButton.addEventListener("click", function (e) {
 
         localStorage.removeItem("cart");
 
-
+        localStorage.setItem(
+            "latestOrderId",
+            orderRef.id
+        );
 
         window.location.href =
             "order-success.html";
