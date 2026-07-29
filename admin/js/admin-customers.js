@@ -5,7 +5,9 @@ import { db } from "../../firebase/firebase-config.js";
 
 import {
     collection,
-    getDocs
+    getDocs,
+    query,
+    where
 } from "firebase/firestore";
 
 const customersTable =
@@ -154,82 +156,155 @@ function renderCustomers() {
 
 document.addEventListener(
     "click",
-    function (e) {
+    async function(e){
+
 
         const button =
             e.target.closest(".view-customer-btn");
 
-        if (!button) return;
+
+        if(!button) return;
+
 
         const phone =
             button.dataset.phone;
+
+
 
         const customer =
             customers.find(
                 c => c.phone === phone
             );
 
-        if (!customer) return;
+
+        if(!customer) return;
+
+
+
+        const orderQuery =
+            query(
+                collection(db,"orders"),
+                where(
+                    "customer.phone",
+                    "==",
+                    phone
+                )
+            );
+
+
+        const orderSnapshot =
+            await getDocs(orderQuery);
+
+
 
         const customerOrders =
-            orders.filter(
-                order =>
-                    order.customer.phone === phone
-            );
+            orderSnapshot.docs.map(doc => ({
+                id:doc.id,
+                ...doc.data()
+            }));
+
+
 
         let historyHTML = "";
 
-        customerOrders.forEach(order => {
+
+
+        customerOrders.forEach(order=>{
+
 
             historyHTML += `
 
             <div class="order-item">
 
-                <span>${order.id}</span>
+                <span>
+                    ${order.id}
+                </span>
 
-                <span>₹${order.total}</span>
+                <span>
+                    ₹${order.total}
+                </span>
 
-                <span>${order.status}</span>
+                <span>
+                    ${order.status}
+                </span>
 
             </div>
 
             `;
 
+
         });
+
+
 
         customerDetails.innerHTML = `
 
-            <div class="order-section">
+        <div class="order-section">
 
-                <h3>Customer Information</h3>
+            <h3>
+                Customer Information
+            </h3>
 
-                <p><strong>Name:</strong> ${customer.name}</p>
 
-                <p><strong>Phone:</strong> ${customer.phone}</p>
+            <p>
+            <strong>Name:</strong>
+            ${customer.name}
+            </p>
 
-                <p><strong>Address:</strong> ${customer.address}</p>
 
-                <p><strong>City:</strong> ${customer.city}</p>
+            <p>
+            <strong>Phone:</strong>
+            ${customer.phone}
+            </p>
 
-                <p><strong>Pincode:</strong> ${customer.pincode}</p>
 
-                <p><strong>Total Orders:</strong> ${customer.orders}</p>
+            <p>
+            <strong>Address:</strong>
+            ${customer.address}
+            </p>
 
-                <p><strong>Total Spent:</strong> ₹${customer.spent}</p>
 
-            </div>
+            <p>
+            <strong>City:</strong>
+            ${customer.city}
+            </p>
 
-            <div class="order-section">
 
-                <h3>Order History</h3>
+            <p>
+            <strong>Total Orders:</strong>
+            ${customer.orders}
+            </p>
 
-                ${historyHTML || "<p>No orders found.</p>"}
 
-            </div>
+            <p>
+            <strong>Total Spent:</strong>
+            ₹${customer.spent}
+            </p>
+
+
+        </div>
+
+
+        <div class="order-section">
+
+            <h3>
+                Order History
+            </h3>
+
+
+            ${
+                historyHTML ||
+                "<p>No orders found.</p>"
+            }
+
+
+        </div>
 
         `;
 
+
         customerModal.classList.add("active");
+
 
     }
 );

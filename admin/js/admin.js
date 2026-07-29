@@ -136,7 +136,7 @@ async function loadDashboard() {
 
 
     if (customerCountElement)
-        customerCountElement.textContent = customerCount;
+        customerCountElement.textContent = customerPhones.size;
 
 
     if (revenueCount)
