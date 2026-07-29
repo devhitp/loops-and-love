@@ -2,9 +2,7 @@
 // DISPLAY ORDERS
 // ==========================================
 
-import {
-    db
-} from "../firebase/firebase-config.js";
+import { db } from "../../firebase/firebase-config.js";
 
 
 import {
@@ -12,7 +10,7 @@ import {
     getDocs,
     doc,
     updateDoc
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+} from "firebase/firestore";
 
 const ordersTable =
     document.querySelector(".orders-table");
@@ -24,157 +22,76 @@ const closeOrderModal =
 
 const orderDetails =
     document.querySelector("#order-details");
+let orders = [];
 
 
+
+async function loadOrders() {
+
+    const snapshot = await getDocs(
+        collection(db, "orders")
+    );
+
+    orders = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }));
+    console.log("Orders from Firestore:", orders);
+
+    renderOrders();
+
+}
 
 function renderOrders() {
 
-
-    let orders = [];
-
-
-    async function loadOrders() {
-
-        const snapshot =
-            await getDocs(
-                collection(db, "orders")
-            );
-
-
-        orders =
-            snapshot.docs.map(doc => ({
-
-                id: doc.id,
-
-                ...doc.data()
-
-            }));
-
-
-        renderOrders();
-
-    }
-
-
-    loadOrders();
-
-
-
     const emptyMessage =
         document.querySelector(".empty-orders");
-
-
-
-    if (orders.length === 0) {
-
-        emptyMessage.style.display =
-            "block";
-
-        return;
-
-    }
-
-
-
-    emptyMessage.style.display =
-        "none";
-
-
-
-    // Remove old rows
 
     document
         .querySelectorAll(".order-row")
         .forEach(row => row.remove());
 
+    if (orders.length === 0) {
 
+        emptyMessage.style.display = "block";
+        return;
 
+    }
 
+    emptyMessage.style.display = "none";
 
     orders.forEach(order => {
-
-
 
         const row =
             document.createElement("div");
 
-
-        row.className =
-            "order-row";
-
-
+        row.className = "order-row";
 
         row.innerHTML = `
+            <span>${order.id}</span>
 
+            <span>${order.customer.name}</span>
 
-        <span>
+            <span>₹${order.total}</span>
 
-        ${order.id}
+            <span>
+                <span class="status ${order.status.toLowerCase()}">
+                    ${order.status}
+                </span>
+            </span>
 
-        </span>
-
-
-
-
-        <span>
-
-        ${order.customer.name}
-
-        </span>
-
-
-
-
-        <span>
-
-        ₹${order.total}
-
-        </span>
-
-
-
-
-        <span>
-
-        <span class="status ${order.status.toLowerCase()}">
-
-    ${order.status}
-
-</span>
-
-        </span>
-
-
-
-
-
-        <span>
-
-
-        <button
-    class="view-order-btn"
-    data-id="${order.id}">
-
-    View
-
-</button>
-
-
-        </span>
-
-
-
+            <span>
+                <button
+                    class="view-order-btn"
+                    data-id="${order.id}">
+                    View
+                </button>
+            </span>
         `;
-
-
 
         ordersTable.appendChild(row);
 
-
-
     });
-
-
 
 }
 
@@ -194,14 +111,9 @@ document.addEventListener(
         const orderId =
             button.dataset.id;
 
-        const orders =
-            JSON.parse(
-                localStorage.getItem("orders")
-            ) || [];
-
         const order =
             orders.find(
-                o => o.id == orderId
+                o => o.id === orderId
             );
 
         if (!order) return;
@@ -302,7 +214,15 @@ function showOrderDetails(order) {
 
 </p>
 
-            <p><strong>Date:</strong> ${order.date}</p>
+            <p><strong>Date:</strong>
+${order.createdAt
+            ? order.createdAt.toDate().toLocaleString("en-IN", {
+                dateStyle: "medium",
+                timeStyle: "short"
+            })
+            : "Just now"
+        }
+</p>
 
         </div>
 
@@ -368,7 +288,7 @@ orderModal.addEventListener(
 
 document.addEventListener(
     "change",
-    function (e) {
+    async function (e) {
 
         if (e.target.id !== "order-status") return;
 
@@ -378,14 +298,9 @@ document.addEventListener(
         const newStatus =
             e.target.value;
 
-        let orders =
-            JSON.parse(
-                localStorage.getItem("orders")
-            ) || [];
-
         const order =
             orders.find(
-                o => o.id == orderId
+                o => o.id === orderId
             );
 
         if (!order) return;
@@ -407,4 +322,4 @@ document.addEventListener(
 );
 
 
-renderOrders();
+loadOrders();

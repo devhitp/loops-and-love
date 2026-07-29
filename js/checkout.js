@@ -105,7 +105,7 @@ function updateCheckoutTotals() {
         );
 
 
-    const total =
+    total =
         subtotal +
         shipping +
         tax;
@@ -492,7 +492,23 @@ placeOrderButton.addEventListener("click", function (e) {
             collection(db, "orders"),
             {
 
-                items: cart,
+                items: cart.map(cartItem => {
+
+                    const product = products.find(
+                        p => p.id === cartItem.id
+                    );
+
+                    return {
+
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                        quantity: cartItem.quantity
+
+                    };
+
+                }),
 
                 subtotal,
 
