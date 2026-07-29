@@ -1,10 +1,15 @@
 // ==========================================
 // DISPLAY CUSTOMERS
 // ==========================================
+import { db } from "../../firebase/firebase-config.js";
 
+import {
+    collection,
+    getDocs
+} from "firebase/firestore";
 
 const customersTable =
-document.querySelector(".customers-table");
+    document.querySelector(".customers-table");
 const customerModal =
     document.querySelector("#customer-modal");
 
@@ -14,50 +19,66 @@ const customerDetails =
 const closeCustomerModal =
     document.querySelector("#close-customer-modal");
 
+let customers = [];
+let orders = [];
+
+async function loadCustomers() {
 
 
-function renderCustomers(){
+    const customerSnapshot =
+        await getDocs(
+            collection(db, "customers")
+        );
 
 
-    const customers =
-    JSON.parse(
-        localStorage.getItem("customers")
-    ) || [];
+    customers =
+        customerSnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
 
+
+    const orderSnapshot =
+        await getDocs(
+            collection(db, "orders")
+        );
+
+
+    orders =
+        orderSnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+
+
+    renderCustomers();
+
+}
+
+
+function renderCustomers() {
 
 
     const emptyMessage =
-    document.querySelector(".empty-customers");
+        document.querySelector(".empty-customers");
 
 
 
-    if(customers.length === 0){
+    document
+        .querySelectorAll(".customer-row")
+        .forEach(row => row.remove());
 
 
-        emptyMessage.style.display =
-        "block";
 
+    if (customers.length === 0) {
 
+        emptyMessage.style.display = "block";
         return;
 
     }
 
 
-
-
-    emptyMessage.style.display =
-    "none";
-
-
-
-
-
-    document
-    .querySelectorAll(".customer-row")
-    .forEach(row => row.remove());
-
-
-
+    emptyMessage.style.display = "none";
 
 
 
@@ -65,60 +86,59 @@ function renderCustomers(){
 
 
         const row =
-        document.createElement("div");
+            document.createElement("div");
 
 
-        row.className =
-        "customer-row";
+        row.className = "customer-row";
+
+
 
         let customerType = "New";
-let customerClass = "new";
+        let customerClass = "new";
 
-if(customer.spent >= 2000){
 
-    customerType = "VIP";
-    customerClass = "vip";
 
-}
-else if(customer.spent >= 500){
+        if (customer.spent >= 2000) {
 
-    customerType = "Regular";
-    customerClass = "regular";
+            customerType = "VIP";
+            customerClass = "vip";
 
-}
+        }
+
+        else if (customer.spent >= 500) {
+
+            customerType = "Regular";
+            customerClass = "regular";
+
+        }
+
+
 
         row.innerHTML = `
 
-    <span>${customer.name}</span>
+        <span>${customer.name}</span>
 
-    <span>${customer.phone}</span>
+        <span>${customer.phone}</span>
 
-    <span>${customer.orders}</span>
+        <span>${customer.orders}</span>
 
-    <span>₹${customer.spent}</span>
+        <span>₹${customer.spent}</span>
 
-    <span>
-
-        <span class="customer-type ${customerClass}">
-            ${customerType}
+        <span>
+            <span class="customer-type ${customerClass}">
+                ${customerType}
+            </span>
         </span>
 
-    </span>
-
-    <span>
-
-        <button
+        <span>
+            <button 
             class="view-customer-btn"
             data-phone="${customer.phone}">
-
             View
+            </button>
+        </span>
 
-        </button>
-
-    </span>
-
-`;
-
+        `;
 
 
         customersTable.appendChild(row);
@@ -134,42 +154,32 @@ else if(customer.spent >= 500){
 
 document.addEventListener(
     "click",
-    function(e){
+    function (e) {
 
         const button =
             e.target.closest(".view-customer-btn");
 
-        if(!button) return;
+        if (!button) return;
 
         const phone =
             button.dataset.phone;
-
-        const customers =
-            JSON.parse(
-                localStorage.getItem("customers")
-            ) || [];
-
-        const orders =
-            JSON.parse(
-                localStorage.getItem("orders")
-            ) || [];
 
         const customer =
             customers.find(
                 c => c.phone === phone
             );
 
-        if(!customer) return;
+        if (!customer) return;
 
         const customerOrders =
             orders.filter(
                 order =>
-                order.customer.phone === phone
+                    order.customer.phone === phone
             );
 
         let historyHTML = "";
 
-        customerOrders.forEach(order=>{
+        customerOrders.forEach(order => {
 
             historyHTML += `
 
@@ -234,9 +244,9 @@ closeCustomerModal.addEventListener(
 
 customerModal.addEventListener(
     "click",
-    function(e){
+    function (e) {
 
-        if(e.target === customerModal){
+        if (e.target === customerModal) {
 
             customerModal.classList.remove("active");
 
@@ -247,5 +257,4 @@ customerModal.addEventListener(
 
 
 
-
-renderCustomers();
+loadCustomers();

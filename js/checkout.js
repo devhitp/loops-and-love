@@ -5,7 +5,10 @@ import { getProducts } from "../firebase/firestore.js";
 import {
     addDoc,
     collection,
-    serverTimestamp
+    serverTimestamp,
+    doc,
+    getDoc,
+    setDoc
 } from "firebase/firestore";
 
 import { db } from "../firebase/firebase-config.js";
@@ -438,6 +441,99 @@ function loadCustomerDetails() {
 
 }
 
+async function saveCustomerToFirestore(customerDetails, subtotal) {
+
+
+    const customerRef =
+        doc(
+            db,
+            "customers",
+            customerDetails.phone
+        );
+
+
+    const customerSnap =
+        await getDoc(customerRef);
+
+
+
+    if (customerSnap.exists()) {
+
+
+        const oldCustomer =
+            customerSnap.data();
+
+
+
+        await setDoc(
+            customerRef,
+            {
+
+                ...oldCustomer,
+
+                orders:
+                    oldCustomer.orders + 1,
+
+
+                spent:
+                    oldCustomer.spent + subtotal,
+
+
+                lastOrder:
+                    serverTimestamp()
+
+            }
+        );
+
+
+    }
+
+    else {
+
+
+        await setDoc(
+            customerRef,
+            {
+
+                name:
+                    customerDetails.name,
+
+
+                phone:
+                    customerDetails.phone,
+
+
+                address:
+                    customerDetails.address,
+
+
+                city:
+                    customerDetails.city,
+
+
+                pincode:
+                    customerDetails.pincode,
+
+
+                orders: 1,
+
+
+                spent: subtotal,
+
+
+                createdAt:
+                    serverTimestamp(),
+
+
+                lastOrder:
+                    serverTimestamp()
+
+            }
+        );
+
+    }
+
+}
 
 placeOrderButton.addEventListener("click", function (e) {
 
@@ -529,6 +625,11 @@ placeOrderButton.addEventListener("click", function (e) {
         console.log(
             "ORDER CREATED SUCCESSFULLY:",
             orderRef.id
+        );
+
+        await saveCustomerToFirestore(
+            customerDetails,
+            subtotal
         );
 
 

@@ -13,7 +13,16 @@ import {
 import {
     logoutUser
 } from "../../firebase/auth.js";
+import { db } from "../../firebase/firebase-config.js";
 
+import {
+    collection,
+    getDocs
+} from "firebase/firestore";
+
+import {
+    getProducts
+} from "../../firebase/firestore.js";
 
 checkAuth((user) => {
 
@@ -72,181 +81,126 @@ if (logoutBtn) {
 
 
 // ==========================================
-// DASHBOARD DATA
+// DASHBOARD DATA (FIRESTORE)
 // ==========================================
 
+async function loadDashboard() {
 
-const products =
-    JSON.parse(
-        localStorage.getItem("products")
-    ) || [];
+    // Products
+    const products = await getProducts();
 
-
-
-const orders =
-    JSON.parse(
-        localStorage.getItem("orders")
-    ) || [];
-
-
-
-const customers =
-    JSON.parse(
-        localStorage.getItem("customers")
-    ) || [];
-
-
-
-
-// PRODUCTS
-
-const productCount =
-    document.querySelector(
-        ".stat-card:nth-child(1) strong"
+    // Orders
+    const orderSnapshot = await getDocs(
+        collection(db, "orders")
     );
 
+    const orders = orderSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }));
 
-if (productCount) {
+    // Products
+    const productCount =
+        document.querySelector("#product-count");
 
-    productCount.textContent =
-        products.length;
+    // Orders
+    const orderCount =
+        document.querySelector("#order-count");
 
-}
+    // Customers (unique phone numbers)
+    const customerPhones =
+        new Set(
+            orders.map(order => order.customer.phone)
+        );
 
+    const customerCountElement =
+        document.querySelector("#customer-count");
 
-
-// ORDERS
-
-const orderCount =
-    document.querySelector(
-        ".stat-card:nth-child(2) strong"
-    );
-
-
-if (orderCount) {
-
-    orderCount.textContent =
-        orders.length;
-
-}
-
-
-
-// CUSTOMERS
-
-const customerCount =
-    document.querySelector(
-        ".stat-card:nth-child(3) strong"
-    );
+    // Revenue
+    const revenue =
+        orders.reduce(
+            (sum, order) => sum + Number(order.total || 0),
+            0
+        );
 
 
-if (customerCount) {
+    const revenueCount =
+        document.querySelector("#revenue-count");
 
-    customerCount.textContent =
-        customers.length;
-
-}
-
+    if (productCount)
+        productCount.textContent = products.length;
 
 
-// REVENUE
-
-let revenue = 0;
-
-
-orders.forEach(order => {
-
-    revenue += Number(order.total);
-
-});
+    if (orderCount)
+        orderCount.textContent = orders.length;
 
 
-
-const revenueElement =
-    document.querySelector(
-        ".stat-card:nth-child(4) strong"
-    );
+    if (customerCountElement)
+        customerCountElement.textContent = customerCount;
 
 
+    if (revenueCount)
+        revenueCount.textContent = `₹${revenue}`;
 
-if (revenueElement) {
-
-    revenueElement.textContent =
-        "₹" + revenue;
-
-}
-// ==========================================
-// RECENT ORDERS
-// ==========================================
+    // Recent Orders
+    const recentOrders =
+        document.querySelector("#recent-orders");
 
 
-const recentOrders =
-    document.querySelector("#recent-orders");
+    if (recentOrders) {
 
+        recentOrders.innerHTML = "";
 
+    }
 
-if (recentOrders) {
-
-
-    const latestOrders =
-        orders.slice(-5).reverse();
-
-
-
-    if (latestOrders.length === 0) {
+    if (orders.length === 0) {
 
         recentOrders.innerHTML =
-            `
-        <p class="empty-orders">
-        No orders yet
-        </p>
-        `;
+            `<p class="empty-orders">No orders yet</p>`;
+
+        return;
 
     }
-    else {
 
+    if (recentOrders) {
+        orders
+            .sort((a, b) => {
 
-        latestOrders.forEach(order => {
+                if (!a.createdAt || !b.createdAt)
+                    return 0;
 
+                return (
+                    b.createdAt.seconds -
+                    a.createdAt.seconds
+                );
 
-            recentOrders.innerHTML += `
+            })
+            .slice(0, 5)
+            .forEach(order => {
 
-            <div class="recent-order">
+                recentOrders.innerHTML += `
+                <div class="recent-order">
 
+                    <span>${order.id}</span>
 
-                <span>
-                ${order.id}
-                </span>
+                    <span>${order.customer.name}</span>
 
+                    <span>₹${order.total}</span>
 
-                <span>
-                ${order.customer.name}
-                </span>
+                    <span class="status ${order.status.toLowerCase()}">
+                        ${order.status}
+                    </span>
 
-
-                <span>
-                ₹${order.total}
-                </span>
-
-
-                <span class="status ${order.status.toLowerCase()}">
-                ${order.status}
-                </span>
-
-
-            </div>
-
-
+                </div>
             `;
 
-
-        });
-
-
+            });
     }
 
-
 }
+
+loadDashboard();
+
 // ==========================================
 // DASHBOARD ANALYTICS
 // ==========================================
