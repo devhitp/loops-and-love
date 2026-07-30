@@ -3,7 +3,17 @@
 // ==========================================
 
 
+import {
 
+    renderStatistics,
+
+    renderRecentOrders,
+
+    renderRevenueChart,
+
+    renderOrderStatusChart
+
+} from "./dashboard.js";
 
 
 import {
@@ -99,105 +109,37 @@ async function loadDashboard() {
         ...doc.data()
     }));
 
-    // Products
-    const productCount =
-        document.querySelector("#product-count");
-
-    // Orders
-    const orderCount =
-        document.querySelector("#order-count");
-
-    // Customers (unique phone numbers)
-    const customerPhones =
-        new Set(
-            orders.map(order => order.customer.phone)
+    // Customers
+    const customerSnapshot =
+        await getDocs(
+            collection(db, "customers")
         );
 
-    const customerCountElement =
-        document.querySelector("#customer-count");
-
-    // Revenue
-    const revenue =
-        orders.reduce(
-            (sum, order) => sum + Number(order.total || 0),
-            0
-        );
+    const customers =
+        customerSnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
 
 
-    const revenueCount =
-        document.querySelector("#revenue-count");
+    // Dashboard Statistics
+    renderStatistics(
+        products,
+        orders,
+        customers
+    );
 
-    if (productCount)
-        productCount.textContent = products.length;
-
-
-    if (orderCount)
-        orderCount.textContent = orders.length;
-
-
-    if (customerCountElement)
-        customerCountElement.textContent = customerPhones.size;
-
-
-    if (revenueCount)
-        revenueCount.textContent = `₹${revenue}`;
 
     // Recent Orders
-    const recentOrders =
-        document.querySelector("#recent-orders");
+    renderRecentOrders(orders);
 
+    // Revenue Chart
+    renderRevenueChart(orders);
 
-    if (recentOrders) {
-
-        recentOrders.innerHTML = "";
-
-    }
-
-    if (orders.length === 0) {
-
-        recentOrders.innerHTML =
-            `<p class="empty-orders">No orders yet</p>`;
-
-        return;
-
-    }
-
-    if (recentOrders) {
-        orders
-            .sort((a, b) => {
-
-                if (!a.createdAt || !b.createdAt)
-                    return 0;
-
-                return (
-                    b.createdAt.seconds -
-                    a.createdAt.seconds
-                );
-
-            })
-            .slice(0, 5)
-            .forEach(order => {
-
-                recentOrders.innerHTML += `
-                <div class="recent-order">
-
-                    <span>${order.id}</span>
-
-                    <span>${order.customer.name}</span>
-
-                    <span>₹${order.total}</span>
-
-                    <span class="status ${order.status.toLowerCase()}">
-                        ${order.status}
-                    </span>
-
-                </div>
-            `;
-
-            });
-    }
+    renderOrderStatusChart(orders);
 
 }
+
 
 loadDashboard();
 

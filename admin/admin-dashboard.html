@@ -9,7 +9,6 @@
     <title>Admin Dashboard | Loops & Love</title>
 
     <link rel="stylesheet" href="css/admin.css" />
-    
   </head>
 
   <body>
@@ -69,6 +68,76 @@
 
             <strong id="revenue-count"> ₹0 </strong>
           </div>
+          <div class="stat-card">
+            <h3>Today's Orders</h3>
+
+            <strong id="today-orders"> 0 </strong>
+          </div>
+
+          <div class="stat-card">
+            <h3>Pending Orders</h3>
+
+            <strong id="pending-orders"> 0 </strong>
+          </div>
+
+          <div class="stat-card">
+            <h3>Average Order</h3>
+
+            <strong id="average-order"> ₹0 </strong>
+          </div>
+          <div class="stat-card">
+            <h3>Monthly Revenue</h3>
+
+            <strong id="monthly-revenue"> ₹0 </strong>
+          </div>
+
+          <div class="stat-card">
+            <h3>New Customers</h3>
+
+            <strong id="new-customers"> 0 </strong>
+          </div>
+        </section>
+
+        <section class="admin-section">
+          <h2>Revenue (Last 7 Days)</h2>
+
+          <div class="chart-container">
+            <canvas id="revenue-chart"></canvas>
+          </div>
+        </section>
+        <section class="admin-section">
+          <h2>Orders by Status</h2>
+
+          <div class="chart-container">
+            <canvas id="order-status-chart"></canvas>
+          </div>
+
+          <div class="status-summary">
+            <div class="status-item">
+              <span>🟦 Pending</span>
+              <strong id="pending-count">0</strong>
+            </div>
+
+            <div class="status-item">
+              <span>🩷 Confirmed</span>
+              <strong id="confirmed-count">0</strong>
+            </div>
+
+            <div class="status-item">
+              <span>🟧 Shipped</span>
+              <strong id="shipped-count">0</strong>
+            </div>
+
+            <div class="status-item">
+              <span>🟨 Delivered</span>
+              <strong id="delivered-count">0</strong>
+            </div>
+
+            <div class="status-item">
+              <span>🟩 Cancelled</span>
+              <strong id="cancelled-count">0</strong>
+            </div>
+          </div>
         </section>
 
         <!-- RECENT ORDERS -->
@@ -93,8 +162,8 @@
       </main>
     </div>
 
-    <script type="module" src="js/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    
+    <script type="module" src="js/admin.js"></script>
   </body>
 </html>

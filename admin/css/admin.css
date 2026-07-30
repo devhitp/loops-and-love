@@ -1832,3 +1832,47 @@ SETTINGS FORM
     border-radius:10px;
     border:1px solid #ddd;
 }
+.chart-container{
+
+    width:100%;
+
+    height:400px;
+
+    margin-top:20px;
+
+}
+.status-summary{
+
+    margin-top:30px;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+    gap:15px;
+
+}
+
+.status-item{
+
+    background:#f8f8f8;
+
+    border-radius:12px;
+
+    padding:14px 18px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    font-size:16px;
+
+}
+
+.status-item strong{
+
+    font-size:18px;
+
+}
