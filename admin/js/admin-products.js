@@ -38,6 +38,8 @@ const confirmDelete =
     document.querySelector("#confirm-delete");
 
 let deleteProductId = null;
+let allProducts = [];
+let filteredProducts = [];
 const imageInput =
     document.querySelector("#product-image");
 
@@ -284,11 +286,11 @@ if (productForm) {
 const productsTable =
     document.querySelector(".products-table");
 
-let allProducts = [];
 
 
 
-function renderProducts(products) {
+
+function renderProducts(productsList) {
 
 
 
@@ -305,7 +307,7 @@ function renderProducts(products) {
 
 
 
-    if (products.length === 0) {
+    if (productsList.length === 0) {
 
         emptyMessage.style.display =
             "block";
@@ -319,19 +321,7 @@ function renderProducts(products) {
     emptyMessage.style.display =
         "none";
 
-    const keyword =
-        searchInput
-            ? searchInput.value.toLowerCase()
-            : "";
-
-    const filteredProducts =
-        products.filter(product =>
-            product.name
-                .toLowerCase()
-                .includes(keyword)
-        );
-
-    filteredProducts.forEach(product => {
+    productsList.forEach(product => {
 
 
         const row =
@@ -569,23 +559,44 @@ document.addEventListener(
 
 
     });
-if (searchInput) {
-
-    searchInput.addEventListener(
-        "input",
-        () => {
-
-            renderProducts(allProducts);
-
-        }
-    );
-}
 
 
-listenToProducts((products) => {
+
+listenToProducts(products => {
 
     allProducts = products;
 
-    renderProducts(allProducts);
+    filteredProducts = [...products];
+
+    renderProducts(filteredProducts);
 
 });
+if (searchInput) {
+
+    searchInput.addEventListener("input", e => {
+
+        const keyword =
+            e.target.value
+                .trim()
+                .toLowerCase();
+
+        filteredProducts =
+            allProducts.filter(product =>
+
+                product.name
+                    .toLowerCase()
+                    .includes(keyword)
+
+                ||
+
+                product.category
+                    .toLowerCase()
+                    .includes(keyword)
+
+            );
+
+        renderProducts(filteredProducts);
+
+    });
+
+}
