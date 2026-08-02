@@ -1270,15 +1270,15 @@ PRODUCT SEARCH
 
 
 
-.status {
+.status{
 
-    padding: 8px 15px;
+    padding:9px 16px;
 
-    border-radius: 20px;
+    border-radius:999px;
 
-    font-size: .85rem;
+    font-weight:600;
 
-    display: inline-block;
+    font-size:13px;
 
 }
 
@@ -2007,13 +2007,11 @@ SETTINGS FORM
 
 }
 
-#recent-orders-mobile {
+#recent-orders-mobile{
 
-    display: none;
+    gap:22px;
 
-    gap: 16px;
-
-    margin-top: 20px;
+    margin-top:28px;
 
 }
 
@@ -2064,38 +2062,59 @@ SETTINGS FORM
 
     width:100%;
 
-    margin-top:18px;
+    margin-top:24px;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#f29db3;
+
+    color:white;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+.mobile-order-card .view-order-btn:hover{
+
+    background:#eb87a3;
 
 }
 .mobile-order-info{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
 
-    margin-top:14px;
+    padding:16px 0;
 
-    padding-top:14px;
-
-    border-top:1px solid #f2f2f2;
+    border-bottom:1px solid #f5f5f5;
 
 }
 
 .mobile-order-info .label{
 
-    color:#777;
+    color:#999;
 
-    font-size:14px;
+    font-size:13px;
 
-    font-weight:500;
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
 
 }
-
 .mobile-order-card strong{
 
-    color:#333;
+    font-size:17px;
+
+    color:#2f2f2f;
 
 }
 .mobile-order-card{
@@ -2248,5 +2267,75 @@ SETTINGS FORM
     cursor:pointer;
 
     font-size:14px;
+
+}
+@media (max-width:768px){
+
+    .product-header{
+
+        display:flex;
+        flex-direction:column;
+        align-items:stretch;
+        gap:18px;
+    }
+
+    .product-header h2{
+
+        font-size:2rem;
+        margin:0;
+    }
+
+    #order-search{
+
+        width:100%;
+    }
+    .mobile-order-card{
+
+    background:white;
+
+    border-radius:22px;
+
+    padding:22px;
+
+    box-shadow:0 10px 35px rgba(0,0,0,.06);
+
+    transition:.3s;
+
+    border:1px solid #f3f3f3;
+
+}
+
+.mobile-order-card:hover{
+
+    transform:translateY(-4px);
+
+}
+
+}
+.search-input{
+
+    width:320px;
+    padding:14px 18px;
+
+    border:1px solid #ececec;
+    border-radius:14px;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:.25s;
+
+    background:#fafafa;
+
+}
+
+.search-input:focus{
+
+    border-color:#f29db3;
+
+    background:white;
+
+    box-shadow:0 0 0 5px rgba(242,157,179,.15);
 
 }

@@ -24,7 +24,8 @@ const closeOrderModal =
 
 const orderDetails =
     document.querySelector("#order-details");
-let orders = [];
+let allOrders = [];
+let filteredOrders = [];
 
 
 
@@ -34,17 +35,18 @@ async function loadOrders() {
         collection(db, "orders")
     );
 
-    orders = snapshot.docs.map(doc => ({
+    allOrders = snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
     }));
-    console.log("Orders from Firestore:", orders);
 
-    renderOrders();
+    filteredOrders = [...allOrders];
+
+    renderOrders(filteredOrders);
 
 }
 
-function renderOrders() {
+function renderOrders(ordersList) {
 
     const emptyMessage =
         document.querySelector(".empty-orders");
@@ -55,7 +57,7 @@ function renderOrders() {
 
     mobileOrders.innerHTML = "";
 
-    if (orders.length === 0) {
+    if (ordersList.length === 0){
 
         emptyMessage.style.display = "block";
         return;
@@ -64,7 +66,7 @@ function renderOrders() {
 
     emptyMessage.style.display = "none";
 
-    orders.forEach(order => {
+    ordersList.forEach(order => {
 
         const row =
             document.createElement("div");
@@ -150,7 +152,7 @@ document.addEventListener(
             button.dataset.id;
 
         const order =
-            orders.find(
+            allOrders.find(
                 o => o.id === orderId
             );
 
@@ -337,7 +339,7 @@ document.addEventListener(
             e.target.value;
 
         const order =
-            orders.find(
+            allOrders.find(
                 o => o.id === orderId
             );
 
@@ -352,12 +354,41 @@ document.addEventListener(
             }
         );
 
-        renderOrders();
+        renderOrders(filteredOrders);
 
         showToast("Order status updated!");
 
     }
 );
+
+const searchInput =
+    document.querySelector("#order-search");
+
+if (searchInput) {
+
+    searchInput.addEventListener("input", e => {
+
+        const keyword = e.target.value
+            .trim()
+            .toLowerCase();
+
+        filteredOrders = allOrders.filter(order =>
+
+            order.id.toLowerCase().includes(keyword) ||
+
+            order.customer.name.toLowerCase().includes(keyword) ||
+
+            order.customer.phone.toLowerCase().includes(keyword) ||
+
+            order.status.toLowerCase().includes(keyword)
+
+        );
+
+        renderOrders(filteredOrders);
+
+    });
+
+}
 
 
 loadOrders();
