@@ -2,10 +2,12 @@
 // CART DATA
 // ===========================================
 import { getProducts } from "../firebase/firestore.js";
+import { getSettings } from "./settings-loader.js";
 const cart =
     JSON.parse(localStorage.getItem("cart")) || [];
 
 let products = [];
+let settings = {};
 let subtotal = 0;
 
 let shipping = 0;
@@ -52,6 +54,8 @@ if (cart.length > 0) {
 
 async function loadCartProducts() {
 
+    settings = await getSettings();
+
     products = await getProducts();
 
     renderCart();
@@ -61,7 +65,7 @@ updateCheckoutButton();
 function renderCart() {
 
 
-
+    subtotal=0;
     shipping = 0;
     cartContainer.innerHTML = "";
 

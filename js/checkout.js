@@ -13,13 +13,11 @@ import {
 
 import { db } from "../firebase/firebase-config.js";
 console.log("FIREBASE DB:", db);
+import { getSettings } from "./settings-loader.js";
 
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
 console.log("CHECKOUT CART:", cart);
-const storeSettings =
-    JSON.parse(
-        localStorage.getItem("settings")
-    ) || {};
+let storeSettings = {};
 const checkoutItems = document.querySelector("#checkout-items");
 const customerName = document.querySelector("#customer-name");
 const customerPhone = document.querySelector("#customer-phone");
@@ -39,6 +37,8 @@ let total = 0;
 let products = [];
 
 async function loadCheckout() {
+
+    storeSettings = await getSettings();
 
     products = await getProducts();
 
@@ -638,122 +638,7 @@ placeOrderButton.addEventListener("click", function (e) {
             "latestOrderId",
             orderRef.id
         );
-        // SAVE ORDER HISTORY FOR ADMIN
-
-
-        let orders =
-            JSON.parse(
-                localStorage.getItem("orders")
-            ) || [];
-
-
-        orders.push({
-
-            id: orderRef.id,
-
-            items: cart,
-
-            subtotal,
-
-            shipping,
-
-            tax,
-
-            total,
-
-            customer: customerDetails,
-
-            status: "Pending"
-
-        });
-
-
-        localStorage.setItem(
-            "orders",
-            JSON.stringify(orders)
-        );
-
-        // ==========================================
-        // SAVE CUSTOMER DATA
-        // ==========================================
-
-
-        let customers =
-            JSON.parse(
-                localStorage.getItem("customers")
-            ) || [];
-
-
-
-        const existingCustomer =
-            customers.find(
-                customer =>
-                    customer.phone === customerDetails.phone
-            );
-
-
-
-
-
-        if (existingCustomer) {
-
-
-            existingCustomer.orders += 1;
-
-
-            existingCustomer.spent += subtotal;
-
-
-
-        }
-        else {
-
-
-            customers.push({
-
-                name:
-                    customerDetails.name,
-
-
-                phone:
-                    customerDetails.phone,
-
-
-                address:
-                    customerDetails.address,
-
-
-                city:
-                    customerDetails.city,
-
-
-                pincode:
-                    customerDetails.pincode,
-
-
-                orders: 1,
-
-
-                spent: subtotal
-
-
-            });
-
-
-        }
-
-
-
-
-        localStorage.setItem(
-
-            "customers",
-
-            JSON.stringify(customers)
-
-        );
-
-
+            
 
         localStorage.setItem(
             "orderId",

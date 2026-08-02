@@ -11,7 +11,11 @@ import {
 
     renderRevenueChart,
 
-    renderOrderStatusChart
+    renderOrderStatusChart,
+
+    renderTopProducts,
+    renderTopCustomers,
+    renderRecentActivity
 
 } from "./dashboard.js";
 
@@ -121,6 +125,8 @@ async function loadDashboard() {
             ...doc.data()
         }));
 
+    const revenueFilter =
+        document.querySelector("#revenue-filter");
 
     // Dashboard Statistics
     renderStatistics(
@@ -134,9 +140,37 @@ async function loadDashboard() {
     renderRecentOrders(orders);
 
     // Revenue Chart
-    renderRevenueChart(orders);
+    if (revenueFilter) {
+
+        renderRevenueChart(
+            orders,
+            revenueFilter.value
+        );
+
+        revenueFilter.addEventListener(
+            "change",
+            () => {
+
+                renderRevenueChart(
+                    orders,
+                    revenueFilter.value
+                );
+
+            }
+        );
+
+    }
 
     renderOrderStatusChart(orders);
+
+    renderTopProducts(
+        orders
+    );
+    renderTopCustomers(orders);
+    renderRecentActivity(
+        orders,
+        customers
+    );
 
 }
 
@@ -148,16 +182,6 @@ loadDashboard();
 // ==========================================
 
 function loadDashboardStats() {
-
-    const products =
-        JSON.parse(localStorage.getItem("products")) || [];
-
-    const orders =
-        JSON.parse(localStorage.getItem("orders")) || [];
-
-    const customers =
-        JSON.parse(localStorage.getItem("customers")) || [];
-
     const revenue =
         orders.reduce(
             (total, order) => total + order.total,

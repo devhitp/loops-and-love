@@ -14,6 +14,8 @@ import {
 
 const ordersTable =
     document.querySelector(".orders-table");
+    const mobileOrders =
+    document.querySelector("#recent-orders-mobile");
 const orderModal =
     document.querySelector("#order-modal");
 
@@ -50,6 +52,8 @@ function renderOrders() {
     document
         .querySelectorAll(".order-row")
         .forEach(row => row.remove());
+
+    mobileOrders.innerHTML = "";
 
     if (orders.length === 0) {
 
@@ -90,6 +94,40 @@ function renderOrders() {
         `;
 
         ordersTable.appendChild(row);
+
+        const card = document.createElement("div");
+
+card.className = "mobile-order-card";
+
+card.innerHTML = `
+    <h3>${order.id}</h3>
+
+    <div class="mobile-order-info">
+        <span class="label">Customer</span>
+        <strong>${order.customer.name}</strong>
+    </div>
+
+    <div class="mobile-order-info">
+        <span class="label">Amount</span>
+        <strong>₹${order.total}</strong>
+    </div>
+
+    <div class="mobile-order-info">
+        <span class="label">Status</span>
+
+        <span class="status ${order.status.toLowerCase()}">
+            ${order.status}
+        </span>
+    </div>
+
+    <button
+        class="view-order-btn"
+        data-id="${order.id}">
+        View Order
+    </button>
+`;
+
+mobileOrders.appendChild(card);
 
     });
 

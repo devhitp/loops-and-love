@@ -10,7 +10,9 @@ import {
 import {
     uploadProductImage
 } from "../../firebase/cloudinary.js";
-
+import {
+    showToast
+} from "./admin-toast.js";
 
 const addProductBtn =
     document.querySelector(".add-product-btn");
@@ -36,28 +38,13 @@ const confirmDelete =
     document.querySelector("#confirm-delete");
 
 let deleteProductId = null;
-
-const toast = document.querySelector("#toast");
-const toastMessage = document.querySelector("#toast-message");
 const imageInput =
     document.querySelector("#product-image");
 
 const imagePreview =
     document.querySelector("#image-preview");
 
-function showToast(message) {
 
-    toastMessage.textContent = message;
-
-    toast.classList.add("active");
-
-    setTimeout(() => {
-
-        toast.classList.remove("active");
-
-    }, 2500);
-
-}
 
 
 // OPEN MODAL

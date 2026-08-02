@@ -93,12 +93,6 @@ const defaultProducts = [
 // ===========================================
 
 
-const adminProducts =
-JSON.parse(
-    localStorage.getItem("products")
-) || [];
-
-
 
 const products = [
 

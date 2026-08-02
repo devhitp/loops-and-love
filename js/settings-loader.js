@@ -2,164 +2,172 @@
 // SETTINGS LOADER
 // ==========================================
 
+import { db } from "../firebase/firebase-config.js";
 
-const settings = 
-JSON.parse(
-    localStorage.getItem("settings")
-) || {};
+import {
+    doc,
+    getDoc
+} from "firebase/firestore";
 
+const settingsRef = doc(
+    db,
+    "settings",
+    "config"
+);
 
+async function loadSettings() {
 
+    try {
 
-// APPLY THEME COLORS
+        const snapshot = await getDoc(
+            settingsRef
+        );
 
-if(settings.primaryColor){
+        if (!snapshot.exists()) return;
 
-    document.documentElement.style
-    .setProperty(
-        "--primary-color",
-        settings.primaryColor
-    );
+        const settings = snapshot.data();
 
-}
+        // ==========================================
+        // THEME COLORS
+        // ==========================================
 
+        if (settings.primaryColor) {
 
-if(settings.secondaryColor){
+            document.documentElement.style.setProperty(
+                "--primary-color",
+                settings.primaryColor
+            );
 
-    document.documentElement.style
-    .setProperty(
-        "--secondary-color",
-        settings.secondaryColor
-    );
+        }
 
-}
+        if (settings.secondaryColor) {
 
+            document.documentElement.style.setProperty(
+                "--secondary-color",
+                settings.secondaryColor
+            );
 
-if(settings.buttonColor){
+        }
 
-    document.documentElement.style
-    .setProperty(
-        "--button-color",
-        settings.buttonColor
-    );
+        if (settings.buttonColor) {
 
-}
+            document.documentElement.style.setProperty(
+                "--button-color",
+                settings.buttonColor
+            );
 
+        }
 
+        // ==========================================
+        // STORE INFORMATION
+        // ==========================================
 
+        document
+            .querySelectorAll(".store-name")
+            .forEach(element => {
 
-// UPDATE STORE INFORMATION
+                element.textContent =
+                    settings.storeName || "Loops & Love";
 
+            });
 
-document
-.querySelectorAll(".store-name")
-.forEach(element=>{
+        document
+            .querySelectorAll(".store-phone")
+            .forEach(element => {
 
+                element.textContent =
+                    settings.storePhone || "";
 
-    element.textContent =
-    settings.storeName || "Loops & Love";
+            });
 
+        document
+            .querySelectorAll(".store-address")
+            .forEach(element => {
 
-});
+                element.textContent =
+                    settings.storeAddress || "";
 
+            });
 
+        document
+            .querySelectorAll(".store-email")
+            .forEach(link => {
 
+                if (!settings.storeEmail) return;
 
+                link.textContent =
+                    settings.storeEmail;
 
-document
-.querySelectorAll(".store-phone")
-.forEach(element=>{
+                link.href =
+                    `mailto:${settings.storeEmail}`;
 
+            });
 
-    element.textContent =
-    settings.storePhone || "";
+        // ==========================================
+        // SOCIAL LINKS
+        // ==========================================
 
+        document
+            .querySelectorAll(".instagram-link")
+            .forEach(link => {
 
-});
+                if (settings.instagram)
+                    link.href = settings.instagram;
 
+            });
 
+        document
+            .querySelectorAll(".facebook-link")
+            .forEach(link => {
 
+                if (settings.facebook)
+                    link.href = settings.facebook;
 
+            });
 
-document
-.querySelectorAll(".store-email")
-.forEach(link=>{
+        document
+            .querySelectorAll(".whatsapp-link")
+            .forEach(link => {
 
+                if (settings.whatsapp)
+                    link.href = settings.whatsapp;
 
-    if(settings.storeEmail){
+            });
 
-        link.textContent =
-        settings.storeEmail;
+        document
+            .querySelectorAll(".youtube-link")
+            .forEach(link => {
 
+                if (settings.youtube)
+                    link.href = settings.youtube;
 
-        link.href =
-        `mailto:${settings.storeEmail}`;
+            });
 
     }
 
+    catch (error) {
 
-});
-
-
-
-
-
-// SOCIAL LINKS
-
-
-document
-.querySelectorAll(".instagram-link")
-.forEach(link=>{
-
-    if(settings.instagram){
-
-        link.href = settings.instagram;
+        console.error(
+            "Error loading settings:",
+            error
+        );
 
     }
-
-});
-
-
-
-document
-.querySelectorAll(".whatsapp-link")
-.forEach(link=>{
-
-
-    if(settings.whatsapp){
-
-    link.href = settings.whatsapp;
 
 }
 
+export async function getSettings() {
 
-});
-// ==========================================
-// ADDRESS
-// ==========================================
+    const snapshot = await getDoc(settingsRef);
 
+    if (!snapshot.exists()) {
 
-document
-.querySelectorAll(".store-address")
-.forEach(element=>{
-
-
-    element.textContent =
-    settings.storeAddress || "";
-
-
-});
-document
-.querySelectorAll(".store-phone")
-.forEach(link=>{
-
-
-    if(settings.storePhone){
-
-        link.textContent =
-        settings.storePhone;
+        return {};
 
     }
 
+    return snapshot.data();
 
-});
+}
+
+loadSettings();

@@ -99,7 +99,20 @@
         </section>
 
         <section class="admin-section">
-          <h2>Revenue (Last 7 Days)</h2>
+          <div class="card-header">
+            <h2>Revenue</h2>
+            <select id="revenue-filter">
+              <option value="7days">Last 7 Days</option>
+
+              <option value="today">Today</option>
+
+              <option value="30days">Last 30 Days</option>
+
+              <option value="12months">Last 12 Months</option>
+
+              <option value="all">All Time</option>
+            </select>
+          </div>
 
           <div class="chart-container">
             <canvas id="revenue-chart"></canvas>
@@ -139,6 +152,23 @@
             </div>
           </div>
         </section>
+        <section class="admin-section">
+          <h2>🏆 Top Selling Products</h2>
+
+          <div id="top-products"></div>
+        </section>
+
+        <section class="admin-section">
+          <h2>👑 Top Customers</h2>
+
+          <div id="top-customers"></div>
+        </section>
+
+        <section class="admin-section">
+          <h2>📜 Recent Activity</h2>
+
+          <div id="recent-activity"></div>
+        </section>
 
         <!-- RECENT ORDERS -->
 
@@ -158,6 +188,7 @@
 
             <div id="recent-orders"></div>
           </div>
+          <div id="recent-orders-mobile"></div>
         </section>
       </main>
     </div>

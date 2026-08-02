@@ -5,6 +5,21 @@
 // ==========================================
 // STORE INFORMATION
 // ==========================================
+import { db } from "../../firebase/firebase-config.js";
+import {
+    showToast
+} from "./admin-toast.js";
+import {
+    doc,
+    getDoc,
+    updateDoc
+} from "firebase/firestore";
+
+const settingsRef = doc(
+    db,
+    "settings",
+    "config"
+);
 
 const storeName =
     document.querySelector("#store-name");
@@ -25,58 +40,111 @@ const saveButton =
 
 // Load existing settings
 
-const settings =
-    JSON.parse(
-        localStorage.getItem("settings")
-    ) || {};
+async function loadSettings() {
 
-storeName.value =
-    settings.storeName || "";
+    try {
 
-storeEmail.value =
-    settings.storeEmail || "";
+        const snapshot = await getDoc(
+            settingsRef
+        );
 
-storePhone.value =
-    settings.storePhone || "";
+        if (!snapshot.exists())
+            return;
 
-storeAddress.value =
-    settings.storeAddress || "";
+        const settings = snapshot.data();
 
+        storeName.value =
+            settings.storeName || "";
 
+        storeEmail.value =
+            settings.storeEmail || "";
+
+        storePhone.value =
+            settings.storePhone || "";
+
+        storeAddress.value =
+            settings.storeAddress || "";
+
+        shippingCharge.value =
+            settings.shippingCharge ?? 50;
+
+        freeShippingLimit.value =
+            settings.freeShippingLimit ?? 999;
+
+        taxRate.value =
+            settings.taxRate ?? 0;
+
+        instagramLink.value =
+            settings.instagram || "";
+
+        facebookLink.value =
+            settings.facebook || "";
+
+        whatsappLink.value =
+            settings.whatsapp || "";
+
+        youtubeLink.value =
+            settings.youtube || "";
+
+        primaryColor.value =
+            settings.primaryColor || "#e98ca8";
+
+        secondaryColor.value =
+            settings.secondaryColor || "#fff0f3";
+
+        buttonColor.value =
+            settings.buttonColor || "#e98ca8";
+
+    } catch (error) {
+
+        console.error(
+            "Error loading settings:",
+            error
+        );
+
+    }
+
+}
 
 // Save settings
 
 saveButton.addEventListener(
     "click",
-    () => {
+    async () => {
 
-        const updatedSettings = {
+        try {
 
-            ...settings,
+            await updateDoc(
+                settingsRef,
+                {
 
-            storeName:
-                storeName.value.trim(),
+                    storeName:
+                        storeName.value.trim(),
 
-            storeEmail:
-                storeEmail.value.trim(),
+                    storeEmail:
+                        storeEmail.value.trim(),
 
-            storePhone:
-                storePhone.value.trim(),
+                    storePhone:
+                        storePhone.value.trim(),
 
-            storeAddress:
-                storeAddress.value.trim()
+                    storeAddress:
+                        storeAddress.value.trim()
 
-        };
+                }
+            );
 
-        localStorage.setItem(
-            "settings",
-            JSON.stringify(updatedSettings)
-        );
+            showToast(
+                "Store information saved successfully!"
+            );
 
-        showToast(
-            "Store information saved successfully!",
-            "success"
-        );
+        } catch (error) {
+
+            console.error(error);
+
+            showToast(
+                "Failed to save settings."
+            );
+        }
 
     }
 );
@@ -96,53 +164,34 @@ const taxRate =
 const saveBusinessButton =
     document.querySelector("#save-business-settings");
 
-
-
-// Load values
-
-shippingCharge.value =
-    settings.shippingCharge ?? 50;
-
-freeShippingLimit.value =
-    settings.freeShippingLimit ?? 999;
-
-taxRate.value =
-    settings.taxRate ?? 0;
-
-
-
 // Save
 
 saveBusinessButton.addEventListener(
     "click",
-    () => {
+    async () => {
 
-        const updatedSettings = {
+        try {
 
-            ...JSON.parse(
-                localStorage.getItem("settings")
-            ),
+            await updateDoc(
+                settingsRef,
+                {
+                    shippingCharge: Number(shippingCharge.value),
+                    freeShippingLimit: Number(freeShippingLimit.value),
+                    taxRate: Number(taxRate.value)
+                }
+            );
 
-            shippingCharge:
-                Number(shippingCharge.value),
+            showToast("Business settings saved!");
 
-            freeShippingLimit:
-                Number(freeShippingLimit.value),
+        }
 
-            taxRate:
-                Number(taxRate.value)
+        catch (error) {
 
-        };
+            console.error(error);
 
-        localStorage.setItem(
-            "settings",
-            JSON.stringify(updatedSettings)
-        );
+            showToast("Failed to save business settings.");
 
-        showToast(
-            "Business settings saved!",
-            "success"
-        );
+        }
 
     }
 );
@@ -153,191 +202,106 @@ saveBusinessButton.addEventListener(
 
 
 const instagramLink =
-document.querySelector("#instagram-link");
+    document.querySelector("#instagram-link");
 
 
 const facebookLink =
-document.querySelector("#facebook-link");
+    document.querySelector("#facebook-link");
 
 
 const whatsappLink =
-document.querySelector("#whatsapp-link");
+    document.querySelector("#whatsapp-link");
 
 
 const youtubeLink =
-document.querySelector("#youtube-link");
+    document.querySelector("#youtube-link");
 
 
 const saveSocialButton =
-document.querySelector("#save-social-settings");
-
-
-
-
-// Load existing values
-
-
-instagramLink.value =
-settings.instagram || "";
-
-
-facebookLink.value =
-settings.facebook || "";
-
-
-whatsappLink.value =
-settings.whatsapp || "";
-
-
-youtubeLink.value =
-settings.youtube || "";
-
-
-
+    document.querySelector("#save-social-settings");
 
 // Save
 
-
 saveSocialButton.addEventListener(
-"click",
-()=>{
+    "click",
+    async () => {
 
+        try {
 
-const updatedSettings = {
+            await updateDoc(
+                settingsRef,
+                {
+                    instagram: instagramLink.value.trim(),
+                    facebook: facebookLink.value.trim(),
+                    whatsapp: whatsappLink.value.trim(),
+                    youtube: youtubeLink.value.trim()
+                }
+            );
 
+            showToast("Social links saved!");
 
-    ...JSON.parse(
-        localStorage.getItem("settings")
-    ),
+        }
 
+        catch (error) {
 
-    instagram:
-    instagramLink.value.trim(),
+            console.error(error);
 
+            showToast("Failed to save social links.");
 
-    facebook:
-    facebookLink.value.trim(),
+        }
 
-
-    whatsapp:
-    whatsappLink.value.trim(),
-
-
-    youtube:
-    youtubeLink.value.trim()
-
-
-};
-
-
-
-localStorage.setItem(
-
-    "settings",
-
-    JSON.stringify(updatedSettings)
-
+    }
 );
-
-
-
-showToast(
-"Social links saved!",
-"success"
-);
-
-
-
-});
 // ==========================================
 // THEME SETTINGS
 // ==========================================
 
 
 const primaryColor =
-document.querySelector("#primary-color");
+    document.querySelector("#primary-color");
 
 
 const secondaryColor =
-document.querySelector("#secondary-color");
+    document.querySelector("#secondary-color");
 
 
 const buttonColor =
-document.querySelector("#button-color");
+    document.querySelector("#button-color");
 
 
 const saveThemeButton =
-document.querySelector("#save-theme-settings");
-
-
-
-
-
-// Load existing colors
-
-
-primaryColor.value =
-settings.primaryColor || "#e98ca8";
-
-
-secondaryColor.value =
-settings.secondaryColor || "#fff0f3";
-
-
-buttonColor.value =
-settings.buttonColor || "#e98ca8";
-
-
-
-
+    document.querySelector("#save-theme-settings");
 
 // Save theme
 
 
 saveThemeButton.addEventListener(
-"click",
-()=>{
+    "click",
+    async () => {
 
+        try {
 
-const updatedSettings = {
+            await updateDoc(
+                settingsRef,
+                {
+                    primaryColor: primaryColor.value,
+                    secondaryColor: secondaryColor.value,
+                    buttonColor: buttonColor.value
+                }
+            );
 
+            showToast("Theme settings saved!");
 
-    ...JSON.parse(
-        localStorage.getItem("settings")
-    ),
+        }
 
+        catch (error) {
 
-    primaryColor:
-    primaryColor.value,
+            console.error(error);
 
+            showToast("Failed to save theme settings.");
 
-    secondaryColor:
-    secondaryColor.value,
+        }
 
-
-    buttonColor:
-    buttonColor.value
-
-
-};
-
-
-
-localStorage.setItem(
-
-    "settings",
-
-    JSON.stringify(updatedSettings)
-
+    }
 );
-
-
-
-showToast(
-"Theme saved successfully!",
-"success"
-);
-
-
-
-});
+loadSettings();
