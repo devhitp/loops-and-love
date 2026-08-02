@@ -20,8 +20,8 @@ const customerDetails =
 
 const closeCustomerModal =
     document.querySelector("#close-customer-modal");
-
-let customers = [];
+let allCustomers = [];
+let filteredCustomers = [];
 let orders = [];
 
 async function loadCustomers() {
@@ -33,11 +33,10 @@ async function loadCustomers() {
         );
 
 
-    customers =
-        customerSnapshot.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-        }));
+    allCustomers = customerSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }));
 
 
     const orderSnapshot =
@@ -53,12 +52,14 @@ async function loadCustomers() {
         }));
 
 
-    renderCustomers();
+    filteredCustomers = [...allCustomers];
+
+    renderCustomers(filteredCustomers);
 
 }
 
 
-function renderCustomers() {
+function renderCustomers(customersList) {
 
 
     const emptyMessage =
@@ -72,7 +73,7 @@ function renderCustomers() {
 
 
 
-    if (customers.length === 0) {
+    if (customersList.length === 0) {
 
         emptyMessage.style.display = "block";
         return;
@@ -84,7 +85,7 @@ function renderCustomers() {
 
 
 
-    customers.forEach(customer => {
+    customersList.forEach(customer => {
 
 
         const row =
@@ -156,14 +157,14 @@ function renderCustomers() {
 
 document.addEventListener(
     "click",
-    async function(e){
+    async function (e) {
 
 
         const button =
             e.target.closest(".view-customer-btn");
 
 
-        if(!button) return;
+        if (!button) return;
 
 
         const phone =
@@ -172,18 +173,18 @@ document.addEventListener(
 
 
         const customer =
-            customers.find(
+            allCustomers.find(
                 c => c.phone === phone
             );
 
 
-        if(!customer) return;
+        if (!customer) return;
 
 
 
         const orderQuery =
             query(
-                collection(db,"orders"),
+                collection(db, "orders"),
                 where(
                     "customer.phone",
                     "==",
@@ -199,7 +200,7 @@ document.addEventListener(
 
         const customerOrders =
             orderSnapshot.docs.map(doc => ({
-                id:doc.id,
+                id: doc.id,
                 ...doc.data()
             }));
 
@@ -209,7 +210,7 @@ document.addEventListener(
 
 
 
-        customerOrders.forEach(order=>{
+        customerOrders.forEach(order => {
 
 
             historyHTML += `
@@ -292,9 +293,8 @@ document.addEventListener(
             </h3>
 
 
-            ${
-                historyHTML ||
-                "<p>No orders found.</p>"
+            ${historyHTML ||
+            "<p>No orders found.</p>"
             }
 
 
@@ -330,6 +330,41 @@ customerModal.addEventListener(
     }
 );
 
+const searchInput =
+    document.querySelector("#customer-search");
 
+if (searchInput) {
+
+    searchInput.addEventListener("input", e => {
+
+        const keyword = e.target.value
+            .trim()
+            .toLowerCase();
+
+        filteredCustomers = allCustomers.filter(customer =>
+
+            customer.name
+                .toLowerCase()
+                .includes(keyword)
+
+            ||
+
+            customer.phone
+                .toLowerCase()
+                .includes(keyword)
+
+            ||
+
+            customer.city
+                .toLowerCase()
+                .includes(keyword)
+
+        );
+
+        renderCustomers(filteredCustomers);
+
+    });
+
+}
 
 loadCustomers();
